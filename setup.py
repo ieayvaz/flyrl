@@ -12,6 +12,7 @@ setup(name='flyrl',
             'numpy',
             'gym',
             'matplotlib',
+            'jsbsim',
       ],
       packages=find_packages(),
       classifiers=[
