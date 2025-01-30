@@ -76,7 +76,7 @@ class Simulation(object):
 
     @staticmethod
     def get_jsbsim_root():
-        return os.path.join(os.getcwd(),"jsbsim")
+        return os.path.dirname(jsbsim.__file__)
 
     def load_model(self, model_name: str) -> None:
         """
