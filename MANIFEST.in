@@ -1,3 +1,3 @@
 include README.md
 include gym_jsbsim/*.xml
-include jsbsim
+graft jsbsim
