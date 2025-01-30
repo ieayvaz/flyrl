@@ -1,0 +1,24 @@
+Metadata-Version: 2.2
+Name: flyrl
+Version: 0.2
+Summary: A package of reinforcement learning environments for flight control using the JSBSim flight dynamics model.
+Home-page: https://github.com/Gor-Ren/gym-jsbsim
+Author: Gor-Ren
+License: MIT
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.6
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: gym
+Requires-Dist: matplotlib
+Dynamic: author
+Dynamic: classifier
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
