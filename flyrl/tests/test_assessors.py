@@ -1,8 +1,8 @@
 import unittest
 import collections
 from typing import Type, NamedTuple
-from gym_jsbsim.assessors import AssessorImpl, ContinuousSequentialAssessor
-from gym_jsbsim.tests import stubs as stubs
+from flyrl.assessors import AssessorImpl, ContinuousSequentialAssessor
+from flyrl.tests import stubs as stubs
 
 
 class TestAssessorImpl(unittest.TestCase):

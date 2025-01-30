@@ -1,9 +1,9 @@
 import gym
 import numpy as np
-from gym_jsbsim.tasks import Shaping, HeadingControlTask
-from gym_jsbsim.simulation import Simulation
-from gym_jsbsim.visualiser import FigureVisualiser, FlightGearVisualiser, FlightGearRemoteVisualiser
-from gym_jsbsim.aircraft import Aircraft, cessna172P
+from flyrl.tasks import Shaping, HeadingControlTask
+from flyrl.simulation import Simulation
+from flyrl.visualiser import FigureVisualiser, FlightGearVisualiser, FlightGearRemoteVisualiser
+from flyrl.aircraft import Aircraft, cessna172P
 from typing import Type, Tuple, Dict
 
 

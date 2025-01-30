@@ -1,10 +1,10 @@
 import unittest
 import sys
 from abc import ABC, abstractmethod
-from gym_jsbsim.rewards import Reward, AsymptoticErrorComponent, ErrorComponent, \
+from flyrl.rewards import Reward, AsymptoticErrorComponent, ErrorComponent, \
     LinearErrorComponent, \
     AngularAsymptoticErrorComponent
-import gym_jsbsim.tests.stubs as stubs
+import flyrl.tests.stubs as stubs
 from typing import Type
 
 

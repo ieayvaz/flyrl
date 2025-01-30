@@ -1,10 +1,10 @@
 import time
 import unittest
-from gym_jsbsim.environment import JsbSimEnv
-from gym_jsbsim.visualiser import FigureVisualiser, FlightGearVisualiser
-from gym_jsbsim.tests.stubs import BasicFlightTask, DefaultSimStub
+from flyrl.environment import JsbSimEnv
+from flyrl.visualiser import FigureVisualiser, FlightGearVisualiser
+from flyrl.tests.stubs import BasicFlightTask, DefaultSimStub
 import matplotlib.pyplot as plt
-import gym_jsbsim.visualiser
+import flyrl.visualiser
 
 
 class TestFigureVisualiser(unittest.TestCase):
@@ -25,7 +25,7 @@ class TestFigureVisualiser(unittest.TestCase):
         self.visualiser.plot(self.sim)
 
         self.assertIsInstance(self.visualiser.figure, plt.Figure)
-        self.assertIsInstance(self.visualiser.axes, gym_jsbsim.visualiser.AxesTuple)
+        self.assertIsInstance(self.visualiser.axes, flyrl.visualiser.AxesTuple)
 
     def test_plot_doesnt_plot_position_when_set_by_init(self):
         self.setUp(plot_position=False)

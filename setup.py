@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 setup(name='flyrl',
-      version='0.2',
+      version='0.3',
       description='A package of reinforcement learning environments for flight '
                   'control using the JSBSim flight dynamics model.',
       url='https://github.com/ieayvaz/flyrl',

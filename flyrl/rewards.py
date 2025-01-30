@@ -1,7 +1,7 @@
-import gym_jsbsim.properties as prp
+import flyrl.properties as prp
 from abc import ABC, abstractmethod
 from typing import Tuple, Union
-from gym_jsbsim.utils import reduce_reflex_angle_deg
+from flyrl.utils import reduce_reflex_angle_deg
 
 State = 'tasks.FlightTask.State'  # alias for type hint
 

@@ -1,4 +1,4 @@
-from gym_jsbsim.properties import GeodeticPosition
+from flyrl.properties import GeodeticPosition
 import unittest
 
 

@@ -1,11 +1,11 @@
 import unittest
 import time
-import gym_jsbsim.properties as prp
+import flyrl.properties as prp
 from typing import Type
-from gym_jsbsim import tasks, aircraft
-from gym_jsbsim.tests.stubs import BasicFlightTask
-from gym_jsbsim.environment import JsbSimEnv
-from gym_jsbsim.agents import RandomAgent, ConstantAgent
+from flyrl import tasks, aircraft
+from flyrl.tests.stubs import BasicFlightTask
+from flyrl.environment import JsbSimEnv
+from flyrl.agents import RandomAgent, ConstantAgent
 
 
 class TestJsbSimInstance(unittest.TestCase):

@@ -3,8 +3,8 @@ import os
 import time
 from mpl_toolkits.mplot3d import Axes3D  # req'd for 3d plotting
 from typing import Dict, Union
-import gym_jsbsim.properties as prp
-from gym_jsbsim.aircraft import Aircraft, cessna172P
+import flyrl.properties as prp
+from flyrl.aircraft import Aircraft, cessna172P
 
 
 class Simulation(object):
