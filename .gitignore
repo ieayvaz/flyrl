@@ -1,2 +1,2 @@
 build/
-*.egg*/
+flyrl.egg-info/
