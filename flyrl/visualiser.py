@@ -18,7 +18,7 @@ class AxesTuple(NamedTuple):
 
 class FigureVisualiser(object):
     """ Class for manging a matplotlib Figure displaying agent state and actions """
-    PLOT_PAUSE_SECONDS = 0.0001
+    PLOT_PAUSE_SECONDS = 0.001
     LABEL_TEXT_KWARGS = dict(fontsize=18,
                              horizontalalignment='right',
                              verticalalignment='baseline')
@@ -54,15 +54,15 @@ class FigureVisualiser(object):
 
         :param sim: Simulation that will be plotted
         """
+
         if not self.figure:
             self.figure, self.axes = self._plot_configure()
 
         # delete old control surface data points
         for subplot in self.axes[1:]:
             # pop and translate all data points
-            while subplot.lines:
-                data = subplot.lines.pop()
-                del data
+            while len(subplot.lines) > 0:
+                subplot.lines[0].remove()
 
         self._print_state(sim)
         self._plot_control_states(sim, self.axes)
@@ -345,6 +345,7 @@ class FlightGearRemoteVisualiser(object):
         """
         self.configure_simulation_output(sim)
         self.print_props = print_props
+        self.figure = FigureVisualiser(sim, print_props)
 
         #TODO: Create flightgear_process to track the situation of remote FlightGear over UDP port
 
@@ -352,7 +353,7 @@ class FlightGearRemoteVisualiser(object):
         """
         Updates a 3D plot of agent actions.
         """
-        pass
+        self.figure.plot(sim)
 
     def configure_simulation_output(self, sim: Simulation):
         sim.enable_flightgear_output()
