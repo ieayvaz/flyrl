@@ -7,6 +7,8 @@ class BoundedProperty(collections.namedtuple('BoundedProperty', ['name', 'descri
     def get_legal_name(self):
         return utils.AttributeFormatter.translate(self.name)
 
+class DerivedProperty(collections.namedtuple('DerivedProperty', ['name', 'description', 'min', 'max'])):
+    ...
 
 class Property(collections.namedtuple('Property', ['name', 'description'])):
     def get_legal_name(self):
@@ -15,6 +17,7 @@ class Property(collections.namedtuple('Property', ['name', 'description'])):
 
 # position and attitude
 altitude_sl_ft = BoundedProperty('position/h-sl-ft', 'altitude above mean sea level [ft]', -1400, 85000)
+altitude_sl_mt = DerivedProperty("h-sl-mt","altitude above mean sea level [mt]",-450,28000)
 pitch_rad = BoundedProperty('attitude/pitch-rad', 'pitch [rad]', -0.5 * math.pi, 0.5 * math.pi)
 roll_rad = BoundedProperty('attitude/roll-rad', 'roll [rad]', -math.pi, math.pi)
 heading_deg = BoundedProperty('attitude/psi-deg', 'heading [deg]', 0, 360)
@@ -64,6 +67,7 @@ sim_time_s = Property('simulation/sim-time-sec', 'Simulation time [s]')
 
 # initial conditions
 initial_altitude_ft = Property('ic/h-sl-ft', 'initial altitude MSL [ft]')
+initial_altitude_mt = DerivedProperty('ic/h-sl-mt', 'initial altitude MSL [mt]',-450,28000)
 initial_terrain_altitude_ft = Property('ic/terrain-elevation-ft', 'initial terrain alt [ft]')
 initial_longitude_geoc_deg = Property('ic/long-gc-deg', 'initial geocentric longitude [deg]')
 initial_latitude_geod_deg = Property('ic/lat-geod-deg', 'initial geodesic latitude [deg]')

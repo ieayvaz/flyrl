@@ -410,7 +410,7 @@ class TurnHeadingControlTask(HeadingControlTask):
     and fly level to a random target heading.
     """
 
-    def get_initial_conditions(self) -> [Dict[Property, float]]:
+    def get_initial_conditions(self) -> list[Dict[Property, float]]:
         initial_conditions = super().get_initial_conditions()
         random_heading = random.uniform(prp.heading_deg.min, prp.heading_deg.max)
         initial_conditions[prp.initial_heading_deg] = random_heading

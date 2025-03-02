@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 import subprocess
 import time
 import matplotlib.pyplot as plt
@@ -18,7 +18,7 @@ class AxesTuple(NamedTuple):
 
 class FigureVisualiser(object):
     """ Class for manging a matplotlib Figure displaying agent state and actions """
-    PLOT_PAUSE_SECONDS = 0.001
+    PLOT_PAUSE_SECONDS = 0.01
     LABEL_TEXT_KWARGS = dict(fontsize=18,
                              horizontalalignment='right',
                              verticalalignment='baseline')

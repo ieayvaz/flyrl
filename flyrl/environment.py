@@ -1,6 +1,7 @@
 import gym
 import numpy as np
 from flyrl.tasks import Shaping, HeadingControlTask
+from flyrl.basic_tasks import TaskHeading
 from flyrl.simulation import Simulation
 from flyrl.visualiser import FigureVisualiser, FlightGearVisualiser, FlightGearRemoteVisualiser
 from flyrl.aircraft import Aircraft, cessna172P
