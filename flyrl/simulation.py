@@ -216,6 +216,8 @@ class Simulation(object):
 
     def start_engines(self):
         """ Sets all engines running. """
+        self[prp.engine_0_running] = 1
+        self[prp.engine_running] = 1
         self[prp.all_engine_running] = -1
 
     def set_throttle_mixture_controls(self, throttle_cmd: float, mixture_cmd: float):
@@ -233,6 +235,9 @@ class Simulation(object):
             self[prp.mixture_1_cmd] = mixture_cmd
         except KeyError:
             pass  # must be single-control aircraft
+
+    def set_throttle(self, throttle_cmd: float):
+        self[prp.throttle_cmd] = throttle_cmd
 
     def raise_landing_gear(self):
         """ Raises all aircraft landing gear. """

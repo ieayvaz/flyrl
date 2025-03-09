@@ -16,13 +16,6 @@ config = {
     "env_name": "DogfightRascal-debug",
     "learning_rate": 3e-6,
 }
-run = wandb.init(
-    project="dogfight-task",
-    config=config,
-    sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
-    monitor_gym=True,  # auto-upload the videos of agents playing the game
-    save_code=True,  # optional
-)
 
 # Create environment
 def make_env():
@@ -37,20 +30,13 @@ model = PPO(
     config["policy_type"],
     env,  # or vec_env if using vectorized envs
     verbose=1,
-    tensorboard_log=f"runs/{run.id}",
     learning_rate=config["learning_rate"],
 )
 
 # Train the agent
 model.learn(
     total_timesteps=config["total_timesteps"],
-    callback=WandbCallback(
-        gradient_save_freq=100,
-        verbose=2,
-    ),
 )
 
-run.finish()
-
-model.save(f"models/{run.name}/finish")
-print(f"Model saved to {__path__}/models/{run.name}/finish")
+model.save(f"models/Test/finish")
+print(f"Model saved to {__path__}/models/Test/finish")

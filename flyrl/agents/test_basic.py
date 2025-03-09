@@ -3,7 +3,7 @@ import flyrl
 from stable_baselines3 import PPO
 import sys
 
-env_id = "WaypointC172p-debug"
+env_id = "DogfightRascal"
 env = gym.make(env_id)
 
 model = PPO.load(sys.argv[1])

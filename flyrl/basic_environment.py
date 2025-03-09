@@ -10,12 +10,12 @@ class BasicJsbSimEnv(gym.Env):
     JSBSIM_DT_HZ: int = 60  # JSBSim integration frequency
     metadata = {'render.modes': ['human', 'flightgear']}
 
-    def __init__(self, task_type: Type[TaskHeading], aircraft: Aircraft, agent_interaction_freq: int = 5, debug : bool = False):
+    def __init__(self, task_type: Type[TaskHeading], aircraft: Aircraft, agent_interaction_freq: int = 10, debug : bool = False):
         if agent_interaction_freq > self.JSBSIM_DT_HZ:
             raise ValueError('agent interaction frequency must be less than '
                              'or equal to JSBSim integration frequency of '
                              f'{self.JSBSIM_DT_HZ} Hz.')
-
+        self.debug = debug
         self.sim: Simulation = None
         self.sim_steps_per_agent_step: int = self.JSBSIM_DT_HZ // agent_interaction_freq
         self.aircraft = aircraft
@@ -45,7 +45,8 @@ class BasicJsbSimEnv(gym.Env):
             raise ValueError('mismatch between action and action space size')
 
         state, reward, done, info = self.task.task_step(action, self.sim_steps_per_agent_step)
-        return np.array(state), reward, done, None, info
+
+        return np.array(state), reward, done, done, info
 
     def reset(self, seed: int | None = None, options: dict[str, Any] | None = None):
         """
@@ -65,7 +66,6 @@ class BasicJsbSimEnv(gym.Env):
 
         if self.flightgear_visualiser:
             self.flightgear_visualiser.configure_simulation_output(self.sim)
-
         return np.array(state), {}
     
     def _init_new_sim(self, dt, aircraft, initial_conditions):
@@ -105,7 +105,7 @@ class BasicJsbSimEnv(gym.Env):
                     self.flightgear_visualiser = FlightGearRemoteVisualiser(self.sim,
                                                                     self.task.get_props_to_output(),
                                                                     flightgear_blocking)
-                self.flightgear_visualiser.plot(self.sim)
+                #self.flightgear_visualiser.plot(self.sim)
             else:
                 super().render(mode=mode)
 

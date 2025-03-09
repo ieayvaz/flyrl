@@ -79,6 +79,7 @@ class JsbSimEnv(gym.Env):
 
         :return: array, the initial observation of the space.
         """
+        print("RESET WORKING")
         init_conditions = self.task.get_initial_conditions()
         if self.sim:
             self.sim.reinitialise(init_conditions)

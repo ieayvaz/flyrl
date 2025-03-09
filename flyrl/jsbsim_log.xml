@@ -1,0 +1,4 @@
+<output name="jsbsim_log.csv" type="CSV" rate="20">
+   <property> velocities/vc-kts </property>
+   <velocities> ON </velocities>
+</output>

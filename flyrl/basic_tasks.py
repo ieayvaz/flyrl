@@ -12,15 +12,13 @@ import gymnasium as gym
 
 
 class BaseFlightTask(Task, ABC):
-    INITIAL_ALTITUDE_FT = 5000
+    INITIAL_ALTITUDE_FT = 360 #For rascal dogfight. TODO: Make this more flexible
     base_state_variables = ()
-    base_initial_conditions = types.MappingProxyType(  # MappingProxyType makes dict immutable
-        {prp.initial_altitude_ft: INITIAL_ALTITUDE_FT,
+    base_initial_conditions = {prp.initial_altitude_ft: INITIAL_ALTITUDE_FT,
          prp.initial_terrain_altitude_ft: 0.00000001,
          prp.initial_longitude_geoc_deg: -2.3273,
          prp.initial_latitude_geod_deg: 51.3781  # corresponds to UoBath
          }
-    )
 
     def __init__(self, state_variables, max_time_s, step_frequency_hz, sim : Simulation, debug: bool = False):
         self.debug = debug

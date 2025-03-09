@@ -5,7 +5,7 @@ import msvcrt
 
 SENSIVITY = 5
 
-env = gym.make('JSBSim-TurnHeadingControlTask-Cessna172P-Shaping.STANDARD-FG-v0')
+env = gym.make('DogfightRascal-debug')
 
 obs = env.reset()
 
@@ -29,7 +29,7 @@ for i in range(1000):
             if(elevator_cmd - SENSIVITY * 0.1 > -1.0):
                 elevator_cmd -= SENSIVITY * 0.1
 
-    obs,reward,trunc,info = env.step(np.array([aileron_cmd,elevator_cmd,rudder_cmd]))
+    obs,reward,trunc,tr,info = env.step(np.array([aileron_cmd,elevator_cmd,rudder_cmd]))
     env.render()
-    if trunc:
+    if trunc or tr:
         break

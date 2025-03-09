@@ -20,6 +20,7 @@ altitude_sl_ft = BoundedProperty('position/h-sl-ft', 'altitude above mean sea le
 altitude_sl_mt = DerivedProperty("h-sl-mt","altitude above mean sea level [mt]",-450,28000)
 pitch_rad = BoundedProperty('attitude/pitch-rad', 'pitch [rad]', -0.5 * math.pi, 0.5 * math.pi)
 roll_rad = BoundedProperty('attitude/roll-rad', 'roll [rad]', -math.pi, math.pi)
+theta_deg = BoundedProperty("attitude/theta-deg", "theta angle [deg]",0,360)
 heading_deg = BoundedProperty('attitude/psi-deg', 'heading [deg]', 0, 360)
 sideslip_deg = BoundedProperty('aero/beta-deg', 'sideslip [deg]', -180, +180)
 lat_geod_deg = BoundedProperty('position/lat-geod-deg', 'geocentric latitude [deg]', -90, 90)
@@ -38,6 +39,9 @@ q_radps = BoundedProperty('velocities/q-rad_sec', 'pitch rate [rad/s]', -2 * mat
 r_radps = BoundedProperty('velocities/r-rad_sec', 'yaw rate [rad/s]', -2 * math.pi, 2 * math.pi)
 altitude_rate_fps = Property('velocities/h-dot-fps', 'Rate of altitude change [ft/s]')
 
+# aero
+alpha_deg = BoundedProperty("aero/alpha-deg","Alpha angle [deg]",0,180)
+
 # controls state
 aileron_left = BoundedProperty('fcs/left-aileron-pos-norm', 'left aileron position, normalised', -1, 1)
 aileron_right = BoundedProperty('fcs/right-aileron-pos-norm', 'right aileron position, normalised', -1, 1)
@@ -48,6 +52,7 @@ gear = BoundedProperty('gear/gear-pos-norm', 'landing gear position, normalised'
 
 # engines
 engine_running = Property('propulsion/engine/set-running', 'engine running (0/1 bool)')
+engine_0_running = Property('propulsion/engine[0]/set-running', "engine 0 running (0/1 bool)")
 all_engine_running = Property('propulsion/set-running', 'set engine running (-1 for all engines)')
 engine_thrust_lbs = Property('propulsion/engine/thrust-lbs', 'engine thrust [lb]')
 
@@ -55,7 +60,7 @@ engine_thrust_lbs = Property('propulsion/engine/thrust-lbs', 'engine thrust [lb]
 aileron_cmd = BoundedProperty('fcs/aileron-cmd-norm', 'aileron commanded position, normalised', -1., 1.)
 elevator_cmd = BoundedProperty('fcs/elevator-cmd-norm', 'elevator commanded position, normalised', -1., 1.)
 rudder_cmd = BoundedProperty('fcs/rudder-cmd-norm', 'rudder commanded position, normalised', -1., 1.)
-throttle_cmd = BoundedProperty('fcs/throttle-cmd-norm', 'throttle commanded position, normalised', 0., 1.)
+throttle_cmd = BoundedProperty('fcs/throttle-cmd-norm', 'throttle commanded position, normalised', 0.5, 0.8)
 mixture_cmd = BoundedProperty('fcs/mixture-cmd-norm', 'engine mixture setting, normalised', 0., 1.)
 throttle_1_cmd = BoundedProperty('fcs/throttle-cmd-norm[1]', 'throttle 1 commanded position, normalised', 0., 1.)
 mixture_1_cmd = BoundedProperty('fcs/mixture-cmd-norm[1]', 'engine mixture 1 setting, normalised', 0., 1.)

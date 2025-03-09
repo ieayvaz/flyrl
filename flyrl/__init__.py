@@ -3,9 +3,10 @@ import enum
 from flyrl.tasks import Task, HeadingControlTask, TurnHeadingControlTask
 from flyrl.basic_tasks import TaskHeading
 from flyrl.waypoint_travel import WaypointTask
+from flyrl.dogfight import DogfightTask
 from flyrl.aircraft import Aircraft, cessna172P
 from flyrl import utils
-from flyrl.aircraft import cessna172P
+from flyrl.aircraft import cessna172P, rascal
 
 """
 This script registers all combinations of task, aircraft, shaping settings
@@ -33,7 +34,9 @@ for env_id, (task, plane, shaping, enable_flightgear) in utils.get_env_id_kwargs
 gym.envs.registration.register(id="HeadingC172p",entry_point='flyrl.basic_environment:BasicJsbSimEnv',kwargs=dict(task_type=TaskHeading,aircraft=cessna172P))
 gym.envs.registration.register(id="WaypointC172p",entry_point='flyrl.basic_environment:BasicJsbSimEnv',kwargs=dict(task_type=WaypointTask,aircraft=cessna172P))
 gym.envs.registration.register(id="WaypointC172p-debug",entry_point='flyrl.basic_environment:BasicJsbSimEnv',kwargs=dict(task_type=WaypointTask,aircraft=cessna172P,debug=True))
-
+gym.envs.registration.register(id="DogfightC172p-debug",entry_point='flyrl.basic_environment:BasicJsbSimEnv',kwargs=dict(task_type=DogfightTask,aircraft=cessna172P,debug=True))
+gym.envs.registration.register(id="DogfightRascal-debug",entry_point='flyrl.basic_environment:BasicJsbSimEnv',kwargs=dict(task_type=DogfightTask,aircraft=rascal,debug=True))
+gym.envs.registration.register(id="DogfightRascal",entry_point='flyrl.basic_environment:BasicJsbSimEnv',kwargs=dict(task_type=DogfightTask,aircraft=rascal,debug=False))
 # make an Enum storing every Gym-JSBSim environment ID for convenience and value safety
 Envs = enum.Enum.__call__('Envs', [(utils.AttributeFormatter.translate(env_id), env_id)
                                    for env_id in utils.get_env_id_kwargs_map().keys()])
