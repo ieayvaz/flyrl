@@ -1,0 +1,815 @@
+
+
+     JSBSim Flight Dynamics Model v1.2.1 [GitHub build 1348/commit 9b95d1b5ccff59916c79a0e3eb8f548377910598] Mar  2 2025 15:20:26
+            [JSBSim-ML v2.0]
+
+JSBSim startup beginning ...
+
+simulation/sim-time-sec : 0.0
+h-sl-mt : 685.800000002271
+fcs/throttle-pos-norm : 0.0
+velocities/v-east-fps : 73.08388382536872
+velocities/v-north-fps : -42.194999999999936
+velocities/v-down-fps : 2.4208413051951554e-15
+
+
+simulation/sim-time-sec : 0.10000000000000016
+h-sl-mt : 685.7594710660011
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 77.01814714606788
+velocities/v-north-fps : -42.87079717299859
+velocities/v-down-fps : 3.9675463984780146
+
+
+simulation/sim-time-sec : 0.19999999999999954
+h-sl-mt : 685.5669195333392
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 74.65792753862236
+velocities/v-north-fps : -49.052199914241754
+velocities/v-down-fps : 6.972677514155734
+
+
+simulation/sim-time-sec : 0.30000000000000016
+h-sl-mt : 685.4188111897588
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 72.3318781666711
+velocities/v-north-fps : -53.208855394097625
+velocities/v-down-fps : 2.680379169233659
+
+
+simulation/sim-time-sec : 0.40000000000000246
+h-sl-mt : 685.3641771562815
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 72.97107272477355
+velocities/v-north-fps : -54.01732149344967
+velocities/v-down-fps : 0.8523850310296085
+
+
+simulation/sim-time-sec : 0.5000000000000048
+h-sl-mt : 685.3833553143382
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 73.83934886275871
+velocities/v-north-fps : -54.21106020388035
+velocities/v-down-fps : -2.5016860178912683
+
+
+simulation/sim-time-sec : 0.6000000000000071
+h-sl-mt : 685.5372924491197
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 74.51426493043768
+velocities/v-north-fps : -54.05529395494852
+velocities/v-down-fps : -8.149782784457273
+
+
+simulation/sim-time-sec : 0.7000000000000094
+h-sl-mt : 685.9136438786209
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 73.34209912066481
+velocities/v-north-fps : -52.63445541200781
+velocities/v-down-fps : -15.481271814115294
+
+
+simulation/sim-time-sec : 0.8000000000000117
+h-sl-mt : 686.4035196366727
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 73.62637096736458
+velocities/v-north-fps : -52.63113391446126
+velocities/v-down-fps : -16.750766004160074
+
+
+simulation/sim-time-sec : 0.900000000000014
+h-sl-mt : 686.9622051174849
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 72.5766854555618
+velocities/v-north-fps : -51.92929242438867
+velocities/v-down-fps : -19.384179509966437
+
+
+simulation/sim-time-sec : 1.0000000000000162
+h-sl-mt : 687.5451675605447
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 71.6194731296735
+velocities/v-north-fps : -52.42858728286629
+velocities/v-down-fps : -18.52999201202199
+
+
+simulation/sim-time-sec : 1.1000000000000052
+h-sl-mt : 688.0805887500823
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 70.66030700262057
+velocities/v-north-fps : -53.5076269472878
+velocities/v-down-fps : -16.677999352497597
+
+
+simulation/sim-time-sec : 1.1999999999999942
+h-sl-mt : 688.5716967003644
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 69.37278446855689
+velocities/v-north-fps : -53.9136347449953
+velocities/v-down-fps : -15.160449498465525
+
+
+simulation/sim-time-sec : 1.2999999999999832
+h-sl-mt : 688.9743341310025
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 68.76112428926498
+velocities/v-north-fps : -55.66189327034305
+velocities/v-down-fps : -11.595278728053522
+
+
+simulation/sim-time-sec : 1.3999999999999722
+h-sl-mt : 689.3081791547746
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 69.24197461563199
+velocities/v-north-fps : -55.3129642767831
+velocities/v-down-fps : -10.524022498213842
+
+
+simulation/sim-time-sec : 1.4999999999999611
+h-sl-mt : 689.6211528246492
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 70.40500338034175
+velocities/v-north-fps : -54.2847924660761
+velocities/v-down-fps : -10.170287121939728
+
+
+simulation/sim-time-sec : 1.5999999999999501
+h-sl-mt : 689.9373047480196
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 71.72960821913284
+velocities/v-north-fps : -52.14463383151916
+velocities/v-down-fps : -10.322635245125367
+
+
+simulation/sim-time-sec : 1.6999999999999391
+h-sl-mt : 690.2307475799204
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 72.82415327280573
+velocities/v-north-fps : -51.340106162401966
+velocities/v-down-fps : -8.965633170699011
+
+
+simulation/sim-time-sec : 1.799999999999928
+h-sl-mt : 690.4925902353734
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 73.65916467830937
+velocities/v-north-fps : -49.82757106775472
+velocities/v-down-fps : -8.017648685521552
+
+
+simulation/sim-time-sec : 1.899999999999917
+h-sl-mt : 690.7055240188837
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 73.82680213835488
+velocities/v-north-fps : -50.13885127735323
+velocities/v-down-fps : -6.0448987643123875
+
+
+simulation/sim-time-sec : 1.999999999999906
+h-sl-mt : 690.8686853680641
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 74.72581764916178
+velocities/v-north-fps : -49.560008330624534
+velocities/v-down-fps : -4.8244401077796715
+
+
+simulation/sim-time-sec : 2.0999999999999215
+h-sl-mt : 691.0055881535679
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 77.39040088957387
+velocities/v-north-fps : -47.148173842196066
+velocities/v-down-fps : -4.460021344588014
+
+
+simulation/sim-time-sec : 2.199999999999937
+h-sl-mt : 691.1594970833123
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 81.56049293789138
+velocities/v-north-fps : -41.1805644795696
+velocities/v-down-fps : -5.944521124427689
+
+
+simulation/sim-time-sec : 2.2999999999999527
+h-sl-mt : 691.3859757386416
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 84.58799797395622
+velocities/v-north-fps : -32.69614072106264
+velocities/v-down-fps : -8.446618804707292
+
+
+simulation/sim-time-sec : 2.3999999999999684
+h-sl-mt : 691.6390091071308
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 86.79568673534848
+velocities/v-north-fps : -28.4716534104389
+velocities/v-down-fps : -8.23615789706926
+
+
+simulation/sim-time-sec : 2.499999999999984
+h-sl-mt : 691.9035556900174
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 88.48516075828982
+velocities/v-north-fps : -23.192037645746236
+velocities/v-down-fps : -9.15276742120372
+
+
+simulation/sim-time-sec : 2.5999999999999996
+h-sl-mt : 692.1944753815055
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 90.0058655971572
+velocities/v-north-fps : -18.394246867493386
+velocities/v-down-fps : -10.113207046683685
+
+
+simulation/sim-time-sec : 2.7000000000000153
+h-sl-mt : 692.5304624972284
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 90.76361843974804
+velocities/v-north-fps : -11.75211482972347
+velocities/v-down-fps : -11.775727187718303
+
+
+simulation/sim-time-sec : 2.800000000000031
+h-sl-mt : 692.8985948324382
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 91.5489953572859
+velocities/v-north-fps : -6.316901675172357
+velocities/v-down-fps : -12.341021091540933
+
+
+simulation/sim-time-sec : 2.9000000000000465
+h-sl-mt : 693.2836136289686
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 91.74500575654761
+velocities/v-north-fps : -0.06831741708577865
+velocities/v-down-fps : -12.770129660007798
+
+
+simulation/sim-time-sec : 3.000000000000062
+h-sl-mt : 693.6677231060029
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 91.67099188547905
+velocities/v-north-fps : 4.914757780334168
+velocities/v-down-fps : -12.250634354248458
+
+
+simulation/sim-time-sec : 3.100000000000078
+h-sl-mt : 694.0215154133052
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 91.52831424981542
+velocities/v-north-fps : 8.164677921777841
+velocities/v-down-fps : -10.834923857045956
+
+
+simulation/sim-time-sec : 3.2000000000000934
+h-sl-mt : 694.32443292692
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 91.62505955391308
+velocities/v-north-fps : 9.77487751095669
+velocities/v-down-fps : -9.12854509377668
+
+
+simulation/sim-time-sec : 3.300000000000109
+h-sl-mt : 694.5838018904776
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 91.51412402797322
+velocities/v-north-fps : 11.59309657315556
+velocities/v-down-fps : -7.957137621393131
+
+
+simulation/sim-time-sec : 3.4000000000001247
+h-sl-mt : 694.8106603032411
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 91.01408961080915
+velocities/v-north-fps : 13.696483918299851
+velocities/v-down-fps : -6.812588202512366
+
+
+simulation/sim-time-sec : 3.5000000000001403
+h-sl-mt : 694.9881184110315
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 91.22263642243996
+velocities/v-north-fps : 14.918857898450106
+velocities/v-down-fps : -4.727249224163732
+
+
+simulation/sim-time-sec : 3.600000000000156
+h-sl-mt : 695.0963124372125
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 90.62247155973846
+velocities/v-north-fps : 16.866032344762143
+velocities/v-down-fps : -2.1279408802879862
+
+
+simulation/sim-time-sec : 3.7000000000001716
+h-sl-mt : 695.1053208149493
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 91.67067788893749
+velocities/v-north-fps : 15.70332132730746
+velocities/v-down-fps : 1.3291216112713535
+
+
+simulation/sim-time-sec : 3.8000000000001872
+h-sl-mt : 695.029029607308
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 92.23972797374041
+velocities/v-north-fps : 18.85217253448503
+velocities/v-down-fps : 3.445272712448168
+
+
+simulation/sim-time-sec : 3.900000000000203
+h-sl-mt : 694.9074982218505
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 90.72652957893034
+velocities/v-north-fps : 26.757210351877017
+velocities/v-down-fps : 4.538395248579081
+
+
+simulation/sim-time-sec : 4.0000000000002185
+h-sl-mt : 694.749514246738
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 88.52574918373499
+velocities/v-north-fps : 32.539262020620434
+velocities/v-down-fps : 6.032438035817457
+
+
+simulation/sim-time-sec : 4.100000000000234
+h-sl-mt : 694.5261973204315
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 88.57411610053421
+velocities/v-north-fps : 32.546742578930605
+velocities/v-down-fps : 8.767829347706918
+
+
+simulation/sim-time-sec : 4.20000000000025
+h-sl-mt : 694.2069106036216
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 89.13740077600443
+velocities/v-north-fps : 31.382018192322487
+velocities/v-down-fps : 12.275853302234538
+
+
+simulation/sim-time-sec : 4.300000000000265
+h-sl-mt : 693.7724368327171
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 89.71544451205986
+velocities/v-north-fps : 31.747279285450443
+velocities/v-down-fps : 16.02418296349031
+
+
+simulation/sim-time-sec : 4.400000000000281
+h-sl-mt : 693.2514795972527
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 88.28154464920523
+velocities/v-north-fps : 35.47825463958648
+velocities/v-down-fps : 18.241816684743743
+
+
+simulation/sim-time-sec : 4.500000000000297
+h-sl-mt : 692.6446360900641
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 88.4579021267424
+velocities/v-north-fps : 37.18800935672471
+velocities/v-down-fps : 21.32914574178566
+
+
+simulation/sim-time-sec : 4.600000000000312
+h-sl-mt : 691.9723003822268
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 87.77602065924155
+velocities/v-north-fps : 42.587522763672375
+velocities/v-down-fps : 22.255241861932507
+
+
+simulation/sim-time-sec : 4.700000000000328
+h-sl-mt : 691.3245859345258
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 84.70574972652601
+velocities/v-north-fps : 50.7382261679682
+velocities/v-down-fps : 20.261947792468398
+
+
+simulation/sim-time-sec : 4.8000000000003435
+h-sl-mt : 690.7230061049581
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 82.34836662967119
+velocities/v-north-fps : 56.847193711216086
+velocities/v-down-fps : 19.070314358946735
+
+
+simulation/sim-time-sec : 4.900000000000359
+h-sl-mt : 690.1843735664249
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 79.10840527344901
+velocities/v-north-fps : 61.456111856723915
+velocities/v-down-fps : 17.125272275238004
+
+
+simulation/sim-time-sec : 5.000000000000375
+h-sl-mt : 689.6177510246605
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 79.15438314793326
+velocities/v-north-fps : 62.40136242494965
+velocities/v-down-fps : 19.727064497187428
+
+
+simulation/sim-time-sec : 5.10000000000039
+h-sl-mt : 689.0180357274503
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 78.84492600994545
+velocities/v-north-fps : 64.06810688609009
+velocities/v-down-fps : 19.284141113966193
+
+
+simulation/sim-time-sec : 5.200000000000406
+h-sl-mt : 688.4557469532251
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 77.89450380791449
+velocities/v-north-fps : 65.27516297249315
+velocities/v-down-fps : 18.10726486147758
+
+
+simulation/sim-time-sec : 5.300000000000422
+h-sl-mt : 687.8769762771517
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 78.03986095109727
+velocities/v-north-fps : 63.92751541934311
+velocities/v-down-fps : 20.639938866749468
+
+
+simulation/sim-time-sec : 5.400000000000437
+h-sl-mt : 687.1550336113484
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 79.27384686161976
+velocities/v-north-fps : 61.528147769444196
+velocities/v-down-fps : 26.50331378804746
+
+
+simulation/sim-time-sec : 5.500000000000453
+h-sl-mt : 686.2897258898378
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 78.38792621196845
+velocities/v-north-fps : 61.140510339763566
+velocities/v-down-fps : 30.50409332818009
+
+
+simulation/sim-time-sec : 5.600000000000469
+h-sl-mt : 685.2704566016704
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 77.73558684193239
+velocities/v-north-fps : 60.23273281582927
+velocities/v-down-fps : 36.17550118576341
+
+
+simulation/sim-time-sec : 5.700000000000484
+h-sl-mt : 684.1097783747704
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 76.17367825706879
+velocities/v-north-fps : 60.019256868429636
+velocities/v-down-fps : 40.30317846175452
+
+
+simulation/sim-time-sec : 5.8000000000005
+h-sl-mt : 682.77842423307
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 75.84845316715462
+velocities/v-north-fps : 59.56380310123555
+velocities/v-down-fps : 46.02069982844299
+
+
+simulation/sim-time-sec : 5.9000000000005155
+h-sl-mt : 681.3780129488915
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 76.74498047466612
+velocities/v-north-fps : 63.516302519467565
+velocities/v-down-fps : 44.43188907083689
+
+
+simulation/sim-time-sec : 6.000000000000531
+h-sl-mt : 680.1517205549956
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 77.00914780363058
+velocities/v-north-fps : 67.71308732425662
+velocities/v-down-fps : 37.47655928967709
+
+
+simulation/sim-time-sec : 6.100000000000547
+h-sl-mt : 678.9857031088919
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 75.42587692706854
+velocities/v-north-fps : 67.68426760315681
+velocities/v-down-fps : 40.51608140409749
+
+
+simulation/sim-time-sec : 6.200000000000562
+h-sl-mt : 677.6161196963758
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 72.76252981026673
+velocities/v-north-fps : 67.5523062678334
+velocities/v-down-fps : 48.32393452973105
+
+
+simulation/sim-time-sec : 6.300000000000578
+h-sl-mt : 676.1136017676741
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 73.24813177483615
+velocities/v-north-fps : 69.03751406544829
+velocities/v-down-fps : 49.22837569947135
+
+
+simulation/sim-time-sec : 6.400000000000594
+h-sl-mt : 674.6604737657636
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 76.05070290434803
+velocities/v-north-fps : 70.72436885287298
+velocities/v-down-fps : 45.781855354562694
+
+
+simulation/sim-time-sec : 6.500000000000609
+h-sl-mt : 673.3336457002223
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 79.55744102284847
+velocities/v-north-fps : 71.50140509441744
+velocities/v-down-fps : 41.4143488551951
+
+
+simulation/sim-time-sec : 6.600000000000625
+h-sl-mt : 672.1269322143585
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 82.20352974741769
+velocities/v-north-fps : 70.74660729210972
+velocities/v-down-fps : 38.63754758693949
+
+
+simulation/sim-time-sec : 6.7000000000006406
+h-sl-mt : 670.9274143523724
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 83.76252128585368
+velocities/v-north-fps : 69.38812216961934
+velocities/v-down-fps : 39.98628886912298
+
+
+simulation/sim-time-sec : 6.800000000000656
+h-sl-mt : 669.7095161022663
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 85.54730553239833
+velocities/v-north-fps : 68.33069861504397
+velocities/v-down-fps : 39.741527837854406
+
+
+simulation/sim-time-sec : 6.900000000000672
+h-sl-mt : 668.508263197884
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 86.39656863243948
+velocities/v-north-fps : 68.63494694379318
+velocities/v-down-fps : 39.28881063367542
+
+
+simulation/sim-time-sec : 7.0000000000006875
+h-sl-mt : 667.3033487392008
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 84.92694702423957
+velocities/v-north-fps : 69.542577501201
+velocities/v-down-fps : 40.513706503814085
+
+
+simulation/sim-time-sec : 7.100000000000703
+h-sl-mt : 666.0007591707766
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 82.34104680194032
+velocities/v-north-fps : 70.43112578311664
+velocities/v-down-fps : 44.88428560322781
+
+
+simulation/sim-time-sec : 7.200000000000719
+h-sl-mt : 664.5779039440513
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 80.62328936971721
+velocities/v-north-fps : 69.66095183184373
+velocities/v-down-fps : 49.097747272135614
+
+
+simulation/sim-time-sec : 7.300000000000734
+h-sl-mt : 662.9731240376026
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 77.23465661126573
+velocities/v-north-fps : 68.27702178071054
+velocities/v-down-fps : 56.45383350581354
+
+
+simulation/sim-time-sec : 7.40000000000075
+h-sl-mt : 661.1312044816196
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 73.10815261271973
+velocities/v-north-fps : 65.3869709950824
+velocities/v-down-fps : 64.72460348070155
+
+
+simulation/sim-time-sec : 7.500000000000766
+h-sl-mt : 659.0112699152112
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 68.95701544478177
+velocities/v-north-fps : 60.4380336055246
+velocities/v-down-fps : 74.08783880172652
+
+
+simulation/sim-time-sec : 7.600000000000781
+h-sl-mt : 656.6316411348403
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 66.95975995789667
+velocities/v-north-fps : 55.345360140972595
+velocities/v-down-fps : 81.26588911848776
+
+
+simulation/sim-time-sec : 7.700000000000797
+h-sl-mt : 654.0955581142903
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 67.60260551512305
+velocities/v-north-fps : 52.439326934697384
+velocities/v-down-fps : 84.60778367962078
+
+
+simulation/sim-time-sec : 7.8000000000008125
+h-sl-mt : 651.4940821228176
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 69.45579915843634
+velocities/v-north-fps : 51.998711420741046
+velocities/v-down-fps : 85.70430983489751
+
+
+simulation/sim-time-sec : 7.900000000000828
+h-sl-mt : 648.8865089778453
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 71.08142424718802
+velocities/v-north-fps : 54.573502574229586
+velocities/v-down-fps : 85.32666801088968
+
+
+simulation/sim-time-sec : 8.000000000000844
+h-sl-mt : 646.285964131844
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 72.24237974701676
+velocities/v-north-fps : 60.497597393111114
+velocities/v-down-fps : 84.22455700041962
+
+
+simulation/sim-time-sec : 8.100000000000753
+h-sl-mt : 643.8327191065997
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 73.77200435961596
+velocities/v-north-fps : 69.13826053845912
+velocities/v-down-fps : 77.22309399535867
+
+
+simulation/sim-time-sec : 8.200000000000662
+h-sl-mt : 641.5293460879504
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 76.09402129468401
+velocities/v-north-fps : 74.60696663830036
+velocities/v-down-fps : 73.26791776314866
+
+
+simulation/sim-time-sec : 8.300000000000571
+h-sl-mt : 639.4181212347329
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 78.96367312136593
+velocities/v-north-fps : 79.89390277819277
+velocities/v-down-fps : 65.53904234314601
+
+
+simulation/sim-time-sec : 8.40000000000048
+h-sl-mt : 637.5072100925446
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 80.11887870404568
+velocities/v-north-fps : 82.8209272760594
+velocities/v-down-fps : 60.868758753246205
+
+
+simulation/sim-time-sec : 8.500000000000389
+h-sl-mt : 635.6506990353138
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 79.24597719740584
+velocities/v-north-fps : 84.72255462463286
+velocities/v-down-fps : 61.037359886510245
+
+
+simulation/sim-time-sec : 8.600000000000298
+h-sl-mt : 633.7967341775894
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 78.83178957067933
+velocities/v-north-fps : 89.48944019507523
+velocities/v-down-fps : 58.691365614934874
+
+
+simulation/sim-time-sec : 8.700000000000207
+h-sl-mt : 632.1819735315621
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 79.10832655837117
+velocities/v-north-fps : 97.28616991308644
+velocities/v-down-fps : 46.81995413271387
+
+
+simulation/sim-time-sec : 8.800000000000116
+h-sl-mt : 630.9403760716885
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 78.36924263559112
+velocities/v-north-fps : 101.53115373865063
+velocities/v-down-fps : 36.3356587201501
+
+
+simulation/sim-time-sec : 8.900000000000025
+h-sl-mt : 629.8647919853121
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 77.09609918137099
+velocities/v-north-fps : 100.57294275254493
+velocities/v-down-fps : 36.81062950750748
+
+
+simulation/sim-time-sec : 8.999999999999934
+h-sl-mt : 628.5988989835203
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 78.1846486601005
+velocities/v-north-fps : 98.21335990076803
+velocities/v-down-fps : 43.895119136181606
+
+
+simulation/sim-time-sec : 9.099999999999843
+h-sl-mt : 627.3312225785941
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 77.43218881372015
+velocities/v-north-fps : 102.56783760139756
+velocities/v-down-fps : 37.77428602989363
+
+
+simulation/sim-time-sec : 9.199999999999752
+h-sl-mt : 626.336975575322
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 74.13243944816371
+velocities/v-north-fps : 105.5997175925981
+velocities/v-down-fps : 30.327763590451518
+
+
+simulation/sim-time-sec : 9.299999999999661
+h-sl-mt : 625.3234835564733
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 72.62244749396834
+velocities/v-north-fps : 104.24596645093736
+velocities/v-down-fps : 36.263993636673696
+
+
+simulation/sim-time-sec : 9.39999999999957
+h-sl-mt : 624.1610399281561
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 71.61205589434218
+velocities/v-north-fps : 104.83919494937899
+velocities/v-down-fps : 38.49875973742937
+
+
+simulation/sim-time-sec : 9.49999999999948
+h-sl-mt : 623.0445390419662
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 70.67289515473787
+velocities/v-north-fps : 104.40905150926446
+velocities/v-down-fps : 36.62575852017194
+
+
+simulation/sim-time-sec : 9.599999999999389
+h-sl-mt : 621.8173712836236
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 71.172641038843
+velocities/v-north-fps : 100.12795648707592
+velocities/v-down-fps : 44.25186243748626
+
+
+simulation/sim-time-sec : 9.699999999999298
+h-sl-mt : 620.351774111858
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 71.23401641082887
+velocities/v-north-fps : 98.21987299777828
+velocities/v-down-fps : 50.320064759196356
+
+
+simulation/sim-time-sec : 9.799999999999207
+h-sl-mt : 618.836674329409
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 71.10753111615126
+velocities/v-north-fps : 102.1630892939156
+velocities/v-down-fps : 47.009252179441
+
+
+simulation/sim-time-sec : 9.899999999999116
+h-sl-mt : 617.5763730295927
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 68.91439794088338
+velocities/v-north-fps : 106.48173096979805
+velocities/v-down-fps : 37.54550099009306
+
+
+simulation/sim-time-sec : 9.999999999999025
+h-sl-mt : 616.4363181407512
+fcs/throttle-pos-norm : 0.8
+velocities/v-east-fps : 68.83883953273316
+velocities/v-north-fps : 108.83124953387721
+velocities/v-down-fps : 35.72992067179944
+
+

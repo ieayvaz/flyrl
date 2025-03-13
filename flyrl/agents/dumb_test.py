@@ -6,7 +6,8 @@ env = gym.make(env_id)
 
 obs = env.reset()[0]
 for _ in range(1000):
-    obs, reward, done,_, info = env.step(env.action_space.sample())
+    action = env.action_space.sample()
+    obs, reward, done,_, info = env.step(action)
     env.render()
     if done:
         print("Resetting")

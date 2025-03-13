@@ -22,30 +22,32 @@ try:
     env = gym.make('DogfightRascal')
     obs = env.reset()
     
-    aileron_cmd = 0.0
-    elevator_cmd = 0.0
-    com = 1
-
-    for i in range(1000):
+    target_roll = 0.0
+    target_pitch = 2.0
+    
+    for i in range(100000):
         # Check for key press
         key = get_key_press()
-        com = 1
         
         if key is not None:
             if key == 'd':
-                com = 0
+                if target_roll + SENSITIVITY * 4 <= 60:
+                    target_roll += SENSITIVITY * 4
             elif key == 'a':
-                com = 2
+                if target_roll - SENSITIVITY * 4 >= -60:
+                    target_roll -= SENSITIVITY * 4
             elif key == 's':
-                if elevator_cmd + SENSITIVITY * 0.1 < 1.0:
-                    elevator_cmd += SENSITIVITY * 0.1
+                if target_pitch + SENSITIVITY * 0.5 <= 10:
+                    target_pitch += SENSITIVITY * 0.5
             elif key == 'w':
-                if elevator_cmd - SENSITIVITY * 0.1 > -1.0:
-                    elevator_cmd -= SENSITIVITY * 0.1
+                if target_pitch - SENSITIVITY * 0.5 >= -10:
+                    target_pitch -= SENSITIVITY * 0.5
             elif key == 'q':  # Added a key to quit the simulation
                 break
                 
-        obs, reward, trunc, tr, info = env.step(com)
+        # Take a step in the environment
+        print(f"target roll: {target_roll} , target_pitch : {target_pitch}")
+        obs, reward, trunc, tr, info = env.step(np.array([target_roll, target_pitch]))
         env.render()
         
         if trunc or tr:

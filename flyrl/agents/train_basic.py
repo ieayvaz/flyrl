@@ -13,7 +13,7 @@ from wandb.integration.sb3 import WandbCallback
 config = {
     "policy_type": "MlpPolicy",
     "total_timesteps": 100000,
-    "env_name": "DogfightRascal-debug",
+    "env_name": "DogfightRascal",
     "learning_rate": 3e-6,
 }
 run = wandb.init(
@@ -53,4 +53,3 @@ model.learn(
 run.finish()
 
 model.save(f"models/{run.name}/finish")
-print(f"Model saved to {__path__}/models/{run.name}/finish")

@@ -35,8 +35,8 @@ gym.envs.registration.register(id="HeadingC172p",entry_point='flyrl.basic_enviro
 gym.envs.registration.register(id="WaypointC172p",entry_point='flyrl.basic_environment:BasicJsbSimEnv',kwargs=dict(task_type=WaypointTask,aircraft=cessna172P))
 gym.envs.registration.register(id="WaypointC172p-debug",entry_point='flyrl.basic_environment:BasicJsbSimEnv',kwargs=dict(task_type=WaypointTask,aircraft=cessna172P,debug=True))
 gym.envs.registration.register(id="DogfightC172p-debug",entry_point='flyrl.basic_environment:BasicJsbSimEnv',kwargs=dict(task_type=DogfightTask,aircraft=cessna172P,debug=True))
-gym.envs.registration.register(id="DogfightRascal-debug",entry_point='flyrl.basic_environment:BasicJsbSimEnv',kwargs=dict(task_type=DogfightTask,aircraft=rascal,debug=True))
-gym.envs.registration.register(id="DogfightRascal",entry_point='flyrl.basic_environment:BasicJsbSimEnv',kwargs=dict(task_type=DogfightTask,aircraft=rascal,debug=False))
+gym.envs.registration.register(id="DogfightRascal-debug",entry_point='flyrl.basic_environment:BasicJsbSimEnv',kwargs=dict(task_type=DogfightTask,aircraft=rascal,agent_interaction_freq=1,debug=True))
+gym.envs.registration.register(id="DogfightRascal",entry_point='flyrl.basic_environment:BasicJsbSimEnv',kwargs=dict(task_type=DogfightTask,aircraft=rascal,agent_interaction_freq=1,debug=False))
 # make an Enum storing every Gym-JSBSim environment ID for convenience and value safety
 Envs = enum.Enum.__call__('Envs', [(utils.AttributeFormatter.translate(env_id), env_id)
                                    for env_id in utils.get_env_id_kwargs_map().keys()])

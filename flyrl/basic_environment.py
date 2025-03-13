@@ -7,7 +7,7 @@ from flyrl.simulation import Simulation
 from flyrl.visualiser import FigureVisualiser, FlightGearRemoteVisualiser
 
 class BasicJsbSimEnv(gym.Env):
-    JSBSIM_DT_HZ: int = 60  # JSBSim integration frequency
+    JSBSIM_DT_HZ: int = 1200  # JSBSim integration frequency
     metadata = {'render.modes': ['human', 'flightgear']}
 
     def __init__(self, task_type: Type[TaskHeading], aircraft: Aircraft, agent_interaction_freq: int = 10, debug : bool = False):
@@ -41,8 +41,10 @@ class BasicJsbSimEnv(gym.Env):
             done: whether the episode has ended, in which case further step() calls are undefined
             info: auxiliary information, e.g. full reward shaping data
         """
+        '''
         if not (action.shape == self.action_space.shape):
-            raise ValueError('mismatch between action and action space size')
+            raise ValueError('mismatch between action and action space size')'
+        '''
 
         state, reward, done, info = self.task.task_step(action, self.sim_steps_per_agent_step)
 
@@ -57,7 +59,7 @@ class BasicJsbSimEnv(gym.Env):
         super().reset(seed=seed,options=options)
         init_conditions = self.task.get_initial_conditions()
         if self.sim:
-            self.sim.reinitialise(init_conditions)
+            self.sim = self._init_new_sim(self.JSBSIM_DT_HZ, self.aircraft, init_conditions)
         else:
             self.sim = self._init_new_sim(self.JSBSIM_DT_HZ, self.aircraft, init_conditions)
 
@@ -105,7 +107,7 @@ class BasicJsbSimEnv(gym.Env):
                     self.flightgear_visualiser = FlightGearRemoteVisualiser(self.sim,
                                                                     self.task.get_props_to_output(),
                                                                     flightgear_blocking)
-                #self.flightgear_visualiser.plot(self.sim)
+                self.flightgear_visualiser.plot(self.sim)
             else:
                 super().render(mode=mode)
 

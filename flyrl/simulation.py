@@ -39,6 +39,7 @@ class Simulation(object):
                                                     self.OUTPUT_FILE)
             self.jsbsim.set_output_directive(flightgear_output_config)
         self.sim_dt = 1.0 / sim_frequency_hz
+        self.sim_frequency_hz = sim_frequency_hz
         self.aircraft = aircraft
         self.initialise(self.sim_dt, self.aircraft.jsbsim_id, init_conditions)
         self.jsbsim.disable_output()
