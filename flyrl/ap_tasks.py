@@ -12,18 +12,12 @@ import math
 import gymnasium as gym
 
 
-class BaseFlightTask(Task, ABC):
+class BaseAPTask(Task, ABC):
     MAXIMUM_ROLL = 55.0
     MAXIMUM_PITCH = 5.0
     INITIAL_ALTITUDE_FT = 2250  #For rascal dogfight. TODO: Make this more flexible
-    AUTOPILOT_FREQ = 60.0 # Should not be bigger than sim frequency!
+    AUTOPILOT_FREQ = 5.0 # Should not be bigger than sim frequency!
     CRUISE_PITCH = 2.0
-    base_state_variables = ()
-    base_initial_conditions = {prp.initial_altitude_ft: INITIAL_ALTITUDE_FT,
-         prp.initial_terrain_altitude_ft: 0.00000001,
-         prp.initial_longitude_geoc_deg: -2.3273,
-         prp.initial_latitude_geod_deg: 51.3781  # corresponds to UoBath
-         }
 
     def __init__(self, state_variables, max_time_s, step_frequency_hz, sim : Simulation, debug: bool = False,
                  action_variables : Tuple = (prp.aileron_cmd, prp.elevator_cmd), autopilot=False):
@@ -94,8 +88,6 @@ class BaseFlightTask(Task, ABC):
         ...
     
     def _new_episode_init(self):
-        self.sim.start_engines()
-        self.sim.raise_landing_gear()
         if self.use_autopilot:
             self.autopilot = AutoPilot(self.sim)
             assert self.sim.sim_frequency_hz >= self.AUTOPILOT_FREQ
@@ -114,10 +106,6 @@ class BaseFlightTask(Task, ABC):
         '''
         #discrete actions
         return gym.spaces.Discrete(3)
-
-    @abstractmethod
-    def get_initial_conditions(self) -> Dict[Property, float]:
-        ...
 
     @abstractmethod     
     def get_prop(self, prop) -> float:
@@ -142,54 +130,6 @@ class BaseFlightTask(Task, ABC):
     @abstractmethod
     def calculate_reward(self,state) -> float:
         ...
-
-class TaskHeading(BaseFlightTask):
-    INITIAL_HEADING_DEG = 120.0
-    THROTTLE_CMD = 0.8
-    MIXTURE_CMD = 0.8
-    
-    def __init__(self, step_frequency_hz: float, sim: Simulation, aircraft: Aircraft, max_time_s: float = 60.0):
-        delta_heading = DerivedProperty("delta_heading","Diffrence between current and target heading angles",0,360)
-        super().__init__((delta_heading,),max_time_s, step_frequency_hz, sim)
-        self.target_heading = 90
-        self.aircraft = aircraft
-
-    def get_initial_conditions(self):
-        extra_conditions = {prp.initial_u_fps: self.aircraft.get_cruise_speed_fps(),
-                            prp.initial_v_fps: 0,
-                            prp.initial_w_fps: 0,
-                            prp.initial_p_radps: 0,
-                            prp.initial_q_radps: 0,
-                            prp.initial_r_radps: 0,
-                            prp.initial_roc_fpm: 0,
-                            prp.initial_heading_deg: self.INITIAL_HEADING_DEG,
-                            }
-        return {**self.base_initial_conditions, **extra_conditions}
-        
-    def _new_episode_init(self):
-        super()._new_episode_init()
-        self.sim.set_throttle_mixture_controls(self.THROTTLE_CMD, self.MIXTURE_CMD)
-    
-    def get_heading_error(self):
-        return abs(self.sim[prp.heading_deg] - self.target_heading)
-
-    def get_props_to_output(self):
-        return (prp.u_fps,prp.altitude_sl_ft)
-    
-    def get_prop(self, prop,sim):
-        native = super().get_prop(prop)
-        if native != None:
-            return native
-        if prop.name == "delta_heading":
-            return self.get_heading_error()
-        
-    def _is_terminal(self,state, sim: Simulation) -> bool:
-        if self.max_steps - self.current_step <= 0:
-            return True
-        return False
-    
-    def calculate_reward(self, state):
-        return 1 - state["delta_heading"] / 180.0
         
     
     

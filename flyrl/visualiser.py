@@ -65,7 +65,7 @@ class FigureVisualiser(object):
                 subplot.lines[0].remove()
 
         self._print_state(sim)
-        self._plot_control_states(sim, self.axes)
+        #self._plot_control_states(sim, self.axes)
         self._plot_control_commands(sim, self.axes)
         plt.pause(self.PLOT_PAUSE_SECONDS)  # voodoo pause needed for figure to update
 
@@ -213,12 +213,12 @@ class FigureVisualiser(object):
         ail_cmd = sim[prp.aileron_cmd]
         ele_cmd = sim[prp.elevator_cmd]
         thr_cmd = sim[prp.throttle_cmd]
-        rud_cmd = sim[prp.rudder_cmd]
+        #rud_cmd = sim[prp.rudder_cmd]
 
         all_axes.axes_stick.plot([ail_cmd], [ele_cmd], 'bo', mfc='none', markersize=10,
                                  clip_on=False)
         all_axes.axes_throttle.plot([0], [thr_cmd], 'bo', mfc='none', markersize=10, clip_on=False)
-        all_axes.axes_rudder.plot([rud_cmd], [0], 'bo', mfc='none', markersize=10, clip_on=False)
+        #all_axes.axes_rudder.plot([rud_cmd], [0], 'bo', mfc='none', markersize=10, clip_on=False)
 
 
 class FlightGearVisualiser(object):
@@ -251,6 +251,7 @@ class FlightGearVisualiser(object):
         """
         self.configure_simulation_output(sim)
         self.print_props = print_props
+        self.flightgear_process = None
         self.flightgear_process = self._launch_flightgear(sim.get_aircraft())
         self.figure = FigureVisualiser(sim, print_props)
         if block_until_loaded:
@@ -360,7 +361,4 @@ class FlightGearRemoteVisualiser(object):
         sim.set_simulation_time_factor(self.FLIGHTGEAR_TIME_FACTOR)
 
     def close(self):
-        if self.flightgear_process:
-            self.flightgear_process.kill()
-            timeout_secs = 1
-            self.flightgear_process.wait(timeout=timeout_secs)
+        pass

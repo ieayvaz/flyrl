@@ -1,18 +1,17 @@
 import flyrl
-import gym
+import gymnasium as gym
 import numpy as np
 import msvcrt
 
 SENSIVITY = 5
 
-env = gym.make('JSBSim-TurnHeadingControlTask-Cessna172P-Shaping.STANDARD-FG-v0')
+env = gym.make('DogfightRascal')
 
 obs = env.reset()
 
 for i in range(1000):
     aileron_cmd = 0.0
     elevator_cmd = 0.0
-    rudder_cmd = 0.0
     if msvcrt.kbhit() == True:
         k = msvcrt.getch()
         c = k.decode()
@@ -29,7 +28,7 @@ for i in range(1000):
             if(elevator_cmd - SENSIVITY * 0.1 > -1.0):
                 elevator_cmd -= SENSIVITY * 0.1
 
-    obs,reward,trunc,info = env.step(np.array([aileron_cmd,elevator_cmd,rudder_cmd]))
+    obs,reward,trunc,tr,info = env.step(np.array([aileron_cmd,elevator_cmd]))
     env.render()
-    if trunc:
+    if trunc or tr:
         break

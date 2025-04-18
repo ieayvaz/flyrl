@@ -7,15 +7,15 @@ from flyrl.simulation import Simulation
 from flyrl.visualiser import FigureVisualiser, FlightGearRemoteVisualiser
 
 class BasicJsbSimEnv(gym.Env):
-    JSBSIM_DT_HZ: int = 60  # JSBSim integration frequency
+    JSBSIM_DT_HZ: int = 1200  # JSBSim integration frequency
     metadata = {'render.modes': ['human', 'flightgear']}
 
-    def __init__(self, task_type: Type[TaskHeading], aircraft: Aircraft, agent_interaction_freq: int = 5, debug : bool = False):
+    def __init__(self, task_type: Type[TaskHeading], aircraft: Aircraft, agent_interaction_freq: int = 10, debug : bool = False):
         if agent_interaction_freq > self.JSBSIM_DT_HZ:
             raise ValueError('agent interaction frequency must be less than '
                              'or equal to JSBSim integration frequency of '
                              f'{self.JSBSIM_DT_HZ} Hz.')
-
+        self.debug = debug
         self.sim: Simulation = None
         self.sim_steps_per_agent_step: int = self.JSBSIM_DT_HZ // agent_interaction_freq
         self.aircraft = aircraft
@@ -41,11 +41,14 @@ class BasicJsbSimEnv(gym.Env):
             done: whether the episode has ended, in which case further step() calls are undefined
             info: auxiliary information, e.g. full reward shaping data
         """
+        '''
         if not (action.shape == self.action_space.shape):
-            raise ValueError('mismatch between action and action space size')
+            raise ValueError('mismatch between action and action space size')'
+        '''
 
         state, reward, done, info = self.task.task_step(action, self.sim_steps_per_agent_step)
-        return np.array(state), reward, done, None, info
+
+        return np.array(state), reward, done, done, info
 
     def reset(self, seed: int | None = None, options: dict[str, Any] | None = None):
         """
@@ -56,7 +59,7 @@ class BasicJsbSimEnv(gym.Env):
         super().reset(seed=seed,options=options)
         init_conditions = self.task.get_initial_conditions()
         if self.sim:
-            self.sim.reinitialise(init_conditions)
+            self.sim = self._init_new_sim(self.JSBSIM_DT_HZ, self.aircraft, init_conditions)
         else:
             self.sim = self._init_new_sim(self.JSBSIM_DT_HZ, self.aircraft, init_conditions)
 
@@ -65,7 +68,6 @@ class BasicJsbSimEnv(gym.Env):
 
         if self.flightgear_visualiser:
             self.flightgear_visualiser.configure_simulation_output(self.sim)
-
         return np.array(state), {}
     
     def _init_new_sim(self, dt, aircraft, initial_conditions):

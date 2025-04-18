@@ -39,6 +39,7 @@ class Simulation(object):
                                                     self.OUTPUT_FILE)
             self.jsbsim.set_output_directive(flightgear_output_config)
         self.sim_dt = 1.0 / sim_frequency_hz
+        self.sim_frequency_hz = sim_frequency_hz
         self.aircraft = aircraft
         self.initialise(self.sim_dt, self.aircraft.jsbsim_id, init_conditions)
         self.jsbsim.disable_output()
@@ -216,6 +217,8 @@ class Simulation(object):
 
     def start_engines(self):
         """ Sets all engines running. """
+        self[prp.engine_0_running] = 1
+        self[prp.engine_running] = 1
         self[prp.all_engine_running] = -1
 
     def set_throttle_mixture_controls(self, throttle_cmd: float, mixture_cmd: float):
@@ -233,6 +236,9 @@ class Simulation(object):
             self[prp.mixture_1_cmd] = mixture_cmd
         except KeyError:
             pass  # must be single-control aircraft
+
+    def set_throttle(self, throttle_cmd: float):
+        self[prp.throttle_cmd] = throttle_cmd
 
     def raise_landing_gear(self):
         """ Raises all aircraft landing gear. """
