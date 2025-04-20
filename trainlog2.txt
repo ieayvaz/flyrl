@@ -1,0 +1,2372 @@
+
+
+     JSBSim Flight Dynamics Model v1.2.1 [GitHub build 1348/commit 9b95d1b5ccff59916c79a0e3eb8f548377910598] Mar  2 2025 15:20:26
+            [JSBSim-ML v2.0]
+
+JSBSim startup beginning ...
+
+Using cpu device
+Logging to runs/gorszr9w/PPO_1
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 102      |
+|    ep_rew_mean     | -22.1    |
+| time/              |          |
+|    fps             | 113      |
+|    iterations      | 1        |
+|    time_elapsed    | 18       |
+|    total_timesteps | 2048     |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 94.3          |
+|    ep_rew_mean          | -22.4         |
+| time/                   |               |
+|    fps                  | 112           |
+|    iterations           | 2             |
+|    time_elapsed         | 36            |
+|    total_timesteps      | 4096          |
+| train/                  |               |
+|    approx_kl            | 0.00024880806 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.1          |
+|    explained_variance   | 0.00293       |
+|    learning_rate        | 3e-05         |
+|    loss                 | 35.9          |
+|    n_updates            | 10            |
+|    policy_gradient_loss | -0.00066      |
+|    value_loss           | 98.5          |
+-------------------------------------------
+Running evaluation on step 5000...
+Evaluation complete (5 episodes, 316 steps):
+  Mean AOB: 67.84 deg
+  Mean AA: 80.87 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 80.9          |
+|    mean_AOB_deg         | 67.8          |
+|    pct_time_AA_lt_30.0  | 20.6          |
+|    pct_time_AOB_lt_10.0 | 7.28          |
+| train/                  |               |
+|    approx_kl            | 0.00017948885 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.1          |
+|    explained_variance   | -0.003        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 37.5          |
+|    n_updates            | 20            |
+|    policy_gradient_loss | -0.000738     |
+|    value_loss           | 99.1          |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 95.7     |
+|    ep_rew_mean     | -19.8    |
+| time/              |          |
+|    fps             | 106      |
+|    iterations      | 3        |
+|    time_elapsed    | 57       |
+|    total_timesteps | 6144     |
+---------------------------------
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 93          |
+|    ep_rew_mean          | -20.4       |
+| time/                   |             |
+|    fps                  | 107         |
+|    iterations           | 4           |
+|    time_elapsed         | 76          |
+|    total_timesteps      | 8192        |
+| train/                  |             |
+|    approx_kl            | 0.000412132 |
+|    clip_fraction        | 0           |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -1.1        |
+|    explained_variance   | 0.000321    |
+|    learning_rate        | 3e-05       |
+|    loss                 | 56.5        |
+|    n_updates            | 30          |
+|    policy_gradient_loss | -0.000793   |
+|    value_loss           | 78.6        |
+-----------------------------------------
+Running evaluation on step 10000...
+Evaluation complete (5 episodes, 470 steps):
+  Mean AOB: 76.35 deg
+  Mean AA: 108.42 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 108           |
+|    mean_AOB_deg         | 76.4          |
+|    pct_time_AA_lt_30.0  | 9.36          |
+|    pct_time_AOB_lt_10.0 | 8.3           |
+| train/                  |               |
+|    approx_kl            | 0.00043207456 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.1          |
+|    explained_variance   | -0.000608     |
+|    learning_rate        | 3e-05         |
+|    loss                 | 17.8          |
+|    n_updates            | 40            |
+|    policy_gradient_loss | -0.00086      |
+|    value_loss           | 78.9          |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 92.8     |
+|    ep_rew_mean     | -20.3    |
+| time/              |          |
+|    fps             | 103      |
+|    iterations      | 5        |
+|    time_elapsed    | 99       |
+|    total_timesteps | 10240    |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 95.5          |
+|    ep_rew_mean          | -16.2         |
+| time/                   |               |
+|    fps                  | 104           |
+|    iterations           | 6             |
+|    time_elapsed         | 117           |
+|    total_timesteps      | 12288         |
+| train/                  |               |
+|    approx_kl            | 0.00029993738 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.1          |
+|    explained_variance   | -0.00262      |
+|    learning_rate        | 3e-05         |
+|    loss                 | 5.38          |
+|    n_updates            | 50            |
+|    policy_gradient_loss | -0.000695     |
+|    value_loss           | 55            |
+-------------------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 96.7          |
+|    ep_rew_mean          | -17.2         |
+| time/                   |               |
+|    fps                  | 105           |
+|    iterations           | 7             |
+|    time_elapsed         | 136           |
+|    total_timesteps      | 14336         |
+| train/                  |               |
+|    approx_kl            | 0.00046722346 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.1          |
+|    explained_variance   | -0.000759     |
+|    learning_rate        | 3e-05         |
+|    loss                 | 4.41          |
+|    n_updates            | 60            |
+|    policy_gradient_loss | -0.000723     |
+|    value_loss           | 30.4          |
+-------------------------------------------
+Running evaluation on step 15000...
+Evaluation complete (5 episodes, 183 steps):
+  Mean AOB: 86.54 deg
+  Mean AA: 93.35 deg
+------------------------------------------
+| eval/                   |              |
+|    mean_AA_deg          | 93.4         |
+|    mean_AOB_deg         | 86.5         |
+|    pct_time_AA_lt_30.0  | 9.84         |
+|    pct_time_AOB_lt_10.0 | 5.46         |
+| train/                  |              |
+|    approx_kl            | 7.750676e-05 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.1         |
+|    explained_variance   | 0.00529      |
+|    learning_rate        | 3e-05        |
+|    loss                 | 50.6         |
+|    n_updates            | 70           |
+|    policy_gradient_loss | -0.000212    |
+|    value_loss           | 72           |
+------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 99.8     |
+|    ep_rew_mean     | -15.1    |
+| time/              |          |
+|    fps             | 104      |
+|    iterations      | 8        |
+|    time_elapsed    | 156      |
+|    total_timesteps | 16384    |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 100           |
+|    ep_rew_mean          | -15           |
+| time/                   |               |
+|    fps                  | 105           |
+|    iterations           | 9             |
+|    time_elapsed         | 174           |
+|    total_timesteps      | 18432         |
+| train/                  |               |
+|    approx_kl            | 0.00011401807 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.1          |
+|    explained_variance   | 0.0137        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 6.87          |
+|    n_updates            | 80            |
+|    policy_gradient_loss | -0.000682     |
+|    value_loss           | 29.5          |
+-------------------------------------------
+Running evaluation on step 20000...
+Evaluation complete (5 episodes, 299 steps):
+  Mean AOB: 86.04 deg
+  Mean AA: 75.89 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 75.9          |
+|    mean_AOB_deg         | 86            |
+|    pct_time_AA_lt_30.0  | 23.1          |
+|    pct_time_AOB_lt_10.0 | 6.02          |
+| train/                  |               |
+|    approx_kl            | 0.00015647127 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.1          |
+|    explained_variance   | 0.00579       |
+|    learning_rate        | 3e-05         |
+|    loss                 | 37.6          |
+|    n_updates            | 90            |
+|    policy_gradient_loss | -0.000548     |
+|    value_loss           | 98.8          |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 101      |
+|    ep_rew_mean     | -12.8    |
+| time/              |          |
+|    fps             | 103      |
+|    iterations      | 10       |
+|    time_elapsed    | 197      |
+|    total_timesteps | 20480    |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 100           |
+|    ep_rew_mean          | -13.3         |
+| time/                   |               |
+|    fps                  | 104           |
+|    iterations           | 11            |
+|    time_elapsed         | 215           |
+|    total_timesteps      | 22528         |
+| train/                  |               |
+|    approx_kl            | 0.00030937354 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.1          |
+|    explained_variance   | 0.0138        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 8.89          |
+|    n_updates            | 100           |
+|    policy_gradient_loss | -0.000839     |
+|    value_loss           | 76.3          |
+-------------------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 97.5          |
+|    ep_rew_mean          | -14.1         |
+| time/                   |               |
+|    fps                  | 105           |
+|    iterations           | 12            |
+|    time_elapsed         | 233           |
+|    total_timesteps      | 24576         |
+| train/                  |               |
+|    approx_kl            | 0.00018441846 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.1          |
+|    explained_variance   | 0.00346       |
+|    learning_rate        | 3e-05         |
+|    loss                 | 4.34          |
+|    n_updates            | 110           |
+|    policy_gradient_loss | -0.000268     |
+|    value_loss           | 30.3          |
+-------------------------------------------
+Running evaluation on step 25000...
+Evaluation complete (5 episodes, 208 steps):
+  Mean AOB: 89.41 deg
+  Mean AA: 90.06 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 90.1          |
+|    mean_AOB_deg         | 89.4          |
+|    pct_time_AA_lt_30.0  | 18.3          |
+|    pct_time_AOB_lt_10.0 | 4.33          |
+| train/                  |               |
+|    approx_kl            | 4.9310882e-05 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.1          |
+|    explained_variance   | 0.0139        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 46            |
+|    n_updates            | 120           |
+|    policy_gradient_loss | -0.000299     |
+|    value_loss           | 115           |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 94.3     |
+|    ep_rew_mean     | -15.8    |
+| time/              |          |
+|    fps             | 105      |
+|    iterations      | 13       |
+|    time_elapsed    | 252      |
+|    total_timesteps | 26624    |
+---------------------------------
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 92.6        |
+|    ep_rew_mean          | -18.7       |
+| time/                   |             |
+|    fps                  | 105         |
+|    iterations           | 14          |
+|    time_elapsed         | 271         |
+|    total_timesteps      | 28672       |
+| train/                  |             |
+|    approx_kl            | 0.000114572 |
+|    clip_fraction        | 0           |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -1.1        |
+|    explained_variance   | 0.0218      |
+|    learning_rate        | 3e-05       |
+|    loss                 | 24.1        |
+|    n_updates            | 130         |
+|    policy_gradient_loss | -0.000841   |
+|    value_loss           | 74.5        |
+-----------------------------------------
+Running evaluation on step 30000...
+Evaluation complete (5 episodes, 497 steps):
+  Mean AOB: 88.20 deg
+  Mean AA: 83.39 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 83.4          |
+|    mean_AOB_deg         | 88.2          |
+|    pct_time_AA_lt_30.0  | 14.9          |
+|    pct_time_AOB_lt_10.0 | 4.83          |
+| train/                  |               |
+|    approx_kl            | 0.00034393088 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.09         |
+|    explained_variance   | 0.0218        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 6.32          |
+|    n_updates            | 140           |
+|    policy_gradient_loss | -0.000665     |
+|    value_loss           | 73.4          |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 94.2     |
+|    ep_rew_mean     | -17.6    |
+| time/              |          |
+|    fps             | 104      |
+|    iterations      | 15       |
+|    time_elapsed    | 293      |
+|    total_timesteps | 30720    |
+---------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 95.2         |
+|    ep_rew_mean          | -16.8        |
+| time/                   |              |
+|    fps                  | 105          |
+|    iterations           | 16           |
+|    time_elapsed         | 310          |
+|    total_timesteps      | 32768        |
+| train/                  |              |
+|    approx_kl            | 0.0003184021 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.09        |
+|    explained_variance   | 0.0282       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 8.96         |
+|    n_updates            | 150          |
+|    policy_gradient_loss | -0.000512    |
+|    value_loss           | 35.6         |
+------------------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 100           |
+|    ep_rew_mean          | -10.8         |
+| time/                   |               |
+|    fps                  | 106           |
+|    iterations           | 17            |
+|    time_elapsed         | 328           |
+|    total_timesteps      | 34816         |
+| train/                  |               |
+|    approx_kl            | 0.00012600122 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.09         |
+|    explained_variance   | 0.0283        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 25.4          |
+|    n_updates            | 160           |
+|    policy_gradient_loss | -0.000259     |
+|    value_loss           | 63.4          |
+-------------------------------------------
+Running evaluation on step 35000...
+Evaluation complete (5 episodes, 365 steps):
+  Mean AOB: 88.12 deg
+  Mean AA: 91.66 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 91.7          |
+|    mean_AOB_deg         | 88.1          |
+|    pct_time_AA_lt_30.0  | 14.2          |
+|    pct_time_AOB_lt_10.0 | 4.93          |
+| train/                  |               |
+|    approx_kl            | 3.9779057e-05 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.09         |
+|    explained_variance   | 0.0214        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 9.73          |
+|    n_updates            | 170           |
+|    policy_gradient_loss | -0.000185     |
+|    value_loss           | 81.3          |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 102      |
+|    ep_rew_mean     | -9.58    |
+| time/              |          |
+|    fps             | 105      |
+|    iterations      | 18       |
+|    time_elapsed    | 349      |
+|    total_timesteps | 36864    |
+---------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 109          |
+|    ep_rew_mean          | -2.7         |
+| time/                   |              |
+|    fps                  | 105          |
+|    iterations           | 19           |
+|    time_elapsed         | 367          |
+|    total_timesteps      | 38912        |
+| train/                  |              |
+|    approx_kl            | 0.0015630285 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.09        |
+|    explained_variance   | 0.0192       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 4.09         |
+|    n_updates            | 180          |
+|    policy_gradient_loss | -0.00137     |
+|    value_loss           | 32           |
+------------------------------------------
+Running evaluation on step 40000...
+Evaluation complete (5 episodes, 487 steps):
+  Mean AOB: 89.17 deg
+  Mean AA: 99.15 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 99.1          |
+|    mean_AOB_deg         | 89.2          |
+|    pct_time_AA_lt_30.0  | 15.2          |
+|    pct_time_AOB_lt_10.0 | 5.13          |
+| train/                  |               |
+|    approx_kl            | 0.00034039735 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.08         |
+|    explained_variance   | 0.0535        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 8.33          |
+|    n_updates            | 190           |
+|    policy_gradient_loss | -0.000486     |
+|    value_loss           | 24.9          |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 111      |
+|    ep_rew_mean     | -1.27    |
+| time/              |          |
+|    fps             | 105      |
+|    iterations      | 20       |
+|    time_elapsed    | 388      |
+|    total_timesteps | 40960    |
+---------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 111          |
+|    ep_rew_mean          | -1.57        |
+| time/                   |              |
+|    fps                  | 105          |
+|    iterations           | 21           |
+|    time_elapsed         | 406          |
+|    total_timesteps      | 43008        |
+| train/                  |              |
+|    approx_kl            | 0.0009369431 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.08        |
+|    explained_variance   | 0.0265       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 5.36         |
+|    n_updates            | 200          |
+|    policy_gradient_loss | -0.000841    |
+|    value_loss           | 18.2         |
+------------------------------------------
+Running evaluation on step 45000...
+Evaluation complete (5 episodes, 605 steps):
+  Mean AOB: 90.81 deg
+  Mean AA: 87.62 deg
+------------------------------------------
+| eval/                   |              |
+|    mean_AA_deg          | 87.6         |
+|    mean_AOB_deg         | 90.8         |
+|    pct_time_AA_lt_30.0  | 19.5         |
+|    pct_time_AOB_lt_10.0 | 5.45         |
+| train/                  |              |
+|    approx_kl            | 0.0028517125 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.06        |
+|    explained_variance   | 0.0597       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 7.49         |
+|    n_updates            | 210          |
+|    policy_gradient_loss | -0.00236     |
+|    value_loss           | 41.7         |
+------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 107      |
+|    ep_rew_mean     | -7.4     |
+| time/              |          |
+|    fps             | 104      |
+|    iterations      | 22       |
+|    time_elapsed    | 429      |
+|    total_timesteps | 45056    |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 108           |
+|    ep_rew_mean          | -7.6          |
+| time/                   |               |
+|    fps                  | 105           |
+|    iterations           | 23            |
+|    time_elapsed         | 446           |
+|    total_timesteps      | 47104         |
+| train/                  |               |
+|    approx_kl            | 0.00028700853 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.04         |
+|    explained_variance   | 0.0574        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 45.1          |
+|    n_updates            | 220           |
+|    policy_gradient_loss | -0.000293     |
+|    value_loss           | 55.2          |
+-------------------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 105          |
+|    ep_rew_mean          | -10.7        |
+| time/                   |              |
+|    fps                  | 105          |
+|    iterations           | 24           |
+|    time_elapsed         | 465          |
+|    total_timesteps      | 49152        |
+| train/                  |              |
+|    approx_kl            | 0.0036029818 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.02        |
+|    explained_variance   | 0.0106       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 6.02         |
+|    n_updates            | 230          |
+|    policy_gradient_loss | -0.00171     |
+|    value_loss           | 36.6         |
+------------------------------------------
+Running evaluation on step 50000...
+Evaluation complete (5 episodes, 441 steps):
+  Mean AOB: 88.98 deg
+  Mean AA: 95.90 deg
+------------------------------------------
+| eval/                   |              |
+|    mean_AA_deg          | 95.9         |
+|    mean_AOB_deg         | 89           |
+|    pct_time_AA_lt_30.0  | 10.9         |
+|    pct_time_AOB_lt_10.0 | 4.31         |
+| train/                  |              |
+|    approx_kl            | 0.0010954672 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.999       |
+|    explained_variance   | -0.00267     |
+|    learning_rate        | 3e-05        |
+|    loss                 | 46.9         |
+|    n_updates            | 240          |
+|    policy_gradient_loss | -0.000497    |
+|    value_loss           | 80.9         |
+------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 100      |
+|    ep_rew_mean     | -15.5    |
+| time/              |          |
+|    fps             | 105      |
+|    iterations      | 25       |
+|    time_elapsed    | 486      |
+|    total_timesteps | 51200    |
+---------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 96.3         |
+|    ep_rew_mean          | -18.3        |
+| time/                   |              |
+|    fps                  | 105          |
+|    iterations           | 26           |
+|    time_elapsed         | 504          |
+|    total_timesteps      | 53248        |
+| train/                  |              |
+|    approx_kl            | 0.0005836229 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.999       |
+|    explained_variance   | 0.00804      |
+|    learning_rate        | 3e-05        |
+|    loss                 | 23.2         |
+|    n_updates            | 250          |
+|    policy_gradient_loss | -0.000343    |
+|    value_loss           | 126          |
+------------------------------------------
+Running evaluation on step 55000...
+Evaluation complete (5 episodes, 351 steps):
+  Mean AOB: 87.18 deg
+  Mean AA: 105.93 deg
+------------------------------------------
+| eval/                   |              |
+|    mean_AA_deg          | 106          |
+|    mean_AOB_deg         | 87.2         |
+|    pct_time_AA_lt_30.0  | 7.12         |
+|    pct_time_AOB_lt_10.0 | 5.13         |
+| train/                  |              |
+|    approx_kl            | 0.0005616543 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.996       |
+|    explained_variance   | 0.0412       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 5.49         |
+|    n_updates            | 260          |
+|    policy_gradient_loss | -0.000537    |
+|    value_loss           | 59.1         |
+------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 93.4     |
+|    ep_rew_mean     | -20.8    |
+| time/              |          |
+|    fps             | 105      |
+|    iterations      | 27       |
+|    time_elapsed    | 524      |
+|    total_timesteps | 55296    |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 87.4          |
+|    ep_rew_mean          | -25.5         |
+| time/                   |               |
+|    fps                  | 105           |
+|    iterations           | 28            |
+|    time_elapsed         | 542           |
+|    total_timesteps      | 57344         |
+| train/                  |               |
+|    approx_kl            | 4.1755353e-05 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.983        |
+|    explained_variance   | 0.00988       |
+|    learning_rate        | 3e-05         |
+|    loss                 | 166           |
+|    n_updates            | 270           |
+|    policy_gradient_loss | 6.48e-05      |
+|    value_loss           | 148           |
+-------------------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 89           |
+|    ep_rew_mean          | -24.8        |
+| time/                   |              |
+|    fps                  | 106          |
+|    iterations           | 29           |
+|    time_elapsed         | 559          |
+|    total_timesteps      | 59392        |
+| train/                  |              |
+|    approx_kl            | 9.992233e-05 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.987       |
+|    explained_variance   | 0.0163       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 58.3         |
+|    n_updates            | 280          |
+|    policy_gradient_loss | -0.000149    |
+|    value_loss           | 126          |
+------------------------------------------
+Running evaluation on step 60000...
+Evaluation complete (5 episodes, 270 steps):
+  Mean AOB: 89.42 deg
+  Mean AA: 117.14 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 117           |
+|    mean_AOB_deg         | 89.4          |
+|    pct_time_AA_lt_30.0  | 3.33          |
+|    pct_time_AOB_lt_10.0 | 5.56          |
+| train/                  |               |
+|    approx_kl            | 0.00021998343 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.994        |
+|    explained_variance   | 0.0199        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 38.9          |
+|    n_updates            | 290           |
+|    policy_gradient_loss | -0.000429     |
+|    value_loss           | 95.5          |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 94.8     |
+|    ep_rew_mean     | -19.1    |
+| time/              |          |
+|    fps             | 105      |
+|    iterations      | 30       |
+|    time_elapsed    | 580      |
+|    total_timesteps | 61440    |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 97.9          |
+|    ep_rew_mean          | -16.5         |
+| time/                   |               |
+|    fps                  | 106           |
+|    iterations           | 31            |
+|    time_elapsed         | 598           |
+|    total_timesteps      | 63488         |
+| train/                  |               |
+|    approx_kl            | 8.7123044e-05 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.988        |
+|    explained_variance   | 0.0836        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 22.9          |
+|    n_updates            | 300           |
+|    policy_gradient_loss | -0.000228     |
+|    value_loss           | 29.1          |
+-------------------------------------------
+Running evaluation on step 65000...
+Evaluation complete (5 episodes, 486 steps):
+  Mean AOB: 89.61 deg
+  Mean AA: 75.97 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 76            |
+|    mean_AOB_deg         | 89.6          |
+|    pct_time_AA_lt_30.0  | 22.4          |
+|    pct_time_AOB_lt_10.0 | 4.94          |
+| train/                  |               |
+|    approx_kl            | 0.00038657966 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.994        |
+|    explained_variance   | 0.0314        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 82.3          |
+|    n_updates            | 310           |
+|    policy_gradient_loss | -0.000322     |
+|    value_loss           | 60.8          |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 101      |
+|    ep_rew_mean     | -14.9    |
+| time/              |          |
+|    fps             | 105      |
+|    iterations      | 32       |
+|    time_elapsed    | 619      |
+|    total_timesteps | 65536    |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 104           |
+|    ep_rew_mean          | -10.9         |
+| time/                   |               |
+|    fps                  | 106           |
+|    iterations           | 33            |
+|    time_elapsed         | 637           |
+|    total_timesteps      | 67584         |
+| train/                  |               |
+|    approx_kl            | 0.00042680354 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1            |
+|    explained_variance   | 0.0187        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 28.3          |
+|    n_updates            | 320           |
+|    policy_gradient_loss | -0.000798     |
+|    value_loss           | 154           |
+-------------------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 105           |
+|    ep_rew_mean          | -9.7          |
+| time/                   |               |
+|    fps                  | 106           |
+|    iterations           | 34            |
+|    time_elapsed         | 655           |
+|    total_timesteps      | 69632         |
+| train/                  |               |
+|    approx_kl            | 0.00050392386 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.01         |
+|    explained_variance   | 0.0187        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 27.4          |
+|    n_updates            | 330           |
+|    policy_gradient_loss | -0.000588     |
+|    value_loss           | 114           |
+-------------------------------------------
+Running evaluation on step 70000...
+Evaluation complete (5 episodes, 492 steps):
+  Mean AOB: 90.63 deg
+  Mean AA: 108.12 deg
+------------------------------------------
+| eval/                   |              |
+|    mean_AA_deg          | 108          |
+|    mean_AOB_deg         | 90.6         |
+|    pct_time_AA_lt_30.0  | 5.28         |
+|    pct_time_AOB_lt_10.0 | 5.28         |
+| train/                  |              |
+|    approx_kl            | 0.0043850616 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.986       |
+|    explained_variance   | 0.032        |
+|    learning_rate        | 3e-05        |
+|    loss                 | 65.6         |
+|    n_updates            | 340          |
+|    policy_gradient_loss | -0.00223     |
+|    value_loss           | 84.7         |
+------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 102      |
+|    ep_rew_mean     | -14.5    |
+| time/              |          |
+|    fps             | 105      |
+|    iterations      | 35       |
+|    time_elapsed    | 677      |
+|    total_timesteps | 71680    |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 99.7          |
+|    ep_rew_mean          | -14           |
+| time/                   |               |
+|    fps                  | 106           |
+|    iterations           | 36            |
+|    time_elapsed         | 695           |
+|    total_timesteps      | 73728         |
+| train/                  |               |
+|    approx_kl            | 0.00033560646 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.969        |
+|    explained_variance   | 0.00219       |
+|    learning_rate        | 3e-05         |
+|    loss                 | 27.7          |
+|    n_updates            | 350           |
+|    policy_gradient_loss | -0.000415     |
+|    value_loss           | 122           |
+-------------------------------------------
+Running evaluation on step 75000...
+Evaluation complete (5 episodes, 418 steps):
+  Mean AOB: 89.36 deg
+  Mean AA: 66.36 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 66.4          |
+|    mean_AOB_deg         | 89.4          |
+|    pct_time_AA_lt_30.0  | 21.5          |
+|    pct_time_AOB_lt_10.0 | 5.26          |
+| train/                  |               |
+|    approx_kl            | 2.2425578e-05 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.979        |
+|    explained_variance   | 0.00891       |
+|    learning_rate        | 3e-05         |
+|    loss                 | 67.1          |
+|    n_updates            | 360           |
+|    policy_gradient_loss | -4.61e-05     |
+|    value_loss           | 171           |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 98.6     |
+|    ep_rew_mean     | -15.4    |
+| time/              |          |
+|    fps             | 105      |
+|    iterations      | 37       |
+|    time_elapsed    | 715      |
+|    total_timesteps | 75776    |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 98            |
+|    ep_rew_mean          | -17.8         |
+| time/                   |               |
+|    fps                  | 106           |
+|    iterations           | 38            |
+|    time_elapsed         | 733           |
+|    total_timesteps      | 77824         |
+| train/                  |               |
+|    approx_kl            | 0.00029803134 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.975        |
+|    explained_variance   | 0.0204        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 91            |
+|    n_updates            | 370           |
+|    policy_gradient_loss | -0.00024      |
+|    value_loss           | 130           |
+-------------------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 92.3         |
+|    ep_rew_mean          | -23.5        |
+| time/                   |              |
+|    fps                  | 106          |
+|    iterations           | 39           |
+|    time_elapsed         | 751          |
+|    total_timesteps      | 79872        |
+| train/                  |              |
+|    approx_kl            | 0.0005607412 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.964       |
+|    explained_variance   | -0.0164      |
+|    learning_rate        | 3e-05        |
+|    loss                 | 25.3         |
+|    n_updates            | 380          |
+|    policy_gradient_loss | -0.000373    |
+|    value_loss           | 103          |
+------------------------------------------
+Running evaluation on step 80000...
+Evaluation complete (5 episodes, 285 steps):
+  Mean AOB: 86.72 deg
+  Mean AA: 65.38 deg
+--------------------------------------------
+| eval/                   |                |
+|    mean_AA_deg          | 65.4           |
+|    mean_AOB_deg         | 86.7           |
+|    pct_time_AA_lt_30.0  | 23.9           |
+|    pct_time_AOB_lt_10.0 | 6.32           |
+| train/                  |                |
+|    approx_kl            | 0.000115188624 |
+|    clip_fraction        | 0              |
+|    clip_range           | 0.2            |
+|    entropy_loss         | -0.958         |
+|    explained_variance   | 0.00702        |
+|    learning_rate        | 3e-05          |
+|    loss                 | 141            |
+|    n_updates            | 390            |
+|    policy_gradient_loss | -0.00024       |
+|    value_loss           | 245            |
+--------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 93.2     |
+|    ep_rew_mean     | -20.6    |
+| time/              |          |
+|    fps             | 106      |
+|    iterations      | 40       |
+|    time_elapsed    | 771      |
+|    total_timesteps | 81920    |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 92.6          |
+|    ep_rew_mean          | -22.5         |
+| time/                   |               |
+|    fps                  | 106           |
+|    iterations           | 41            |
+|    time_elapsed         | 788           |
+|    total_timesteps      | 83968         |
+| train/                  |               |
+|    approx_kl            | 4.5730034e-05 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.955        |
+|    explained_variance   | 0.0201        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 41.4          |
+|    n_updates            | 400           |
+|    policy_gradient_loss | -9.5e-05      |
+|    value_loss           | 182           |
+-------------------------------------------
+Running evaluation on step 85000...
+Evaluation complete (5 episodes, 439 steps):
+  Mean AOB: 91.84 deg
+  Mean AA: 104.96 deg
+------------------------------------------
+| eval/                   |              |
+|    mean_AA_deg          | 105          |
+|    mean_AOB_deg         | 91.8         |
+|    pct_time_AA_lt_30.0  | 10.5         |
+|    pct_time_AOB_lt_10.0 | 5.69         |
+| train/                  |              |
+|    approx_kl            | 0.0007834758 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.963       |
+|    explained_variance   | 0.000656     |
+|    learning_rate        | 3e-05        |
+|    loss                 | 8.3          |
+|    n_updates            | 410          |
+|    policy_gradient_loss | -0.000653    |
+|    value_loss           | 124          |
+------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 93.5     |
+|    ep_rew_mean     | -23.8    |
+| time/              |          |
+|    fps             | 106      |
+|    iterations      | 42       |
+|    time_elapsed    | 809      |
+|    total_timesteps | 86016    |
+---------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 95.5         |
+|    ep_rew_mean          | -20.2        |
+| time/                   |              |
+|    fps                  | 106          |
+|    iterations           | 43           |
+|    time_elapsed         | 827          |
+|    total_timesteps      | 88064        |
+| train/                  |              |
+|    approx_kl            | 0.0065949587 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1           |
+|    explained_variance   | 0.00331      |
+|    learning_rate        | 3e-05        |
+|    loss                 | 123          |
+|    n_updates            | 420          |
+|    policy_gradient_loss | -0.00446     |
+|    value_loss           | 134          |
+------------------------------------------
+Running evaluation on step 90000...
+Evaluation complete (5 episodes, 252 steps):
+  Mean AOB: 88.29 deg
+  Mean AA: 76.93 deg
+------------------------------------------
+| eval/                   |              |
+|    mean_AA_deg          | 76.9         |
+|    mean_AOB_deg         | 88.3         |
+|    pct_time_AA_lt_30.0  | 15.9         |
+|    pct_time_AOB_lt_10.0 | 3.97         |
+| train/                  |              |
+|    approx_kl            | 0.0006033173 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.03        |
+|    explained_variance   | 0.021        |
+|    learning_rate        | 3e-05        |
+|    loss                 | 97.9         |
+|    n_updates            | 430          |
+|    policy_gradient_loss | -0.00067     |
+|    value_loss           | 131          |
+------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 99       |
+|    ep_rew_mean     | -16.1    |
+| time/              |          |
+|    fps             | 106      |
+|    iterations      | 44       |
+|    time_elapsed    | 847      |
+|    total_timesteps | 90112    |
+---------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 96.1         |
+|    ep_rew_mean          | -20.7        |
+| time/                   |              |
+|    fps                  | 106          |
+|    iterations           | 45           |
+|    time_elapsed         | 864          |
+|    total_timesteps      | 92160        |
+| train/                  |              |
+|    approx_kl            | 0.0025510704 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.05        |
+|    explained_variance   | 0.026        |
+|    learning_rate        | 3e-05        |
+|    loss                 | 3.42         |
+|    n_updates            | 440          |
+|    policy_gradient_loss | -0.00177     |
+|    value_loss           | 51.4         |
+------------------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 98.6          |
+|    ep_rew_mean          | -16.9         |
+| time/                   |               |
+|    fps                  | 106           |
+|    iterations           | 46            |
+|    time_elapsed         | 881           |
+|    total_timesteps      | 94208         |
+| train/                  |               |
+|    approx_kl            | 0.00014059327 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.06         |
+|    explained_variance   | 0.0574        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 29.5          |
+|    n_updates            | 450           |
+|    policy_gradient_loss | -0.000615     |
+|    value_loss           | 89.1          |
+-------------------------------------------
+Running evaluation on step 95000...
+Evaluation complete (5 episodes, 371 steps):
+  Mean AOB: 90.27 deg
+  Mean AA: 92.37 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 92.4          |
+|    mean_AOB_deg         | 90.3          |
+|    pct_time_AA_lt_30.0  | 13.7          |
+|    pct_time_AOB_lt_10.0 | 4.04          |
+| train/                  |               |
+|    approx_kl            | 0.00023849733 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.06         |
+|    explained_variance   | 0.0808        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 3.31          |
+|    n_updates            | 460           |
+|    policy_gradient_loss | -0.000339     |
+|    value_loss           | 19            |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 101      |
+|    ep_rew_mean     | -13.9    |
+| time/              |          |
+|    fps             | 106      |
+|    iterations      | 47       |
+|    time_elapsed    | 902      |
+|    total_timesteps | 96256    |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 102           |
+|    ep_rew_mean          | -12.8         |
+| time/                   |               |
+|    fps                  | 106           |
+|    iterations           | 48            |
+|    time_elapsed         | 919           |
+|    total_timesteps      | 98304         |
+| train/                  |               |
+|    approx_kl            | 0.00022499831 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.06         |
+|    explained_variance   | 0.0516        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 18.8          |
+|    n_updates            | 470           |
+|    policy_gradient_loss | -0.00076      |
+|    value_loss           | 79.4          |
+-------------------------------------------
+Running evaluation on step 100000...
+Evaluation complete (5 episodes, 386 steps):
+  Mean AOB: 90.77 deg
+  Mean AA: 100.63 deg
+------------------------------------------
+| eval/                   |              |
+|    mean_AA_deg          | 101          |
+|    mean_AOB_deg         | 90.8         |
+|    pct_time_AA_lt_30.0  | 8.03         |
+|    pct_time_AOB_lt_10.0 | 4.15         |
+| train/                  |              |
+|    approx_kl            | 8.416225e-05 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.06        |
+|    explained_variance   | 0.0255       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 80.6         |
+|    n_updates            | 480          |
+|    policy_gradient_loss | -0.000246    |
+|    value_loss           | 70.4         |
+------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 96.9     |
+|    ep_rew_mean     | -16.7    |
+| time/              |          |
+|    fps             | 106      |
+|    iterations      | 49       |
+|    time_elapsed    | 939      |
+|    total_timesteps | 100352   |
+---------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 102          |
+|    ep_rew_mean          | -13          |
+| time/                   |              |
+|    fps                  | 106          |
+|    iterations           | 50           |
+|    time_elapsed         | 957          |
+|    total_timesteps      | 102400       |
+| train/                  |              |
+|    approx_kl            | 0.0009820285 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.07        |
+|    explained_variance   | 0.0341       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 103          |
+|    n_updates            | 490          |
+|    policy_gradient_loss | -0.00168     |
+|    value_loss           | 91.7         |
+------------------------------------------
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 100         |
+|    ep_rew_mean          | -14.5       |
+| time/                   |             |
+|    fps                  | 107         |
+|    iterations           | 51          |
+|    time_elapsed         | 975         |
+|    total_timesteps      | 104448      |
+| train/                  |             |
+|    approx_kl            | 0.004318882 |
+|    clip_fraction        | 0           |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -1.06       |
+|    explained_variance   | 0.0608      |
+|    learning_rate        | 3e-05       |
+|    loss                 | 11          |
+|    n_updates            | 500         |
+|    policy_gradient_loss | -0.00265    |
+|    value_loss           | 21.5        |
+-----------------------------------------
+Running evaluation on step 105000...
+Evaluation complete (5 episodes, 480 steps):
+  Mean AOB: 89.13 deg
+  Mean AA: 97.77 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 97.8          |
+|    mean_AOB_deg         | 89.1          |
+|    pct_time_AA_lt_30.0  | 5.62          |
+|    pct_time_AOB_lt_10.0 | 5.21          |
+| train/                  |               |
+|    approx_kl            | 0.00029035826 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.05         |
+|    explained_variance   | 0.0455        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 11.2          |
+|    n_updates            | 510           |
+|    policy_gradient_loss | -0.000344     |
+|    value_loss           | 90.4          |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 103      |
+|    ep_rew_mean     | -12      |
+| time/              |          |
+|    fps             | 106      |
+|    iterations      | 52       |
+|    time_elapsed    | 997      |
+|    total_timesteps | 106496   |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 102           |
+|    ep_rew_mean          | -9.32         |
+| time/                   |               |
+|    fps                  | 106           |
+|    iterations           | 53            |
+|    time_elapsed         | 1015          |
+|    total_timesteps      | 108544        |
+| train/                  |               |
+|    approx_kl            | 0.00072298816 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.05         |
+|    explained_variance   | 0.037         |
+|    learning_rate        | 3e-05         |
+|    loss                 | 3.38          |
+|    n_updates            | 520           |
+|    policy_gradient_loss | -0.000426     |
+|    value_loss           | 7.57          |
+-------------------------------------------
+Running evaluation on step 110000...
+Evaluation complete (5 episodes, 334 steps):
+  Mean AOB: 86.09 deg
+  Mean AA: 66.33 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 66.3          |
+|    mean_AOB_deg         | 86.1          |
+|    pct_time_AA_lt_30.0  | 25.1          |
+|    pct_time_AOB_lt_10.0 | 5.09          |
+| train/                  |               |
+|    approx_kl            | 4.6867324e-05 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.05         |
+|    explained_variance   | 0.045         |
+|    learning_rate        | 3e-05         |
+|    loss                 | 64.2          |
+|    n_updates            | 530           |
+|    policy_gradient_loss | -0.000112     |
+|    value_loss           | 153           |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 105      |
+|    ep_rew_mean     | -6.86    |
+| time/              |          |
+|    fps             | 106      |
+|    iterations      | 54       |
+|    time_elapsed    | 1034     |
+|    total_timesteps | 110592   |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 101           |
+|    ep_rew_mean          | -7.78         |
+| time/                   |               |
+|    fps                  | 106           |
+|    iterations           | 55            |
+|    time_elapsed         | 1052          |
+|    total_timesteps      | 112640        |
+| train/                  |               |
+|    approx_kl            | 0.00083509623 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.05         |
+|    explained_variance   | 0.0649        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 9.55          |
+|    n_updates            | 540           |
+|    policy_gradient_loss | -0.000555     |
+|    value_loss           | 57.9          |
+-------------------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 102          |
+|    ep_rew_mean          | -6.93        |
+| time/                   |              |
+|    fps                  | 107          |
+|    iterations           | 56           |
+|    time_elapsed         | 1071         |
+|    total_timesteps      | 114688       |
+| train/                  |              |
+|    approx_kl            | 5.133162e-05 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.04        |
+|    explained_variance   | 0.0505       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 66.1         |
+|    n_updates            | 550          |
+|    policy_gradient_loss | -0.000173    |
+|    value_loss           | 116          |
+------------------------------------------
+Running evaluation on step 115000...
+Evaluation complete (5 episodes, 244 steps):
+  Mean AOB: 87.34 deg
+  Mean AA: 107.36 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 107           |
+|    mean_AOB_deg         | 87.3          |
+|    pct_time_AA_lt_30.0  | 4.92          |
+|    pct_time_AOB_lt_10.0 | 5.33          |
+| train/                  |               |
+|    approx_kl            | 0.00040139654 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.03         |
+|    explained_variance   | 0.0729        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 83.8          |
+|    n_updates            | 560           |
+|    policy_gradient_loss | -0.000302     |
+|    value_loss           | 25.5          |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 98       |
+|    ep_rew_mean     | -10.4    |
+| time/              |          |
+|    fps             | 107      |
+|    iterations      | 57       |
+|    time_elapsed    | 1090     |
+|    total_timesteps | 116736   |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 97.9          |
+|    ep_rew_mean          | -12.9         |
+| time/                   |               |
+|    fps                  | 107           |
+|    iterations           | 58            |
+|    time_elapsed         | 1107          |
+|    total_timesteps      | 118784        |
+| train/                  |               |
+|    approx_kl            | 0.00014029609 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.03         |
+|    explained_variance   | 0.0645        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 73.8          |
+|    n_updates            | 570           |
+|    policy_gradient_loss | -0.00027      |
+|    value_loss           | 86.2          |
+-------------------------------------------
+Running evaluation on step 120000...
+Evaluation complete (5 episodes, 280 steps):
+  Mean AOB: 86.92 deg
+  Mean AA: 101.05 deg
+------------------------------------------
+| eval/                   |              |
+|    mean_AA_deg          | 101          |
+|    mean_AOB_deg         | 86.9         |
+|    pct_time_AA_lt_30.0  | 6.43         |
+|    pct_time_AOB_lt_10.0 | 5            |
+| train/                  |              |
+|    approx_kl            | 0.0008800639 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.02        |
+|    explained_variance   | 0.0494       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 17.7         |
+|    n_updates            | 580          |
+|    policy_gradient_loss | -0.000583    |
+|    value_loss           | 55.8         |
+------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 97.9     |
+|    ep_rew_mean     | -11.8    |
+| time/              |          |
+|    fps             | 107      |
+|    iterations      | 59       |
+|    time_elapsed    | 1127     |
+|    total_timesteps | 120832   |
+---------------------------------
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 102         |
+|    ep_rew_mean          | -9.33       |
+| time/                   |             |
+|    fps                  | 107         |
+|    iterations           | 60          |
+|    time_elapsed         | 1145        |
+|    total_timesteps      | 122880      |
+| train/                  |             |
+|    approx_kl            | 0.001192147 |
+|    clip_fraction        | 0           |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -1.01       |
+|    explained_variance   | 0.0407      |
+|    learning_rate        | 3e-05       |
+|    loss                 | 13.1        |
+|    n_updates            | 590         |
+|    policy_gradient_loss | -0.000546   |
+|    value_loss           | 68.6        |
+-----------------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 105          |
+|    ep_rew_mean          | -6.86        |
+| time/                   |              |
+|    fps                  | 107          |
+|    iterations           | 61           |
+|    time_elapsed         | 1163         |
+|    total_timesteps      | 124928       |
+| train/                  |              |
+|    approx_kl            | 0.0038297542 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.972       |
+|    explained_variance   | 0.148        |
+|    learning_rate        | 3e-05        |
+|    loss                 | 11           |
+|    n_updates            | 600          |
+|    policy_gradient_loss | -0.00235     |
+|    value_loss           | 43.3         |
+------------------------------------------
+Running evaluation on step 125000...
+Evaluation complete (5 episodes, 357 steps):
+  Mean AOB: 91.57 deg
+  Mean AA: 78.41 deg
+------------------------------------------
+| eval/                   |              |
+|    mean_AA_deg          | 78.4         |
+|    mean_AOB_deg         | 91.6         |
+|    pct_time_AA_lt_30.0  | 22.4         |
+|    pct_time_AOB_lt_10.0 | 5.32         |
+| train/                  |              |
+|    approx_kl            | 0.0027729094 |
+|    clip_fraction        | 0.00234      |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.959       |
+|    explained_variance   | 0.121        |
+|    learning_rate        | 3e-05        |
+|    loss                 | 22.8         |
+|    n_updates            | 610          |
+|    policy_gradient_loss | -0.00247     |
+|    value_loss           | 22.1         |
+------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 105      |
+|    ep_rew_mean     | -7.15    |
+| time/              |          |
+|    fps             | 107      |
+|    iterations      | 62       |
+|    time_elapsed    | 1183     |
+|    total_timesteps | 126976   |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 109           |
+|    ep_rew_mean          | -4.55         |
+| time/                   |               |
+|    fps                  | 107           |
+|    iterations           | 63            |
+|    time_elapsed         | 1200          |
+|    total_timesteps      | 129024        |
+| train/                  |               |
+|    approx_kl            | 0.00031939783 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.973        |
+|    explained_variance   | 0.0399        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 55.1          |
+|    n_updates            | 620           |
+|    policy_gradient_loss | -0.000439     |
+|    value_loss           | 71.4          |
+-------------------------------------------
+Running evaluation on step 130000...
+Evaluation complete (5 episodes, 324 steps):
+  Mean AOB: 91.15 deg
+  Mean AA: 100.99 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 101           |
+|    mean_AOB_deg         | 91.2          |
+|    pct_time_AA_lt_30.0  | 10.8          |
+|    pct_time_AOB_lt_10.0 | 4.32          |
+| train/                  |               |
+|    approx_kl            | 0.00036900592 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.957        |
+|    explained_variance   | 0.18          |
+|    learning_rate        | 3e-05         |
+|    loss                 | 32.2          |
+|    n_updates            | 630           |
+|    policy_gradient_loss | -0.000691     |
+|    value_loss           | 32.5          |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 108      |
+|    ep_rew_mean     | -5.45    |
+| time/              |          |
+|    fps             | 107      |
+|    iterations      | 64       |
+|    time_elapsed    | 1221     |
+|    total_timesteps | 131072   |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 105           |
+|    ep_rew_mean          | -10.5         |
+| time/                   |               |
+|    fps                  | 107           |
+|    iterations           | 65            |
+|    time_elapsed         | 1239          |
+|    total_timesteps      | 133120        |
+| train/                  |               |
+|    approx_kl            | 9.7366166e-05 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.95         |
+|    explained_variance   | 0.0147        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 165           |
+|    n_updates            | 640           |
+|    policy_gradient_loss | -0.000219     |
+|    value_loss           | 157           |
+-------------------------------------------
+Running evaluation on step 135000...
+Evaluation complete (5 episodes, 396 steps):
+  Mean AOB: 85.83 deg
+  Mean AA: 107.09 deg
+-----------------------------------------
+| eval/                   |             |
+|    mean_AA_deg          | 107         |
+|    mean_AOB_deg         | 85.8        |
+|    pct_time_AA_lt_30.0  | 10.6        |
+|    pct_time_AOB_lt_10.0 | 4.55        |
+| train/                  |             |
+|    approx_kl            | 7.21954e-05 |
+|    clip_fraction        | 0           |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -0.945      |
+|    explained_variance   | 0.0205      |
+|    learning_rate        | 3e-05       |
+|    loss                 | 101         |
+|    n_updates            | 650         |
+|    policy_gradient_loss | -0.000143   |
+|    value_loss           | 195         |
+-----------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 98.6     |
+|    ep_rew_mean     | -17.9    |
+| time/              |          |
+|    fps             | 107      |
+|    iterations      | 66       |
+|    time_elapsed    | 1259     |
+|    total_timesteps | 135168   |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 94.8          |
+|    ep_rew_mean          | -21.7         |
+| time/                   |               |
+|    fps                  | 107           |
+|    iterations           | 67            |
+|    time_elapsed         | 1276          |
+|    total_timesteps      | 137216        |
+| train/                  |               |
+|    approx_kl            | 0.00023646199 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.946        |
+|    explained_variance   | 0.00535       |
+|    learning_rate        | 3e-05         |
+|    loss                 | 226           |
+|    n_updates            | 660           |
+|    policy_gradient_loss | -0.000393     |
+|    value_loss           | 176           |
+-------------------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 92.8          |
+|    ep_rew_mean          | -24.6         |
+| time/                   |               |
+|    fps                  | 107           |
+|    iterations           | 68            |
+|    time_elapsed         | 1294          |
+|    total_timesteps      | 139264        |
+| train/                  |               |
+|    approx_kl            | 0.00030723575 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.964        |
+|    explained_variance   | 0.0568        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 32.7          |
+|    n_updates            | 670           |
+|    policy_gradient_loss | -0.000293     |
+|    value_loss           | 112           |
+-------------------------------------------
+Running evaluation on step 140000...
+Evaluation complete (5 episodes, 386 steps):
+  Mean AOB: 89.38 deg
+  Mean AA: 98.46 deg
+------------------------------------------
+| eval/                   |              |
+|    mean_AA_deg          | 98.5         |
+|    mean_AOB_deg         | 89.4         |
+|    pct_time_AA_lt_30.0  | 11.9         |
+|    pct_time_AOB_lt_10.0 | 4.92         |
+| train/                  |              |
+|    approx_kl            | 0.0008660971 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.964       |
+|    explained_variance   | 0.0298       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 189          |
+|    n_updates            | 680          |
+|    policy_gradient_loss | -0.00126     |
+|    value_loss           | 170          |
+------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 93.5     |
+|    ep_rew_mean     | -24.6    |
+| time/              |          |
+|    fps             | 107      |
+|    iterations      | 69       |
+|    time_elapsed    | 1315     |
+|    total_timesteps | 141312   |
+---------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 93.8         |
+|    ep_rew_mean          | -22.9        |
+| time/                   |              |
+|    fps                  | 107          |
+|    iterations           | 70           |
+|    time_elapsed         | 1334         |
+|    total_timesteps      | 143360       |
+| train/                  |              |
+|    approx_kl            | 0.0018815427 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.977       |
+|    explained_variance   | 0.0348       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 3.26         |
+|    n_updates            | 690          |
+|    policy_gradient_loss | -0.0015      |
+|    value_loss           | 85.2         |
+------------------------------------------
+Running evaluation on step 145000...
+Evaluation complete (5 episodes, 252 steps):
+  Mean AOB: 91.99 deg
+  Mean AA: 90.89 deg
+------------------------------------------
+| eval/                   |              |
+|    mean_AA_deg          | 90.9         |
+|    mean_AOB_deg         | 92           |
+|    pct_time_AA_lt_30.0  | 19.8         |
+|    pct_time_AOB_lt_10.0 | 4.37         |
+| train/                  |              |
+|    approx_kl            | 0.0014040035 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.999       |
+|    explained_variance   | 0.016        |
+|    learning_rate        | 3e-05        |
+|    loss                 | 111          |
+|    n_updates            | 700          |
+|    policy_gradient_loss | -0.000745    |
+|    value_loss           | 108          |
+------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 96       |
+|    ep_rew_mean     | -20.8    |
+| time/              |          |
+|    fps             | 107      |
+|    iterations      | 71       |
+|    time_elapsed    | 1353     |
+|    total_timesteps | 145408   |
+---------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 98.1         |
+|    ep_rew_mean          | -18.2        |
+| time/                   |              |
+|    fps                  | 107          |
+|    iterations           | 72           |
+|    time_elapsed         | 1371         |
+|    total_timesteps      | 147456       |
+| train/                  |              |
+|    approx_kl            | 0.0013922338 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.02        |
+|    explained_variance   | 0.0577       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 13.7         |
+|    n_updates            | 710          |
+|    policy_gradient_loss | -0.00083     |
+|    value_loss           | 84.6         |
+------------------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 96.4         |
+|    ep_rew_mean          | -18.3        |
+| time/                   |              |
+|    fps                  | 107          |
+|    iterations           | 73           |
+|    time_elapsed         | 1388         |
+|    total_timesteps      | 149504       |
+| train/                  |              |
+|    approx_kl            | 0.0020566066 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.04        |
+|    explained_variance   | 0.0688       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 71.4         |
+|    n_updates            | 720          |
+|    policy_gradient_loss | -0.0012      |
+|    value_loss           | 95.4         |
+------------------------------------------
+Running evaluation on step 150000...
+Evaluation complete (5 episodes, 345 steps):
+  Mean AOB: 88.05 deg
+  Mean AA: 78.90 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 78.9          |
+|    mean_AOB_deg         | 88.1          |
+|    pct_time_AA_lt_30.0  | 22.9          |
+|    pct_time_AOB_lt_10.0 | 5.51          |
+| train/                  |               |
+|    approx_kl            | 0.00082867336 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.05         |
+|    explained_variance   | 0.126         |
+|    learning_rate        | 3e-05         |
+|    loss                 | 46.1          |
+|    n_updates            | 730           |
+|    policy_gradient_loss | -0.000641     |
+|    value_loss           | 81.5          |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 99.3     |
+|    ep_rew_mean     | -16      |
+| time/              |          |
+|    fps             | 107      |
+|    iterations      | 74       |
+|    time_elapsed    | 1410     |
+|    total_timesteps | 151552   |
+---------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 100          |
+|    ep_rew_mean          | -14.1        |
+| time/                   |              |
+|    fps                  | 107          |
+|    iterations           | 75           |
+|    time_elapsed         | 1427         |
+|    total_timesteps      | 153600       |
+| train/                  |              |
+|    approx_kl            | 0.0027253586 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.05        |
+|    explained_variance   | 0.132        |
+|    learning_rate        | 3e-05        |
+|    loss                 | 4.64         |
+|    n_updates            | 740          |
+|    policy_gradient_loss | -0.00118     |
+|    value_loss           | 18           |
+------------------------------------------
+Running evaluation on step 155000...
+Evaluation complete (5 episodes, 408 steps):
+  Mean AOB: 87.77 deg
+  Mean AA: 103.00 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 103           |
+|    mean_AOB_deg         | 87.8          |
+|    pct_time_AA_lt_30.0  | 9.56          |
+|    pct_time_AOB_lt_10.0 | 5.39          |
+| train/                  |               |
+|    approx_kl            | 0.00094405806 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -1.05         |
+|    explained_variance   | 0.141         |
+|    learning_rate        | 3e-05         |
+|    loss                 | 29            |
+|    n_updates            | 750           |
+|    policy_gradient_loss | -0.000751     |
+|    value_loss           | 43.5          |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 102      |
+|    ep_rew_mean     | -12.3    |
+| time/              |          |
+|    fps             | 107      |
+|    iterations      | 76       |
+|    time_elapsed    | 1448     |
+|    total_timesteps | 155648   |
+---------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 103          |
+|    ep_rew_mean          | -9.75        |
+| time/                   |              |
+|    fps                  | 107          |
+|    iterations           | 77           |
+|    time_elapsed         | 1465         |
+|    total_timesteps      | 157696       |
+| train/                  |              |
+|    approx_kl            | 0.0046987277 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.03        |
+|    explained_variance   | 0.224        |
+|    learning_rate        | 3e-05        |
+|    loss                 | 13.7         |
+|    n_updates            | 760          |
+|    policy_gradient_loss | -0.00227     |
+|    value_loss           | 21.7         |
+------------------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 102          |
+|    ep_rew_mean          | -9.35        |
+| time/                   |              |
+|    fps                  | 107          |
+|    iterations           | 78           |
+|    time_elapsed         | 1483         |
+|    total_timesteps      | 159744       |
+| train/                  |              |
+|    approx_kl            | 0.0002892135 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1           |
+|    explained_variance   | 0.0905       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 44.7         |
+|    n_updates            | 770          |
+|    policy_gradient_loss | -0.000412    |
+|    value_loss           | 98.7         |
+------------------------------------------
+Running evaluation on step 160000...
+Evaluation complete (5 episodes, 527 steps):
+  Mean AOB: 89.85 deg
+  Mean AA: 116.31 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 116           |
+|    mean_AOB_deg         | 89.8          |
+|    pct_time_AA_lt_30.0  | 3.8           |
+|    pct_time_AOB_lt_10.0 | 4.93          |
+| train/                  |               |
+|    approx_kl            | 0.00014326232 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.994        |
+|    explained_variance   | 0.101         |
+|    learning_rate        | 3e-05         |
+|    loss                 | 35.8          |
+|    n_updates            | 780           |
+|    policy_gradient_loss | -0.00013      |
+|    value_loss           | 121           |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 99.4     |
+|    ep_rew_mean     | -11.8    |
+| time/              |          |
+|    fps             | 107      |
+|    iterations      | 79       |
+|    time_elapsed    | 1505     |
+|    total_timesteps | 161792   |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 99            |
+|    ep_rew_mean          | -13.1         |
+| time/                   |               |
+|    fps                  | 107           |
+|    iterations           | 80            |
+|    time_elapsed         | 1523          |
+|    total_timesteps      | 163840        |
+| train/                  |               |
+|    approx_kl            | 0.00013668527 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.987        |
+|    explained_variance   | 0.0192        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 3.09          |
+|    n_updates            | 790           |
+|    policy_gradient_loss | -0.000172     |
+|    value_loss           | 21.2          |
+-------------------------------------------
+Running evaluation on step 165000...
+Evaluation complete (5 episodes, 250 steps):
+  Mean AOB: 90.42 deg
+  Mean AA: 90.34 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 90.3          |
+|    mean_AOB_deg         | 90.4          |
+|    pct_time_AA_lt_30.0  | 7.2           |
+|    pct_time_AOB_lt_10.0 | 6             |
+| train/                  |               |
+|    approx_kl            | 0.00019601046 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.99         |
+|    explained_variance   | 0.0541        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 8.82          |
+|    n_updates            | 800           |
+|    policy_gradient_loss | -0.000202     |
+|    value_loss           | 82            |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 94.9     |
+|    ep_rew_mean     | -17.1    |
+| time/              |          |
+|    fps             | 107      |
+|    iterations      | 81       |
+|    time_elapsed    | 1542     |
+|    total_timesteps | 165888   |
+---------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 97.3         |
+|    ep_rew_mean          | -16.8        |
+| time/                   |              |
+|    fps                  | 107          |
+|    iterations           | 82           |
+|    time_elapsed         | 1560         |
+|    total_timesteps      | 167936       |
+| train/                  |              |
+|    approx_kl            | 0.0003069992 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1           |
+|    explained_variance   | 0.0592       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 9.2          |
+|    n_updates            | 810          |
+|    policy_gradient_loss | -0.000255    |
+|    value_loss           | 89.2         |
+------------------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 102          |
+|    ep_rew_mean          | -13.9        |
+| time/                   |              |
+|    fps                  | 107          |
+|    iterations           | 83           |
+|    time_elapsed         | 1578         |
+|    total_timesteps      | 169984       |
+| train/                  |              |
+|    approx_kl            | 0.0035920942 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.992       |
+|    explained_variance   | 0.199        |
+|    learning_rate        | 3e-05        |
+|    loss                 | 4.99         |
+|    n_updates            | 820          |
+|    policy_gradient_loss | -0.00187     |
+|    value_loss           | 30.1         |
+------------------------------------------
+Running evaluation on step 170000...
+Evaluation complete (5 episodes, 577 steps):
+  Mean AOB: 89.11 deg
+  Mean AA: 87.75 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 87.7          |
+|    mean_AOB_deg         | 89.1          |
+|    pct_time_AA_lt_30.0  | 18.4          |
+|    pct_time_AOB_lt_10.0 | 5.2           |
+| train/                  |               |
+|    approx_kl            | 0.00028605058 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.972        |
+|    explained_variance   | 0.177         |
+|    learning_rate        | 3e-05         |
+|    loss                 | 24.8          |
+|    n_updates            | 830           |
+|    policy_gradient_loss | -0.000467     |
+|    value_loss           | 37.9          |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 99.7     |
+|    ep_rew_mean     | -13.5    |
+| time/              |          |
+|    fps             | 107      |
+|    iterations      | 84       |
+|    time_elapsed    | 1600     |
+|    total_timesteps | 172032   |
+---------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 99.6         |
+|    ep_rew_mean          | -11.3        |
+| time/                   |              |
+|    fps                  | 107          |
+|    iterations           | 85           |
+|    time_elapsed         | 1617         |
+|    total_timesteps      | 174080       |
+| train/                  |              |
+|    approx_kl            | 0.0018745651 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.963       |
+|    explained_variance   | 0.104        |
+|    learning_rate        | 3e-05        |
+|    loss                 | 33.3         |
+|    n_updates            | 840          |
+|    policy_gradient_loss | -0.000797    |
+|    value_loss           | 87           |
+------------------------------------------
+Running evaluation on step 175000...
+Evaluation complete (5 episodes, 508 steps):
+  Mean AOB: 88.30 deg
+  Mean AA: 60.80 deg
+------------------------------------------
+| eval/                   |              |
+|    mean_AA_deg          | 60.8         |
+|    mean_AOB_deg         | 88.3         |
+|    pct_time_AA_lt_30.0  | 31.5         |
+|    pct_time_AOB_lt_10.0 | 5.51         |
+| train/                  |              |
+|    approx_kl            | 0.0007535035 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.944       |
+|    explained_variance   | 0.145        |
+|    learning_rate        | 3e-05        |
+|    loss                 | 41.9         |
+|    n_updates            | 850          |
+|    policy_gradient_loss | -0.000735    |
+|    value_loss           | 84.6         |
+------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 101      |
+|    ep_rew_mean     | -9.05    |
+| time/              |          |
+|    fps             | 107      |
+|    iterations      | 86       |
+|    time_elapsed    | 1639     |
+|    total_timesteps | 176128   |
+---------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 97.5         |
+|    ep_rew_mean          | -11.5        |
+| time/                   |              |
+|    fps                  | 107          |
+|    iterations           | 87           |
+|    time_elapsed         | 1657         |
+|    total_timesteps      | 178176       |
+| train/                  |              |
+|    approx_kl            | 0.0005848367 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.964       |
+|    explained_variance   | 0.0669       |
+|    learning_rate        | 3e-05        |
+|    loss                 | 16           |
+|    n_updates            | 860          |
+|    policy_gradient_loss | -0.000528    |
+|    value_loss           | 119          |
+------------------------------------------
+Running evaluation on step 180000...
+Evaluation complete (5 episodes, 309 steps):
+  Mean AOB: 89.70 deg
+  Mean AA: 102.05 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 102           |
+|    mean_AOB_deg         | 89.7          |
+|    pct_time_AA_lt_30.0  | 6.8           |
+|    pct_time_AOB_lt_10.0 | 5.18          |
+| train/                  |               |
+|    approx_kl            | 0.00025473046 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.975        |
+|    explained_variance   | 0.067         |
+|    learning_rate        | 3e-05         |
+|    loss                 | 101           |
+|    n_updates            | 870           |
+|    policy_gradient_loss | -0.000345     |
+|    value_loss           | 128           |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 95       |
+|    ep_rew_mean     | -17.5    |
+| time/              |          |
+|    fps             | 107      |
+|    iterations      | 88       |
+|    time_elapsed    | 1677     |
+|    total_timesteps | 180224   |
+---------------------------------
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 99.4        |
+|    ep_rew_mean          | -15         |
+| time/                   |             |
+|    fps                  | 107         |
+|    iterations           | 89          |
+|    time_elapsed         | 1695        |
+|    total_timesteps      | 182272      |
+| train/                  |             |
+|    approx_kl            | 0.001286099 |
+|    clip_fraction        | 0           |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -0.961      |
+|    explained_variance   | 0.0763      |
+|    learning_rate        | 3e-05       |
+|    loss                 | 73.1        |
+|    n_updates            | 880         |
+|    policy_gradient_loss | -0.00121    |
+|    value_loss           | 81.3        |
+-----------------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 98.8         |
+|    ep_rew_mean          | -18.3        |
+| time/                   |              |
+|    fps                  | 107          |
+|    iterations           | 90           |
+|    time_elapsed         | 1714         |
+|    total_timesteps      | 184320       |
+| train/                  |              |
+|    approx_kl            | 0.0033456306 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -0.945       |
+|    explained_variance   | 0.147        |
+|    learning_rate        | 3e-05        |
+|    loss                 | 9.07         |
+|    n_updates            | 890          |
+|    policy_gradient_loss | -0.00147     |
+|    value_loss           | 73.3         |
+------------------------------------------
+Running evaluation on step 185000...
+Evaluation complete (5 episodes, 413 steps):
+  Mean AOB: 88.58 deg
+  Mean AA: 104.84 deg
+-----------------------------------------
+| eval/                   |             |
+|    mean_AA_deg          | 105         |
+|    mean_AOB_deg         | 88.6        |
+|    pct_time_AA_lt_30.0  | 14          |
+|    pct_time_AOB_lt_10.0 | 2.18        |
+| train/                  |             |
+|    approx_kl            | 0.001389985 |
+|    clip_fraction        | 0           |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -0.923      |
+|    explained_variance   | 0.0622      |
+|    learning_rate        | 3e-05       |
+|    loss                 | 108         |
+|    n_updates            | 900         |
+|    policy_gradient_loss | -0.00083    |
+|    value_loss           | 108         |
+-----------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 97.2     |
+|    ep_rew_mean     | -18.2    |
+| time/              |          |
+|    fps             | 107      |
+|    iterations      | 91       |
+|    time_elapsed    | 1736     |
+|    total_timesteps | 186368   |
+---------------------------------
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 95.7          |
+|    ep_rew_mean          | -18.6         |
+| time/                   |               |
+|    fps                  | 107           |
+|    iterations           | 92            |
+|    time_elapsed         | 1754          |
+|    total_timesteps      | 188416        |
+| train/                  |               |
+|    approx_kl            | 0.00030062484 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.935        |
+|    explained_variance   | 0.0768        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 98.2          |
+|    n_updates            | 910           |
+|    policy_gradient_loss | -0.000212     |
+|    value_loss           | 151           |
+-------------------------------------------
+Running evaluation on step 190000...
+Evaluation complete (5 episodes, 460 steps):
+  Mean AOB: 91.81 deg
+  Mean AA: 96.40 deg
+-------------------------------------------
+| eval/                   |               |
+|    mean_AA_deg          | 96.4          |
+|    mean_AOB_deg         | 91.8          |
+|    pct_time_AA_lt_30.0  | 11.5          |
+|    pct_time_AOB_lt_10.0 | 4.57          |
+| train/                  |               |
+|    approx_kl            | 0.00013443452 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -0.928        |
+|    explained_variance   | 0.0244        |
+|    learning_rate        | 3e-05         |
+|    loss                 | 98.2          |
+|    n_updates            | 920           |
+|    policy_gradient_loss | -7.16e-05     |
+|    value_loss           | 173           |
+-------------------------------------------
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 94.9     |
+|    ep_rew_mean     | -18.7    |
+| time/              |          |
+|    fps             | 107      |
+|    iterations      | 93       |
+|    time_elapsed    | 1777     |
+|    total_timesteps | 190464   |
+---------------------------------
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mcosmic-meadow-10[0m at: [34mhttps://wandb.ai/ayvaz4252-y-ld-z-technical-university/dogfight-task-v1/runs/gorszr9w[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/run-20250420_180040-gorszr9w/logs[0m

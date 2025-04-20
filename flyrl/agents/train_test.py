@@ -12,7 +12,7 @@ from wandb.integration.sb3 import WandbCallback
 
 config = {
     "policy_type": "MlpPolicy",
-    "total_timesteps": 20000,
+    "total_timesteps": 100000,
     "env_name": "DogfightRascal",
     "learning_rate": 3e-6,
 }
@@ -38,5 +38,5 @@ model.learn(
     total_timesteps=config["total_timesteps"],
 )
 
-model.save(f"models/Test/finish")
-print(f"Model saved to /models/Test/finish")
+model.save(f"models/Test/finish-v1")
+print(f"Model saved to /models/Test/finish-v1")

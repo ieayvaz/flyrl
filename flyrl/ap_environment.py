@@ -9,7 +9,7 @@ from flyrl.simulation import Simulation
 from flyrl.visualiser import FigureVisualiser, FlightGearRemoteVisualiser
 
 class APEnv(gym.Env):
-    JSBSIM_DT_HZ = 10
+    JSBSIM_DT_HZ = 1
     metadata = {'render.modes': ['human']}
 
     def __init__(self, task_type: Type[BaseAPTask], aircraft: Aircraft, ap_address : str = '127.0.0.1:14550', agent_interaction_freq: int = 10, debug : bool = False):
@@ -28,7 +28,6 @@ class APEnv(gym.Env):
         self.flightgear_visualiser: FlightGearRemoteVisualiser = None
         self.step_delay = None
         self.ap_address = ap_address
-        self.reset()
 
     def step(self, action: np.ndarray) -> Tuple[np.ndarray, float, bool, Dict]:
         state, reward, done, info = self.task.task_step(action, self.sim_steps_per_agent_step)

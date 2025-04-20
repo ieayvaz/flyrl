@@ -15,6 +15,7 @@ for _ in range(1000):
     obs, reward, done,_, info = env.step(action)
     env.render()
     if done:
+        print("Resetting.")
         obs = env.reset()[0]
 
 # Close environment

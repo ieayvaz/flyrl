@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import time
 import types
 from typing import Dict, Sequence, Tuple, Union
 from flyrl.autopilot import AutoPilot
@@ -16,7 +17,7 @@ class BaseAPTask(Task, ABC):
     MAXIMUM_ROLL = 55.0
     MAXIMUM_PITCH = 5.0
     INITIAL_ALTITUDE_FT = 2250  #For rascal dogfight. TODO: Make this more flexible
-    AUTOPILOT_FREQ = 5.0 # Should not be bigger than sim frequency!
+    AUTOPILOT_FREQ = 1.0 # Should not be bigger than sim frequency!
     CRUISE_PITCH = 2.0
 
     def __init__(self, state_variables, max_time_s, step_frequency_hz, sim : Simulation, debug: bool = False,
@@ -33,6 +34,8 @@ class BaseAPTask(Task, ABC):
 
     def task_step(self, action, sim_steps: int) \
             -> Tuple[np.ndarray, float, bool, Dict]:
+
+        time.sleep(1)
 
         if action == 0 and self.target_roll <= 30:
             self.target_roll += 15.0
@@ -122,8 +125,10 @@ class BaseAPTask(Task, ABC):
     def _is_terminal(self, state, sim: Simulation) -> bool:
         for _state in state:
             if math.isnan(_state):
+                print("NAN Data received! Terminating")
                 return True
         if self.max_steps - self.current_step <= 0:
+            print(f"Max Steps! Terminating Max STEP:{self.max_steps} Current STEP:{self.current_step}")
             return True
         return False
 

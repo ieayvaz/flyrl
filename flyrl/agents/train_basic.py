@@ -17,7 +17,7 @@ config = {
     "learning_rate": 3e-6,
 }
 run = wandb.init(
-    project="dogfight-task",
+    project="dogfight-task-v1",
     config=config,
     sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
     monitor_gym=True,  # auto-upload the videos of agents playing the game

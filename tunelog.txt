@@ -1,0 +1,44 @@
+======================================================================
+Starting Optuna study: ppo-dogfight-tuning-excel
+  - Environment: DogfightRascal
+  - Max Trials: 50
+  - Training Steps per Trial: 60000
+  - Pruning Evaluations per Trial: 4
+  - Evaluation Episodes per Eval: 5
+  - Output File: ppo-dogfight-tuning-excel_results.xlsx
+======================================================================
+
+[2025-04-20 19:12:23] === Starting Trial 1 / 50 ===
+  Params: {'learning_rate': 5.6115164153345e-05, 'n_steps': 4096, 'gamma': 0.98, 'gae_lambda': 1.0, 'ent_coef': 0.04162213204002109, 'vf_coef': 0.36987128854262097, 'clip_range': 0.3, 'batch_size': 256}
+
+
+     JSBSim Flight Dynamics Model v1.2.1 [GitHub build 1348/commit 9b95d1b5ccff59916c79a0e3eb8f548377910598] Mar  2 2025 15:20:26
+            [JSBSim-ML v2.0]
+
+JSBSim startup beginning ...
+
+  [19:12:24] Trial 1: Starting training (60000 steps)...
+[2025-04-20 19:13:49] === Finished Trial 1 / 50. Status: COMPLETE. Duration: 86.37s ===
+
+Optimization stopped manually.
+
+Total optimization loop time: 0:01:26
+
+======================================================================
+Optimization Finished!
+Study Name: ppo-dogfight-tuning-excel
+
+Number of finished trials: 1
+  Pruned trials: 0
+  Completed trials: 0
+  Failed trials: 1
+Average time per trial (incl. pruned/failed): 86.37 seconds
+
+Best trial:
+  No best trial found (perhaps all failed or were pruned).
+
+Saving results for all trials to ppo-dogfight-tuning-excel_results.xlsx...
+Error: Could not save to Excel. Make sure 'pandas' and 'openpyxl' are installed (`pip install pandas openpyxl`).
+======================================================================
+
+Use the 'Best trial' parameters printed above for final training.

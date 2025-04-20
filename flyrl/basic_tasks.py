@@ -26,14 +26,14 @@ class BaseFlightTask(Task, ABC):
          }
 
     def __init__(self, state_variables, max_time_s, step_frequency_hz, sim : Simulation, debug: bool = False,
-                 action_variables : Tuple = (prp.aileron_cmd, prp.elevator_cmd), autopilot=False):
+                 action_variables : Tuple = (prp.aileron_cmd, prp.elevator_cmd), use_autopilot=False):
         self.debug = debug
         self.state_variables = state_variables
         self.action_variables = action_variables
         self.max_steps = math.ceil(max_time_s * step_frequency_hz)
         self.sim = sim
         self.step_frequency_hz = step_frequency_hz
-        self.use_autopilot = autopilot
+        self.use_autopilot = use_autopilot
         self.current_step = 0
         self.target_roll = 0.0
 
@@ -69,9 +69,17 @@ class BaseFlightTask(Task, ABC):
             for _ in range(sim_steps):
                 self.sim.run()
             
+        self._update_kinematics_cache()
         state = self.get_state()
         done = self._is_terminal(state, self.sim)
-        reward = self.calculate_reward(dict(zip([prop.name for prop in self.state_variables],state)))
+
+        is_locked = self._check_lock_condition(self._kinematics_cache)
+        crashed = self._check_crash_condition()
+        out_of_bounds = self._check_oob_condition(self._kinematics_cache)
+        timeout = self.max_steps - self.current_step <= 0
+        sim_error = any(np.isnan(s) for s in state)
+
+        reward = self.calculate_reward(dict(zip([prop.name for prop in self.state_variables],state)), done, is_locked, crashed, out_of_bounds, timeout, sim_error)
 
         self.current_step += 1
 

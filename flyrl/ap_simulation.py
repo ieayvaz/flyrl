@@ -17,7 +17,7 @@ class AP_Simulation(object):
 
 
     def __init__(self,
-                 address : str = '127.0.0.1:14550'):
+                 address : str = '127.0.0.1:14550', controlled=True):
         self.address = address
         self.vehicle = connect(address, wait_ready=True)
         #Need vehicle to be set up, armed, and in air.
@@ -26,7 +26,8 @@ class AP_Simulation(object):
         #goal of this class is purely controlling an airplane in the air.
         print(f"CONNECTED TO DEVICE AT {address}")
         self.sim_frequency_hz = 10
-        self.vehicle.mode = VehicleMode("FBWA")
+        if controlled:
+            self.vehicle.mode = VehicleMode("FBWA")
 
     def __getitem__(self, prop: Union[prp.BoundedProperty, prp.Property]) -> float:
         '''
@@ -35,6 +36,7 @@ class AP_Simulation(object):
         '''
         # Mapping between property names and dronekit attributes
         property_map = {
+            'h-sl-mt': lambda vehicle: vehicle.location.global_frame.alt,
             'position/h-sl-ft': lambda vehicle: vehicle.location.global_frame.alt * 3.28084,  # Convert meters to feet
             'attitude/pitch-rad': lambda vehicle: vehicle.attitude.pitch,
             'attitude/roll-rad': lambda vehicle: vehicle.attitude.roll,
