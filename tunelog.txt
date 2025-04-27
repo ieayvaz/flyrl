@@ -8,7 +8,7 @@ Starting Optuna study: ppo-dogfight-tuning-excel
   - Output File: ppo-dogfight-tuning-excel_results.xlsx
 ======================================================================
 
-[2025-04-20 19:12:23] === Starting Trial 1 / 50 ===
+[2025-04-27 11:51:30] === Starting Trial 1 / 50 ===
   Params: {'learning_rate': 5.6115164153345e-05, 'n_steps': 4096, 'gamma': 0.98, 'gae_lambda': 1.0, 'ent_coef': 0.04162213204002109, 'vf_coef': 0.36987128854262097, 'clip_range': 0.3, 'batch_size': 256}
 
 
@@ -17,25 +17,743 @@ Starting Optuna study: ppo-dogfight-tuning-excel
 
 JSBSim startup beginning ...
 
-  [19:12:24] Trial 1: Starting training (60000 steps)...
-[2025-04-20 19:13:49] === Finished Trial 1 / 50. Status: COMPLETE. Duration: 86.37s ===
+  [11:51:32] Trial 1: Starting training (60000 steps)...
+  [2025-04-27 11:53:44] Trial 0: Starting Eval #1/4 at step 15000
+    Trial 0 Eval 1/4 Complete. Mean Reward: -70.096 (Duration: 2.76s)
+  [2025-04-27 11:55:54] Trial 0: Starting Eval #2/4 at step 30000
+    Trial 0 Eval 2/4 Complete. Mean Reward: -60.181 (Duration: 129.16s)
+  [2025-04-27 11:58:04] Trial 0: Starting Eval #3/4 at step 45000
+    Trial 0 Eval 3/4 Complete. Mean Reward: -40.063 (Duration: 129.89s)
+  [2025-04-27 12:00:13] Trial 0: Starting Eval #4/4 at step 60000
+    Trial 0 Eval 4/4 Complete. Mean Reward: -19.678 (Duration: 131.02s)
+  [12:00:30] Trial 1: Finished training. Final Mean Reward: -19.678
+[2025-04-27 12:00:30] === Finished Trial 1 / 50. Status: COMPLETE. Duration: 539.40s ===
 
-Optimization stopped manually.
+[2025-04-27 12:00:30] === Starting Trial 2 / 50 ===
+  Params: {'learning_rate': 1.9010245319870364e-05, 'n_steps': 512, 'gamma': 0.995, 'gae_lambda': 0.98, 'ent_coef': 0.04744427686266667, 'vf_coef': 0.9725056264596474, 'clip_range': 0.1, 'batch_size': 32}
+  [12:00:30] Trial 2: Starting training (60000 steps)...
+  [2025-04-27 12:02:45] Trial 1: Starting Eval #1/4 at step 15000
+    Trial 1 Eval 1/4 Complete. Mean Reward: -74.415 (Duration: 2.21s)
+  [2025-04-27 12:05:04] Trial 1: Starting Eval #2/4 at step 30000
+    Trial 1 Eval 2/4 Complete. Mean Reward: -32.320 (Duration: 140.88s)
+  [2025-04-27 12:07:24] Trial 1: Starting Eval #3/4 at step 45000
+    Trial 1 Eval 3/4 Complete. Mean Reward: -20.865 (Duration: 139.74s)
+  [2025-04-27 12:09:43] Trial 1: Starting Eval #4/4 at step 60000
+    Trial 1 Eval 4/4 Complete. Mean Reward: 22.180 (Duration: 139.35s)
+  [12:09:51] Trial 2: Finished training. Final Mean Reward: 22.180
+[2025-04-27 12:09:51] === Finished Trial 2 / 50. Status: COMPLETE. Duration: 561.12s ===
 
-Total optimization loop time: 0:01:26
+[2025-04-27 12:09:51] === Starting Trial 3 / 50 ===
+  Params: {'learning_rate': 1.1715937392307055e-05, 'n_steps': 4096, 'gamma': 0.99, 'gae_lambda': 0.95, 'ent_coef': 0.02989499894055426, 'vf_coef': 0.9374993880184934, 'clip_range': 0.2, 'batch_size': 256}
+  [12:09:51] Trial 3: Starting training (60000 steps)...
+  [2025-04-27 12:11:57] Trial 2: Starting Eval #1/4 at step 15000
+    Trial 2 Eval 1/4 Complete. Mean Reward: -46.166 (Duration: 3.13s)
+  [2025-04-27 12:14:06] Trial 2: Starting Eval #2/4 at step 30000
+    Trial 2 Eval 2/4 Complete. Mean Reward: -49.431 (Duration: 128.25s)
+  [2025-04-27 12:16:15] Trial 2: Starting Eval #3/4 at step 45000
+    Trial 2 Eval 3/4 Complete. Mean Reward: -35.538 (Duration: 129.10s)
+  [2025-04-27 12:18:24] Trial 2: Starting Eval #4/4 at step 60000
+    Trial 2 Eval 4/4 Complete. Mean Reward: -40.652 (Duration: 129.86s)
+  [12:18:40] Trial 3: Finished training. Final Mean Reward: -40.652
+[2025-04-27 12:18:40] === Finished Trial 3 / 50. Status: COMPLETE. Duration: 529.01s ===
+
+[2025-04-27 12:18:40] === Starting Trial 4 / 50 ===
+  Params: {'learning_rate': 5.170191786366994e-05, 'n_steps': 512, 'gamma': 0.995, 'gae_lambda': 0.9, 'ent_coef': 0.03645035840204937, 'vf_coef': 0.8170162773487566, 'clip_range': 0.2, 'batch_size': 32}
+  [12:18:40] Trial 4: Starting training (60000 steps)...
+  [2025-04-27 12:20:57] Trial 3: Starting Eval #1/4 at step 15000
+    Trial 3 Eval 1/4 Complete. Mean Reward: 4.757 (Duration: 5.06s)
+  [2025-04-27 12:23:12] Trial 3: Starting Eval #2/4 at step 30000
+    Trial 3 Eval 2/4 Complete. Mean Reward: -61.143 (Duration: 131.90s)
+  [2025-04-27 12:25:27] Trial 3: Starting Eval #3/4 at step 45000
+    Trial 3 Eval 3/4 Complete. Mean Reward: -47.391 (Duration: 135.52s)
+  [2025-04-27 12:27:45] Trial 3: Starting Eval #4/4 at step 60000
+    Trial 3 Eval 4/4 Complete. Mean Reward: -78.877 (Duration: 137.59s)
+  [12:27:51] Trial 4: Finished training. Final Mean Reward: -78.877
+[2025-04-27 12:27:51] === Finished Trial 4 / 50. Status: COMPLETE. Duration: 550.70s ===
+
+[2025-04-27 12:27:51] === Starting Trial 5 / 50 ===
+  Params: {'learning_rate': 4.187594718900626e-05, 'n_steps': 512, 'gamma': 0.995, 'gae_lambda': 0.99, 'ent_coef': 0.026136641469099706, 'vf_coef': 0.5420328146868397, 'clip_range': 0.2, 'batch_size': 256}
+  [12:27:51] Trial 5: Starting training (60000 steps)...
+  [2025-04-27 12:29:57] Trial 4: Starting Eval #1/4 at step 15000
+    Trial 4 Eval 1/4 Complete. Mean Reward: -65.449 (Duration: 2.37s)
+  [2025-04-27 12:32:06] Trial 4: Starting Eval #2/4 at step 30000
+    Trial 4 Eval 2/4 Complete. Mean Reward: -3.581 (Duration: 130.84s)
+  [2025-04-27 12:34:18] Trial 4: Starting Eval #3/4 at step 45000
+    Trial 4 Eval 3/4 Complete. Mean Reward: -40.633 (Duration: 130.46s)
+  [2025-04-27 12:36:28] Trial 4: Starting Eval #4/4 at step 60000
+    Trial 4 Eval 4/4 Complete. Mean Reward: -9.884 (Duration: 131.76s)
+  [12:36:36] Trial 5: Finished training. Final Mean Reward: -9.884
+[2025-04-27 12:36:36] === Finished Trial 5 / 50. Status: COMPLETE. Duration: 525.75s ===
+
+[2025-04-27 12:36:36] === Starting Trial 6 / 50 ===
+  Est. Avg Trial Duration: 541.19s. Est. Remaining Time: 6:45:53 (until ~19:22:30)
+  Params: {'learning_rate': 0.000776735381623706, 'n_steps': 256, 'gamma': 0.999, 'gae_lambda': 0.98, 'ent_coef': 0.004976874012949484, 'vf_coef': 0.7290257705730202, 'clip_range': 0.1, 'batch_size': 64}
+  [12:36:36] Trial 6: Starting training (60000 steps)...
+  [2025-04-27 12:38:47] Trial 5: Starting Eval #1/4 at step 15000
+    Trial 5 Eval 1/4 Complete. Mean Reward: -72.198 (Duration: 2.06s)
+  [2025-04-27 12:40:58] Trial 5: Starting Eval #2/4 at step 30000
+    Trial 5 Eval 2/4 Complete. Mean Reward: -70.103 (Duration: 130.96s)
+    Trial 5 pruned by Optuna based on intermediate results.
+[2025-04-27 12:41:00] === Finished Trial 6 / 50. Status: PRUNED. Duration: 263.85s ===
+
+[2025-04-27 12:41:00] === Starting Trial 7 / 50 ===
+  Est. Avg Trial Duration: 494.97s. Est. Remaining Time: 6:02:58 (until ~18:43:59)
+  Params: {'learning_rate': 1.1769140629389658e-05, 'n_steps': 1024, 'gamma': 0.995, 'gae_lambda': 0.98, 'ent_coef': 0.04623808979969583, 'vf_coef': 0.993560106196188, 'clip_range': 0.1, 'batch_size': 32}
+  [12:41:00] Trial 7: Starting training (60000 steps)...
+  [2025-04-27 12:43:13] Trial 6: Starting Eval #1/4 at step 15000
+    Trial 6 Eval 1/4 Complete. Mean Reward: -59.546 (Duration: 2.61s)
+  [2025-04-27 12:45:32] Trial 6: Starting Eval #2/4 at step 30000
+    Trial 6 Eval 2/4 Complete. Mean Reward: -2.429 (Duration: 140.15s)
+  [2025-04-27 12:47:48] Trial 6: Starting Eval #3/4 at step 45000
+    Trial 6 Eval 3/4 Complete. Mean Reward: -22.098 (Duration: 135.33s)
+  [2025-04-27 12:50:07] Trial 6: Starting Eval #4/4 at step 60000
+    Trial 6 Eval 4/4 Complete. Mean Reward: -58.220 (Duration: 138.48s)
+  [12:50:14] Trial 7: Finished training. Final Mean Reward: -58.220
+[2025-04-27 12:50:14] === Finished Trial 7 / 50. Status: COMPLETE. Duration: 553.49s ===
+
+[2025-04-27 12:50:14] === Starting Trial 8 / 50 ===
+  Est. Avg Trial Duration: 503.33s. Est. Remaining Time: 6:00:43 (until ~18:50:57)
+  Params: {'learning_rate': 0.0002822467842053456, 'n_steps': 1024, 'gamma': 0.98, 'gae_lambda': 0.92, 'ent_coef': 0.009651033299189433, 'vf_coef': 0.22109446752464612, 'clip_range': 0.1, 'batch_size': 128}
+  [12:50:14] Trial 8: Starting training (60000 steps)...
+  [2025-04-27 12:52:22] Trial 7: Starting Eval #1/4 at step 15000
+    Trial 7 Eval 1/4 Complete. Mean Reward: -6.835 (Duration: 3.97s)
+  [2025-04-27 12:54:36] Trial 7: Starting Eval #2/4 at step 30000
+    Trial 7 Eval 2/4 Complete. Mean Reward: -93.442 (Duration: 131.50s)
+  [2025-04-27 12:56:46] Trial 7: Starting Eval #3/4 at step 45000
+    Trial 7 Eval 3/4 Complete. Mean Reward: -36.763 (Duration: 131.41s)
+  [2025-04-27 12:58:59] Trial 7: Starting Eval #4/4 at step 60000
+    Trial 7 Eval 4/4 Complete. Mean Reward: -36.450 (Duration: 133.21s)
+  [12:59:06] Trial 8: Finished training. Final Mean Reward: -36.450
+[2025-04-27 12:59:06] === Finished Trial 8 / 50. Status: COMPLETE. Duration: 532.11s ===
+
+[2025-04-27 12:59:06] === Starting Trial 9 / 50 ===
+  Est. Avg Trial Duration: 506.93s. Est. Remaining Time: 5:54:50 (until ~18:53:57)
+  Params: {'learning_rate': 0.00018000554787310762, 'n_steps': 256, 'gamma': 0.999, 'gae_lambda': 0.98, 'ent_coef': 0.04914630237555329, 'vf_coef': 0.5914353445373406, 'clip_range': 0.3, 'batch_size': 32}
+  [12:59:06] Trial 9: Starting training (60000 steps)...
+  [2025-04-27 13:01:22] Trial 8: Starting Eval #1/4 at step 15000
+    Trial 8 Eval 1/4 Complete. Mean Reward: -23.883 (Duration: 2.98s)
+  [2025-04-27 13:03:41] Trial 8: Starting Eval #2/4 at step 30000
+    Trial 8 Eval 2/4 Complete. Mean Reward: -95.989 (Duration: 137.70s)
+  [2025-04-27 13:05:58] Trial 8: Starting Eval #3/4 at step 45000
+    Trial 8 Eval 3/4 Complete. Mean Reward: -55.937 (Duration: 138.23s)
+  [2025-04-27 13:08:15] Trial 8: Starting Eval #4/4 at step 60000
+    Trial 8 Eval 4/4 Complete. Mean Reward: -24.194 (Duration: 137.23s)
+  [13:08:20] Trial 9: Finished training. Final Mean Reward: -24.194
+[2025-04-27 13:08:20] === Finished Trial 9 / 50. Status: COMPLETE. Duration: 554.12s ===
+
+[2025-04-27 13:08:20] === Starting Trial 10 / 50 ===
+  Est. Avg Trial Duration: 512.17s. Est. Remaining Time: 5:49:59 (until ~18:58:19)
+  Params: {'learning_rate': 2.2464662546911347e-05, 'n_steps': 2048, 'gamma': 0.99, 'gae_lambda': 0.9, 'ent_coef': 0.016545642090340738, 'vf_coef': 0.8052357929243265, 'clip_range': 0.1, 'batch_size': 128}
+  [13:08:20] Trial 10: Starting training (60000 steps)...
+  [2025-04-27 13:10:33] Trial 9: Starting Eval #1/4 at step 15000
+    Trial 9 Eval 1/4 Complete. Mean Reward: -6.445 (Duration: 4.35s)
+  [2025-04-27 13:12:46] Trial 9: Starting Eval #2/4 at step 30000
+    Trial 9 Eval 2/4 Complete. Mean Reward: -39.302 (Duration: 132.98s)
+  [2025-04-27 13:14:58] Trial 9: Starting Eval #3/4 at step 45000
+    Trial 9 Eval 3/4 Complete. Mean Reward: -37.620 (Duration: 131.66s)
+  [2025-04-27 13:17:11] Trial 9: Starting Eval #4/4 at step 60000
+    Trial 9 Eval 4/4 Complete. Mean Reward: -73.111 (Duration: 131.68s)
+  [13:17:26] Trial 10: Finished training. Final Mean Reward: -73.111
+[2025-04-27 13:17:26] === Finished Trial 10 / 50. Status: COMPLETE. Duration: 546.21s ===
+
+[2025-04-27 13:17:26] === Starting Trial 11 / 50 ===
+  Est. Avg Trial Duration: 515.57s. Est. Remaining Time: 5:43:42 (until ~19:01:09)
+  Params: {'learning_rate': 0.00014392754754084008, 'n_steps': 512, 'gamma': 0.995, 'gae_lambda': 0.95, 'ent_coef': 0.017676220195037222, 'vf_coef': 0.41427404216660824, 'clip_range': 0.1, 'batch_size': 64}
+  [13:17:26] Trial 11: Starting training (60000 steps)...
+  [2025-04-27 13:19:38] Trial 10: Starting Eval #1/4 at step 15000
+    Trial 10 Eval 1/4 Complete. Mean Reward: -32.060 (Duration: 3.42s)
+  [2025-04-27 13:21:53] Trial 10: Starting Eval #2/4 at step 30000
+    Trial 10 Eval 2/4 Complete. Mean Reward: -6.826 (Duration: 134.17s)
+  [2025-04-27 13:24:08] Trial 10: Starting Eval #3/4 at step 45000
+    Trial 10 Eval 3/4 Complete. Mean Reward: -77.377 (Duration: 134.97s)
+  [2025-04-27 13:26:21] Trial 10: Starting Eval #4/4 at step 60000
+    Trial 10 Eval 4/4 Complete. Mean Reward: -45.799 (Duration: 134.41s)
+  [13:26:29] Trial 11: Finished training. Final Mean Reward: -45.799
+[2025-04-27 13:26:29] === Finished Trial 11 / 50. Status: COMPLETE. Duration: 542.88s ===
+
+[2025-04-27 13:26:29] === Starting Trial 12 / 50 ===
+  Est. Avg Trial Duration: 518.06s. Est. Remaining Time: 5:36:44 (until ~19:03:13)
+  Params: {'learning_rate': 3.344775364712905e-05, 'n_steps': 512, 'gamma': 0.995, 'gae_lambda': 0.99, 'ent_coef': 0.030462997810525624, 'vf_coef': 0.5261834262431754, 'clip_range': 0.2, 'batch_size': 256}
+  [13:26:29] Trial 12: Starting training (60000 steps)...
+  [2025-04-27 13:28:37] Trial 11: Starting Eval #1/4 at step 15000
+    Trial 11 Eval 1/4 Complete. Mean Reward: -32.505 (Duration: 4.61s)
+  [2025-04-27 13:30:51] Trial 11: Starting Eval #2/4 at step 30000
+    Trial 11 Eval 2/4 Complete. Mean Reward: 5.097 (Duration: 134.01s)
+  [2025-04-27 13:33:02] Trial 11: Starting Eval #3/4 at step 45000
+    Trial 11 Eval 3/4 Complete. Mean Reward: -54.383 (Duration: 128.91s)
+  [2025-04-27 13:35:11] Trial 11: Starting Eval #4/4 at step 60000
+    Trial 11 Eval 4/4 Complete. Mean Reward: -46.600 (Duration: 129.04s)
+  [13:35:17] Trial 12: Finished training. Final Mean Reward: -46.600
+[2025-04-27 13:35:17] === Finished Trial 12 / 50. Status: COMPLETE. Duration: 528.23s ===
+
+[2025-04-27 13:35:17] === Starting Trial 13 / 50 ===
+  Est. Avg Trial Duration: 518.91s. Est. Remaining Time: 5:28:38 (until ~19:03:56)
+  Params: {'learning_rate': 2.7472034635734284e-05, 'n_steps': 512, 'gamma': 0.995, 'gae_lambda': 0.99, 'ent_coef': 0.021321649119891952, 'vf_coef': 0.701154731748661, 'clip_range': 0.2, 'batch_size': 32}
+  [13:35:17] Trial 13: Starting training (60000 steps)...
+  [2025-04-27 13:37:35] Trial 12: Starting Eval #1/4 at step 15000
+    Trial 12 Eval 1/4 Complete. Mean Reward: -9.945 (Duration: 4.02s)
+  [2025-04-27 13:39:53] Trial 12: Starting Eval #2/4 at step 30000
+    Trial 12 Eval 2/4 Complete. Mean Reward: -97.580 (Duration: 136.74s)
+  [2025-04-27 13:42:08] Trial 12: Starting Eval #3/4 at step 45000
+    Trial 12 Eval 3/4 Complete. Mean Reward: -89.533 (Duration: 133.39s)
+  [2025-04-27 13:44:23] Trial 12: Starting Eval #4/4 at step 60000
+    Trial 12 Eval 4/4 Complete. Mean Reward: -50.797 (Duration: 136.49s)
+  [13:44:30] Trial 13: Finished training. Final Mean Reward: -50.797
+[2025-04-27 13:44:30] === Finished Trial 13 / 50. Status: COMPLETE. Duration: 552.22s ===
+
+[2025-04-27 13:44:30] === Starting Trial 14 / 50 ===
+  Est. Avg Trial Duration: 521.47s. Est. Remaining Time: 5:21:34 (until ~19:06:04)
+  Params: {'learning_rate': 7.454393974785203e-05, 'n_steps': 256, 'gamma': 0.995, 'gae_lambda': 0.99, 'ent_coef': 0.03482567500298177, 'vf_coef': 0.4562717882063335, 'clip_range': 0.2, 'batch_size': 256}
+  [13:44:30] Trial 14: Starting training (60000 steps)...
+  [2025-04-27 13:46:37] Trial 13: Starting Eval #1/4 at step 15000
+    Trial 13 Eval 1/4 Complete. Mean Reward: -18.923 (Duration: 3.27s)
+  [2025-04-27 13:48:48] Trial 13: Starting Eval #2/4 at step 30000
+    Trial 13 Eval 2/4 Complete. Mean Reward: -9.064 (Duration: 131.51s)
+  [2025-04-27 13:50:59] Trial 13: Starting Eval #3/4 at step 45000
+    Trial 13 Eval 3/4 Complete. Mean Reward: -55.150 (Duration: 130.77s)
+  [2025-04-27 13:53:09] Trial 13: Starting Eval #4/4 at step 60000
+    Trial 13 Eval 4/4 Complete. Mean Reward: -17.266 (Duration: 130.97s)
+  [13:53:15] Trial 14: Finished training. Final Mean Reward: -17.266
+[2025-04-27 13:53:15] === Finished Trial 14 / 50. Status: COMPLETE. Duration: 525.17s ===
+
+[2025-04-27 13:53:15] === Starting Trial 15 / 50 ===
+  Est. Avg Trial Duration: 521.73s. Est. Remaining Time: 5:13:02 (until ~19:06:17)
+  Params: {'learning_rate': 1.8817996581534062e-05, 'n_steps': 1024, 'gamma': 0.995, 'gae_lambda': 0.92, 'ent_coef': 0.04095336881172504, 'vf_coef': 0.2785362517192118, 'clip_range': 0.3, 'batch_size': 256}
+  [13:53:15] Trial 15: Starting training (60000 steps)...
+  [2025-04-27 13:55:21] Trial 14: Starting Eval #1/4 at step 15000
+    Trial 14 Eval 1/4 Complete. Mean Reward: -46.617 (Duration: 3.07s)
+  [2025-04-27 13:57:30] Trial 14: Starting Eval #2/4 at step 30000
+    Trial 14 Eval 2/4 Complete. Mean Reward: -24.710 (Duration: 130.22s)
+  [2025-04-27 13:59:42] Trial 14: Starting Eval #3/4 at step 45000
+    Trial 14 Eval 3/4 Complete. Mean Reward: -37.413 (Duration: 130.59s)
+  [2025-04-27 14:01:52] Trial 14: Starting Eval #4/4 at step 60000
+    Trial 14 Eval 4/4 Complete. Mean Reward: -27.124 (Duration: 130.79s)
+  [14:01:59] Trial 15: Finished training. Final Mean Reward: -27.124
+[2025-04-27 14:01:59] === Finished Trial 15 / 50. Status: COMPLETE. Duration: 524.45s ===
+
+[2025-04-27 14:01:59] === Starting Trial 16 / 50 ===
+  Est. Avg Trial Duration: 521.92s. Est. Remaining Time: 5:04:27 (until ~19:06:26)
+  Params: {'learning_rate': 3.992635100612845e-05, 'n_steps': 1024, 'gamma': 0.995, 'gae_lambda': 1.0, 'ent_coef': 0.023840770817569884, 'vf_coef': 0.6390094697604142, 'clip_range': 0.1, 'batch_size': 32}
+  [14:01:59] Trial 16: Starting training (60000 steps)...
+  [2025-04-27 14:04:13] Trial 15: Starting Eval #1/4 at step 15000
+    Trial 15 Eval 1/4 Complete. Mean Reward: -9.237 (Duration: 4.46s)
+  [2025-04-27 14:06:31] Trial 15: Starting Eval #2/4 at step 30000
+    Trial 15 Eval 2/4 Complete. Mean Reward: -48.928 (Duration: 136.56s)
+  [2025-04-27 14:08:50] Trial 15: Starting Eval #3/4 at step 45000
+    Trial 15 Eval 3/4 Complete. Mean Reward: -65.273 (Duration: 137.66s)
+  [2025-04-27 14:11:08] Trial 15: Starting Eval #4/4 at step 60000
+    Trial 15 Eval 4/4 Complete. Mean Reward: -45.422 (Duration: 139.25s)
+  [14:11:15] Trial 16: Finished training. Final Mean Reward: -45.422
+[2025-04-27 14:11:15] === Finished Trial 16 / 50. Status: COMPLETE. Duration: 555.94s ===
+
+[2025-04-27 14:11:15] === Starting Trial 17 / 50 ===
+  Est. Avg Trial Duration: 524.04s. Est. Remaining Time: 4:56:57 (until ~19:08:13)
+  Params: {'learning_rate': 8.078320352814233e-05, 'n_steps': 2048, 'gamma': 0.99, 'gae_lambda': 0.98, 'ent_coef': 0.011577504571747695, 'vf_coef': 0.852564399803158, 'clip_range': 0.2, 'batch_size': 128}
+  [14:11:15] Trial 17: Starting training (60000 steps)...
+  [2025-04-27 14:13:23] Trial 16: Starting Eval #1/4 at step 15000
+    Trial 16 Eval 1/4 Complete. Mean Reward: -11.020 (Duration: 4.10s)
+  [2025-04-27 14:15:36] Trial 16: Starting Eval #2/4 at step 30000
+    Trial 16 Eval 2/4 Complete. Mean Reward: -58.734 (Duration: 130.34s)
+  [2025-04-27 14:17:46] Trial 16: Starting Eval #3/4 at step 45000
+    Trial 16 Eval 3/4 Complete. Mean Reward: -68.283 (Duration: 130.78s)
+  [2025-04-27 14:19:56] Trial 16: Starting Eval #4/4 at step 60000
+    Trial 16 Eval 4/4 Complete. Mean Reward: -15.774 (Duration: 131.87s)
+  [14:20:13] Trial 17: Finished training. Final Mean Reward: -15.774
+[2025-04-27 14:20:13] === Finished Trial 17 / 50. Status: COMPLETE. Duration: 537.42s ===
+
+[2025-04-27 14:20:13] === Starting Trial 18 / 50 ===
+  Est. Avg Trial Duration: 524.83s. Est. Remaining Time: 4:48:39 (until ~19:08:52)
+  Params: {'learning_rate': 1.781956105539989e-05, 'n_steps': 512, 'gamma': 0.98, 'gae_lambda': 0.99, 'ent_coef': 0.0021425993621897836, 'vf_coef': 0.5407363748074498, 'clip_range': 0.2, 'batch_size': 64}
+  [14:20:13] Trial 18: Starting training (60000 steps)...
+  [2025-04-27 14:22:24] Trial 17: Starting Eval #1/4 at step 15000
+    Trial 17 Eval 1/4 Complete. Mean Reward: 1.785 (Duration: 4.46s)
+  [2025-04-27 14:24:38] Trial 17: Starting Eval #2/4 at step 30000
+    Trial 17 Eval 2/4 Complete. Mean Reward: -68.915 (Duration: 131.50s)
+  [2025-04-27 14:26:51] Trial 17: Starting Eval #3/4 at step 45000
+    Trial 17 Eval 3/4 Complete. Mean Reward: 11.532 (Duration: 135.33s)
+  [2025-04-27 14:29:06] Trial 17: Starting Eval #4/4 at step 60000
+    Trial 17 Eval 4/4 Complete. Mean Reward: -31.981 (Duration: 133.58s)
+  [14:29:13] Trial 18: Finished training. Final Mean Reward: -31.981
+[2025-04-27 14:29:13] === Finished Trial 18 / 50. Status: COMPLETE. Duration: 540.49s ===
+
+[2025-04-27 14:29:13] === Starting Trial 19 / 50 ===
+  Est. Avg Trial Duration: 525.70s. Est. Remaining Time: 4:40:22 (until ~19:09:35)
+  Params: {'learning_rate': 0.00036632567076286477, 'n_steps': 2048, 'gamma': 0.999, 'gae_lambda': 0.99, 'ent_coef': 0.028949196864830867, 'vf_coef': 0.6971812237139356, 'clip_range': 0.1, 'batch_size': 256}
+  [14:29:13] Trial 19: Starting training (60000 steps)...
+  [2025-04-27 14:31:25] Trial 18: Starting Eval #1/4 at step 15000
+    Trial 18 Eval 1/4 Complete. Mean Reward: -46.391 (Duration: 3.27s)
+  [2025-04-27 14:33:41] Trial 18: Starting Eval #2/4 at step 30000
+    Trial 18 Eval 2/4 Complete. Mean Reward: -47.073 (Duration: 136.95s)
+  [2025-04-27 14:35:56] Trial 18: Starting Eval #3/4 at step 45000
+    Trial 18 Eval 3/4 Complete. Mean Reward: -69.639 (Duration: 133.97s)
+    Trial 18 pruned by Optuna based on intermediate results.
+[2025-04-27 14:35:59] === Finished Trial 19 / 50. Status: PRUNED. Duration: 405.87s ===
+
+[2025-04-27 14:35:59] === Starting Trial 20 / 50 ===
+  Est. Avg Trial Duration: 519.39s. Est. Remaining Time: 4:28:21 (until ~19:04:20)
+  Params: {'learning_rate': 1.1220463506470633e-05, 'n_steps': 256, 'gamma': 0.995, 'gae_lambda': 0.98, 'ent_coef': 0.043132358842129126, 'vf_coef': 0.9105041367125104, 'clip_range': 0.3, 'batch_size': 32}
+  [14:35:59] Trial 20: Starting training (60000 steps)...
+  [2025-04-27 14:38:24] Trial 19: Starting Eval #1/4 at step 15000
+    Trial 19 Eval 1/4 Complete. Mean Reward: -30.536 (Duration: 3.07s)
+  [2025-04-27 14:40:52] Trial 19: Starting Eval #2/4 at step 30000
+    Trial 19 Eval 2/4 Complete. Mean Reward: -26.625 (Duration: 148.66s)
+  [2025-04-27 14:43:18] Trial 19: Starting Eval #3/4 at step 45000
+    Trial 19 Eval 3/4 Complete. Mean Reward: -11.856 (Duration: 146.21s)
+  [2025-04-27 14:45:46] Trial 19: Starting Eval #4/4 at step 60000
+    Trial 19 Eval 4/4 Complete. Mean Reward: -76.989 (Duration: 145.22s)
+  [14:45:49] Trial 20: Finished training. Final Mean Reward: -76.989
+[2025-04-27 14:45:49] === Finished Trial 20 / 50. Status: COMPLETE. Duration: 589.89s ===
+
+[2025-04-27 14:45:49] === Starting Trial 21 / 50 ===
+  Est. Avg Trial Duration: 522.92s. Est. Remaining Time: 4:21:27 (until ~19:07:16)
+  Params: {'learning_rate': 4.285428178361811e-05, 'n_steps': 512, 'gamma': 0.995, 'gae_lambda': 1.0, 'ent_coef': 0.03629857587395644, 'vf_coef': 0.3459914201978905, 'clip_range': 0.1, 'batch_size': 32}
+  [14:45:49] Trial 21: Starting training (60000 steps)...
+  [2025-04-27 14:48:08] Trial 20: Starting Eval #1/4 at step 15000
+    Trial 20 Eval 1/4 Complete. Mean Reward: -10.560 (Duration: 4.80s)
+  [2025-04-27 14:50:28] Trial 20: Starting Eval #2/4 at step 30000
+    Trial 20 Eval 2/4 Complete. Mean Reward: -56.027 (Duration: 139.03s)
+  [2025-04-27 14:52:49] Trial 20: Starting Eval #3/4 at step 45000
+    Trial 20 Eval 3/4 Complete. Mean Reward: -20.488 (Duration: 141.98s)
+  [2025-04-27 14:55:14] Trial 20: Starting Eval #4/4 at step 60000
+    Trial 20 Eval 4/4 Complete. Mean Reward: -56.358 (Duration: 144.21s)
+  [14:55:22] Trial 21: Finished training. Final Mean Reward: -56.358
+[2025-04-27 14:55:22] === Finished Trial 21 / 50. Status: COMPLETE. Duration: 572.73s ===
+
+[2025-04-27 14:55:22] === Starting Trial 22 / 50 ===
+  Est. Avg Trial Duration: 525.29s. Est. Remaining Time: 4:13:53 (until ~19:09:15)
+  Params: {'learning_rate': 9.539179799351939e-05, 'n_steps': 2048, 'gamma': 0.99, 'gae_lambda': 0.98, 'ent_coef': 0.010935715046823762, 'vf_coef': 0.8083458998085312, 'clip_range': 0.2, 'batch_size': 128}
+  [14:55:22] Trial 22: Starting training (60000 steps)...
+  [2025-04-27 14:57:34] Trial 21: Starting Eval #1/4 at step 15000
+    Trial 21 Eval 1/4 Complete. Mean Reward: -42.037 (Duration: 3.39s)
+  [2025-04-27 14:59:51] Trial 21: Starting Eval #2/4 at step 30000
+    Trial 21 Eval 2/4 Complete. Mean Reward: 5.264 (Duration: 139.50s)
+  [2025-04-27 15:02:08] Trial 21: Starting Eval #3/4 at step 45000
+    Trial 21 Eval 3/4 Complete. Mean Reward: -57.288 (Duration: 134.94s)
+  [2025-04-27 15:04:27] Trial 21: Starting Eval #4/4 at step 60000
+    Trial 21 Eval 4/4 Complete. Mean Reward: -10.385 (Duration: 138.36s)
+  [15:04:42] Trial 22: Finished training. Final Mean Reward: -10.385
+[2025-04-27 15:04:42] === Finished Trial 22 / 50. Status: COMPLETE. Duration: 560.91s ===
+
+[2025-04-27 15:04:42] === Starting Trial 23 / 50 ===
+  Est. Avg Trial Duration: 526.91s. Est. Remaining Time: 4:05:53 (until ~19:10:36)
+  Params: {'learning_rate': 0.0001140433009792641, 'n_steps': 2048, 'gamma': 0.99, 'gae_lambda': 0.98, 'ent_coef': 0.012007149479440893, 'vf_coef': 0.9761628367708141, 'clip_range': 0.2, 'batch_size': 128}
+  [15:04:42] Trial 23: Starting training (60000 steps)...
+  [2025-04-27 15:06:54] Trial 22: Starting Eval #1/4 at step 15000
+    Trial 22 Eval 1/4 Complete. Mean Reward: -42.547 (Duration: 2.61s)
+  [2025-04-27 15:09:12] Trial 22: Starting Eval #2/4 at step 30000
+    Trial 22 Eval 2/4 Complete. Mean Reward: -10.289 (Duration: 138.45s)
+  [2025-04-27 15:11:27] Trial 22: Starting Eval #3/4 at step 45000
+    Trial 22 Eval 3/4 Complete. Mean Reward: -49.241 (Duration: 136.12s)
+  [2025-04-27 15:13:47] Trial 22: Starting Eval #4/4 at step 60000
+    Trial 22 Eval 4/4 Complete. Mean Reward: -25.712 (Duration: 139.47s)
+  [15:14:03] Trial 23: Finished training. Final Mean Reward: -25.712
+[2025-04-27 15:14:03] === Finished Trial 23 / 50. Status: COMPLETE. Duration: 560.99s ===
+
+[2025-04-27 15:14:03] === Starting Trial 24 / 50 ===
+  Est. Avg Trial Duration: 528.39s. Est. Remaining Time: 3:57:46 (until ~19:11:50)
+  Params: {'learning_rate': 8.203828635606165e-05, 'n_steps': 1024, 'gamma': 0.99, 'gae_lambda': 0.98, 'ent_coef': 0.0066614107447837655, 'vf_coef': 0.8795409396396376, 'clip_range': 0.2, 'batch_size': 128}
+  [15:14:03] Trial 24: Starting training (60000 steps)...
+  [2025-04-27 15:16:17] Trial 23: Starting Eval #1/4 at step 15000
+    Trial 23 Eval 1/4 Complete. Mean Reward: -36.115 (Duration: 3.10s)
+  [2025-04-27 15:18:36] Trial 23: Starting Eval #2/4 at step 30000
+    Trial 23 Eval 2/4 Complete. Mean Reward: -9.985 (Duration: 139.96s)
+  [2025-04-27 15:20:55] Trial 23: Starting Eval #3/4 at step 45000
+    Trial 23 Eval 3/4 Complete. Mean Reward: -48.399 (Duration: 138.11s)
+  [2025-04-27 15:23:06] Trial 23: Starting Eval #4/4 at step 60000
+    Trial 23 Eval 4/4 Complete. Mean Reward: 8.675 (Duration: 133.59s)
+  [15:23:15] Trial 24: Finished training. Final Mean Reward: 8.675
+[2025-04-27 15:23:15] === Finished Trial 24 / 50. Status: COMPLETE. Duration: 551.70s ===
+
+[2025-04-27 15:23:15] === Starting Trial 25 / 50 ===
+  Est. Avg Trial Duration: 529.36s. Est. Remaining Time: 3:49:23 (until ~19:12:39)
+  Params: {'learning_rate': 6.522819748983736e-05, 'n_steps': 1024, 'gamma': 0.99, 'gae_lambda': 0.98, 'ent_coef': 0.000696525459348841, 'vf_coef': 0.8812792177736832, 'clip_range': 0.2, 'batch_size': 128}
+  [15:23:15] Trial 25: Starting training (60000 steps)...
+  [2025-04-27 15:25:25] Trial 24: Starting Eval #1/4 at step 15000
+    Trial 24 Eval 1/4 Complete. Mean Reward: -66.512 (Duration: 3.50s)
+  [2025-04-27 15:27:41] Trial 24: Starting Eval #2/4 at step 30000
+    Trial 24 Eval 2/4 Complete. Mean Reward: -47.258 (Duration: 134.29s)
+    Trial 24 pruned by Optuna based on intermediate results.
+[2025-04-27 15:27:43] === Finished Trial 25 / 50. Status: PRUNED. Duration: 267.90s ===
+
+[2025-04-27 15:27:43] === Starting Trial 26 / 50 ===
+  Est. Avg Trial Duration: 518.90s. Est. Remaining Time: 3:36:12 (until ~19:03:56)
+  Params: {'learning_rate': 2.708745485007404e-05, 'n_steps': 1024, 'gamma': 0.99, 'gae_lambda': 0.92, 'ent_coef': 0.017530728332756734, 'vf_coef': 0.6228929132407599, 'clip_range': 0.2, 'batch_size': 128}
+  [15:27:43] Trial 26: Starting training (60000 steps)...
+  [2025-04-27 15:29:56] Trial 25: Starting Eval #1/4 at step 15000
+    Trial 25 Eval 1/4 Complete. Mean Reward: -67.344 (Duration: 3.20s)
+  [2025-04-27 15:32:15] Trial 25: Starting Eval #2/4 at step 30000
+    Trial 25 Eval 2/4 Complete. Mean Reward: -77.422 (Duration: 137.57s)
+    Trial 25 pruned by Optuna based on intermediate results.
+[2025-04-27 15:32:17] === Finished Trial 26 / 50. Status: PRUNED. Duration: 273.66s ===
+
+[2025-04-27 15:32:17] === Starting Trial 27 / 50 ===
+  Est. Avg Trial Duration: 509.47s. Est. Remaining Time: 3:23:47 (until ~18:56:04)
+  Params: {'learning_rate': 0.00018770030981053552, 'n_steps': 512, 'gamma': 0.999, 'gae_lambda': 0.9, 'ent_coef': 0.00565076646583825, 'vf_coef': 0.7551371715677664, 'clip_range': 0.2, 'batch_size': 256}
+  [15:32:17] Trial 27: Starting training (60000 steps)...
+  [2025-04-27 15:34:28] Trial 26: Starting Eval #1/4 at step 15000
+    Trial 26 Eval 1/4 Complete. Mean Reward: -7.794 (Duration: 3.65s)
+  [2025-04-27 15:36:47] Trial 26: Starting Eval #2/4 at step 30000
+    Trial 26 Eval 2/4 Complete. Mean Reward: -47.185 (Duration: 139.01s)
+  [2025-04-27 15:39:04] Trial 26: Starting Eval #3/4 at step 45000
+    Trial 26 Eval 3/4 Complete. Mean Reward: -83.733 (Duration: 136.54s)
+  [2025-04-27 15:41:20] Trial 26: Starting Eval #4/4 at step 60000
+    Trial 26 Eval 4/4 Complete. Mean Reward: -94.478 (Duration: 135.34s)
+  [15:41:26] Trial 27: Finished training. Final Mean Reward: -94.478
+[2025-04-27 15:41:26] === Finished Trial 27 / 50. Status: COMPLETE. Duration: 549.28s ===
+
+[2025-04-27 15:41:26] === Starting Trial 28 / 50 ===
+  Est. Avg Trial Duration: 510.95s. Est. Remaining Time: 3:15:51 (until ~18:57:18)
+  Params: {'learning_rate': 1.5862976932173892e-05, 'n_steps': 512, 'gamma': 0.98, 'gae_lambda': 0.95, 'ent_coef': 0.026932190312171526, 'vf_coef': 0.48710993658303714, 'clip_range': 0.2, 'batch_size': 64}
+  [15:41:26] Trial 28: Starting training (60000 steps)...
+  [2025-04-27 15:43:41] Trial 27: Starting Eval #1/4 at step 15000
+    Trial 27 Eval 1/4 Complete. Mean Reward: -62.684 (Duration: 2.76s)
+  [2025-04-27 15:46:01] Trial 27: Starting Eval #2/4 at step 30000
+    Trial 27 Eval 2/4 Complete. Mean Reward: -57.591 (Duration: 139.96s)
+    Trial 27 pruned by Optuna based on intermediate results.
+[2025-04-27 15:46:04] === Finished Trial 28 / 50. Status: PRUNED. Duration: 277.86s ===
+
+[2025-04-27 15:46:04] === Starting Trial 29 / 50 ===
+  Est. Avg Trial Duration: 502.62s. Est. Remaining Time: 3:04:17 (until ~18:50:22)
+  Params: {'learning_rate': 3.4041734825884936e-05, 'n_steps': 256, 'gamma': 0.995, 'gae_lambda': 0.99, 'ent_coef': 0.02411716964751061, 'vf_coef': 0.9351272534200027, 'clip_range': 0.3, 'batch_size': 256}
+  [15:46:04] Trial 29: Starting training (60000 steps)...
+  [2025-04-27 15:48:14] Trial 28: Starting Eval #1/4 at step 15000
+    Trial 28 Eval 1/4 Complete. Mean Reward: -11.545 (Duration: 4.12s)
+  [2025-04-27 15:50:29] Trial 28: Starting Eval #2/4 at step 30000
+    Trial 28 Eval 2/4 Complete. Mean Reward: -54.306 (Duration: 134.27s)
+  [2025-04-27 15:52:47] Trial 28: Starting Eval #3/4 at step 45000
+    Trial 28 Eval 3/4 Complete. Mean Reward: 3.504 (Duration: 139.31s)
+  [2025-04-27 15:55:07] Trial 28: Starting Eval #4/4 at step 60000
+    Trial 28 Eval 4/4 Complete. Mean Reward: -42.479 (Duration: 139.53s)
+  [15:55:12] Trial 29: Finished training. Final Mean Reward: -42.479
+[2025-04-27 15:55:12] === Finished Trial 29 / 50. Status: COMPLETE. Duration: 548.61s ===
+
+[2025-04-27 15:55:12] === Starting Trial 30 / 50 ===
+  Est. Avg Trial Duration: 504.21s. Est. Remaining Time: 2:56:28 (until ~18:51:41)
+  Params: {'learning_rate': 5.208431916205989e-05, 'n_steps': 4096, 'gamma': 0.98, 'gae_lambda': 1.0, 'ent_coef': 0.0413771239290571, 'vf_coef': 0.3590987637855836, 'clip_range': 0.1, 'batch_size': 128}
+  [15:55:12] Trial 30: Starting training (60000 steps)...
+  [2025-04-27 15:57:27] Trial 29: Starting Eval #1/4 at step 15000
+    Trial 29 Eval 1/4 Complete. Mean Reward: -15.209 (Duration: 4.34s)
+  [2025-04-27 15:59:47] Trial 29: Starting Eval #2/4 at step 30000
+    Trial 29 Eval 2/4 Complete. Mean Reward: -51.333 (Duration: 139.10s)
+  [2025-04-27 16:02:05] Trial 29: Starting Eval #3/4 at step 45000
+    Trial 29 Eval 3/4 Complete. Mean Reward: -32.053 (Duration: 137.92s)
+  [2025-04-27 16:04:23] Trial 29: Starting Eval #4/4 at step 60000
+    Trial 29 Eval 4/4 Complete. Mean Reward: -67.114 (Duration: 137.04s)
+  [16:04:40] Trial 30: Finished training. Final Mean Reward: -67.114
+[2025-04-27 16:04:40] === Finished Trial 30 / 50. Status: COMPLETE. Duration: 567.56s ===
+
+[2025-04-27 16:04:40] === Starting Trial 31 / 50 ===
+  Est. Avg Trial Duration: 506.32s. Est. Remaining Time: 2:48:46 (until ~18:53:26)
+  Params: {'learning_rate': 0.00012188552824956593, 'n_steps': 1024, 'gamma': 0.99, 'gae_lambda': 0.98, 'ent_coef': 0.03303017335871135, 'vf_coef': 0.5746607573841936, 'clip_range': 0.3, 'batch_size': 32}
+  [16:04:40] Trial 31: Starting training (60000 steps)...
+  [2025-04-27 16:06:57] Trial 30: Starting Eval #1/4 at step 15000
+    Trial 30 Eval 1/4 Complete. Mean Reward: -20.885 (Duration: 3.28s)
+  [2025-04-27 16:09:13] Trial 30: Starting Eval #2/4 at step 30000
+    Trial 30 Eval 2/4 Complete. Mean Reward: -5.056 (Duration: 136.49s)
+  [2025-04-27 16:11:29] Trial 30: Starting Eval #3/4 at step 45000
+    Trial 30 Eval 3/4 Complete. Mean Reward: -26.056 (Duration: 135.69s)
+  [2025-04-27 16:13:45] Trial 30: Starting Eval #4/4 at step 60000
+    Trial 30 Eval 4/4 Complete. Mean Reward: 8.706 (Duration: 137.98s)
+  [16:13:54] Trial 31: Finished training. Final Mean Reward: 8.706
+[2025-04-27 16:13:54] === Finished Trial 31 / 50. Status: COMPLETE. Duration: 554.20s ===
+
+[2025-04-27 16:13:54] === Starting Trial 32 / 50 ===
+  Est. Avg Trial Duration: 507.86s. Est. Remaining Time: 2:40:49 (until ~18:54:44)
+  Params: {'learning_rate': 0.00012218599003805533, 'n_steps': 1024, 'gamma': 0.99, 'gae_lambda': 0.98, 'ent_coef': 0.03277276385115792, 'vf_coef': 0.5626188291428438, 'clip_range': 0.3, 'batch_size': 32}
+  [16:13:54] Trial 32: Starting training (60000 steps)...
+  [2025-04-27 16:16:09] Trial 31: Starting Eval #1/4 at step 15000
+    Trial 31 Eval 1/4 Complete. Mean Reward: -28.506 (Duration: 3.78s)
+  [2025-04-27 16:18:28] Trial 31: Starting Eval #2/4 at step 30000
+    Trial 31 Eval 2/4 Complete. Mean Reward: -22.687 (Duration: 138.04s)
+  [2025-04-27 16:20:49] Trial 31: Starting Eval #3/4 at step 45000
+    Trial 31 Eval 3/4 Complete. Mean Reward: -24.065 (Duration: 142.24s)
+  [2025-04-27 16:23:13] Trial 31: Starting Eval #4/4 at step 60000
+    Trial 31 Eval 4/4 Complete. Mean Reward: -57.085 (Duration: 142.89s)
+  [16:23:20] Trial 32: Finished training. Final Mean Reward: -57.085
+[2025-04-27 16:23:20] === Finished Trial 32 / 50. Status: COMPLETE. Duration: 565.66s ===
+
+[2025-04-27 16:23:20] === Starting Trial 33 / 50 ===
+  Est. Avg Trial Duration: 509.67s. Est. Remaining Time: 2:32:54 (until ~18:56:14)
+  Params: {'learning_rate': 0.00029904813183739045, 'n_steps': 1024, 'gamma': 0.99, 'gae_lambda': 0.98, 'ent_coef': 0.020634039442269814, 'vf_coef': 0.6552311663354086, 'clip_range': 0.3, 'batch_size': 32}
+  [16:23:20] Trial 33: Starting training (60000 steps)...
+  [2025-04-27 16:25:39] Trial 32: Starting Eval #1/4 at step 15000
+    Trial 32 Eval 1/4 Complete. Mean Reward: -28.175 (Duration: 3.76s)
+  [2025-04-27 16:28:00] Trial 32: Starting Eval #2/4 at step 30000
+    Trial 32 Eval 2/4 Complete. Mean Reward: -49.426 (Duration: 140.45s)
+  [2025-04-27 16:30:21] Trial 32: Starting Eval #3/4 at step 45000
+    Trial 32 Eval 3/4 Complete. Mean Reward: 10.663 (Duration: 140.08s)
+  [2025-04-27 16:32:37] Trial 32: Starting Eval #4/4 at step 60000
+    Trial 32 Eval 4/4 Complete. Mean Reward: -41.793 (Duration: 136.31s)
+  [16:32:44] Trial 33: Finished training. Final Mean Reward: -41.793
+[2025-04-27 16:32:44] === Finished Trial 33 / 50. Status: COMPLETE. Duration: 563.65s ===
+
+[2025-04-27 16:32:44] === Starting Trial 34 / 50 ===
+  Est. Avg Trial Duration: 511.31s. Est. Remaining Time: 2:24:52 (until ~18:57:36)
+  Params: {'learning_rate': 5.52093320482584e-05, 'n_steps': 512, 'gamma': 0.99, 'gae_lambda': 0.98, 'ent_coef': 0.038794791782201285, 'vf_coef': 0.49476925257077864, 'clip_range': 0.3, 'batch_size': 32}
+  [16:32:44] Trial 34: Starting training (60000 steps)...
+  [2025-04-27 16:35:04] Trial 33: Starting Eval #1/4 at step 15000
+    Trial 33 Eval 1/4 Complete. Mean Reward: -38.705 (Duration: 2.99s)
+  [2025-04-27 16:37:26] Trial 33: Starting Eval #2/4 at step 30000
+    Trial 33 Eval 2/4 Complete. Mean Reward: -31.396 (Duration: 142.36s)
+  [2025-04-27 16:39:53] Trial 33: Starting Eval #3/4 at step 45000
+    Trial 33 Eval 3/4 Complete. Mean Reward: -47.051 (Duration: 145.76s)
+  [2025-04-27 16:42:15] Trial 33: Starting Eval #4/4 at step 60000
+    Trial 33 Eval 4/4 Complete. Mean Reward: -54.660 (Duration: 142.16s)
+  [16:42:21] Trial 34: Finished training. Final Mean Reward: -54.660
+[2025-04-27 16:42:21] === Finished Trial 34 / 50. Status: COMPLETE. Duration: 577.92s ===
+
+[2025-04-27 16:42:21] === Starting Trial 35 / 50 ===
+  Est. Avg Trial Duration: 513.27s. Est. Remaining Time: 2:16:52 (until ~18:59:14)
+  Params: {'learning_rate': 8.667683648268268e-05, 'n_steps': 1024, 'gamma': 0.99, 'gae_lambda': 0.98, 'ent_coef': 0.03223275326801986, 'vf_coef': 0.7666647022000146, 'clip_range': 0.3, 'batch_size': 32}
+  [16:42:21] Trial 35: Starting training (60000 steps)...
+  [2025-04-27 16:44:44] Trial 34: Starting Eval #1/4 at step 15000
+    Trial 34 Eval 1/4 Complete. Mean Reward: -31.920 (Duration: 3.01s)
+  [2025-04-27 16:47:07] Trial 34: Starting Eval #2/4 at step 30000
+    Trial 34 Eval 2/4 Complete. Mean Reward: -33.263 (Duration: 144.25s)
+  [2025-04-27 16:49:32] Trial 34: Starting Eval #3/4 at step 45000
+    Trial 34 Eval 3/4 Complete. Mean Reward: -7.935 (Duration: 145.55s)
+  [2025-04-27 16:52:01] Trial 34: Starting Eval #4/4 at step 60000
+    Trial 34 Eval 4/4 Complete. Mean Reward: -20.292 (Duration: 148.78s)
+  [16:52:09] Trial 35: Finished training. Final Mean Reward: -20.292
+[2025-04-27 16:52:09] === Finished Trial 35 / 50. Status: COMPLETE. Duration: 587.60s ===
+
+[2025-04-27 16:52:09] === Starting Trial 36 / 50 ===
+  Est. Avg Trial Duration: 515.39s. Est. Remaining Time: 2:08:50 (until ~19:01:00)
+  Params: {'learning_rate': 0.0001620149316233919, 'n_steps': 512, 'gamma': 0.995, 'gae_lambda': 0.95, 'ent_coef': 0.04615632775760372, 'vf_coef': 0.9984126236249687, 'clip_range': 0.2, 'batch_size': 256}
+  [16:52:09] Trial 36: Starting training (60000 steps)...
+  [2025-04-27 16:54:23] Trial 35: Starting Eval #1/4 at step 15000
+    Trial 35 Eval 1/4 Complete. Mean Reward: -62.912 (Duration: 2.39s)
+  [2025-04-27 16:56:34] Trial 35: Starting Eval #2/4 at step 30000
+    Trial 35 Eval 2/4 Complete. Mean Reward: -37.067 (Duration: 133.48s)
+    Trial 35 pruned by Optuna based on intermediate results.
+[2025-04-27 16:56:39] === Finished Trial 36 / 50. Status: PRUNED. Duration: 269.47s ===
+
+[2025-04-27 16:56:39] === Starting Trial 37 / 50 ===
+  Est. Avg Trial Duration: 508.56s. Est. Remaining Time: 1:58:39 (until ~18:55:18)
+  Params: {'learning_rate': 0.0006904146962638044, 'n_steps': 2048, 'gamma': 0.99, 'gae_lambda': 0.9, 'ent_coef': 0.026016079155796616, 'vf_coef': 0.8590995825837432, 'clip_range': 0.1, 'batch_size': 32}
+  [16:56:39] Trial 37: Starting training (60000 steps)...
+  [2025-04-27 16:58:55] Trial 36: Starting Eval #1/4 at step 15000
+    Trial 36 Eval 1/4 Complete. Mean Reward: -18.049 (Duration: 4.38s)
+  [2025-04-27 17:01:15] Trial 36: Starting Eval #2/4 at step 30000
+    Trial 36 Eval 2/4 Complete. Mean Reward: -11.922 (Duration: 138.90s)
+  [2025-04-27 17:03:34] Trial 36: Starting Eval #3/4 at step 45000
+    Trial 36 Eval 3/4 Complete. Mean Reward: -46.339 (Duration: 138.66s)
+  [2025-04-27 17:05:51] Trial 36: Starting Eval #4/4 at step 60000
+    Trial 36 Eval 4/4 Complete. Mean Reward: -18.829 (Duration: 137.07s)
+  [17:06:07] Trial 37: Finished training. Final Mean Reward: -18.829
+[2025-04-27 17:06:07] === Finished Trial 37 / 50. Status: COMPLETE. Duration: 568.52s ===
+
+[2025-04-27 17:06:07] === Starting Trial 38 / 50 ===
+  Est. Avg Trial Duration: 510.18s. Est. Remaining Time: 1:50:32 (until ~18:56:39)
+  Params: {'learning_rate': 4.509770488793504e-05, 'n_steps': 512, 'gamma': 0.999, 'gae_lambda': 0.98, 'ent_coef': 0.049782021713650315, 'vf_coef': 0.5852959003971995, 'clip_range': 0.3, 'batch_size': 32}
+  [17:06:07] Trial 38: Starting training (60000 steps)...
+  [2025-04-27 17:08:26] Trial 37: Starting Eval #1/4 at step 15000
+    Trial 37 Eval 1/4 Complete. Mean Reward: -14.390 (Duration: 4.89s)
+  [2025-04-27 17:10:58] Trial 37: Starting Eval #2/4 at step 30000
+    Trial 37 Eval 2/4 Complete. Mean Reward: -46.803 (Duration: 149.74s)
+  [2025-04-27 17:13:20] Trial 37: Starting Eval #3/4 at step 45000
+    Trial 37 Eval 3/4 Complete. Mean Reward: -6.159 (Duration: 142.66s)
+  [2025-04-27 17:15:40] Trial 37: Starting Eval #4/4 at step 60000
+    Trial 37 Eval 4/4 Complete. Mean Reward: -44.108 (Duration: 140.71s)
+  [17:15:48] Trial 38: Finished training. Final Mean Reward: -44.108
+[2025-04-27 17:15:48] === Finished Trial 38 / 50. Status: COMPLETE. Duration: 581.35s ===
+
+[2025-04-27 17:15:48] === Starting Trial 39 / 50 ===
+  Est. Avg Trial Duration: 512.05s. Est. Remaining Time: 1:42:24 (until ~18:58:13)
+  Params: {'learning_rate': 1.3747175371316228e-05, 'n_steps': 1024, 'gamma': 0.995, 'gae_lambda': 0.98, 'ent_coef': 0.04558165901710709, 'vf_coef': 0.41825990129397683, 'clip_range': 0.2, 'batch_size': 64}
+  [17:15:48] Trial 39: Starting training (60000 steps)...
+  [2025-04-27 17:17:58] Trial 38: Starting Eval #1/4 at step 15000
+    Trial 38 Eval 1/4 Complete. Mean Reward: -56.613 (Duration: 3.81s)
+  [2025-04-27 17:20:17] Trial 38: Starting Eval #2/4 at step 30000
+    Trial 38 Eval 2/4 Complete. Mean Reward: -67.178 (Duration: 137.24s)
+    Trial 38 pruned by Optuna based on intermediate results.
+[2025-04-27 17:20:19] === Finished Trial 39 / 50. Status: PRUNED. Duration: 271.08s ===
+
+[2025-04-27 17:20:19] === Starting Trial 40 / 50 ===
+  Est. Avg Trial Duration: 505.87s. Est. Remaining Time: 1:32:44 (until ~18:53:04)
+  Params: {'learning_rate': 0.00022588554526265458, 'n_steps': 4096, 'gamma': 0.99, 'gae_lambda': 0.92, 'ent_coef': 0.015374258167464638, 'vf_coef': 0.9334365816298896, 'clip_range': 0.1, 'batch_size': 256}
+  [17:20:20] Trial 40: Starting training (60000 steps)...
+  [2025-04-27 17:22:32] Trial 39: Starting Eval #1/4 at step 15000
+    Trial 39 Eval 1/4 Complete. Mean Reward: 34.218 (Duration: 4.22s)
+  [2025-04-27 17:24:47] Trial 39: Starting Eval #2/4 at step 30000
+    Trial 39 Eval 2/4 Complete. Mean Reward: -65.851 (Duration: 134.50s)
+  [2025-04-27 17:27:03] Trial 39: Starting Eval #3/4 at step 45000
+    Trial 39 Eval 3/4 Complete. Mean Reward: -86.177 (Duration: 134.41s)
+  [2025-04-27 17:29:19] Trial 39: Starting Eval #4/4 at step 60000
+    Trial 39 Eval 4/4 Complete. Mean Reward: -61.749 (Duration: 136.93s)
+  [17:29:35] Trial 40: Finished training. Final Mean Reward: -61.749
+[2025-04-27 17:29:35] === Finished Trial 40 / 50. Status: COMPLETE. Duration: 555.88s ===
+
+[2025-04-27 17:29:35] === Starting Trial 41 / 50 ===
+  Est. Avg Trial Duration: 507.12s. Est. Remaining Time: 1:24:31 (until ~18:54:07)
+  Params: {'learning_rate': 2.5294813169799148e-05, 'n_steps': 256, 'gamma': 0.98, 'gae_lambda': 0.99, 'ent_coef': 0.007405920003155045, 'vf_coef': 0.9602425594594549, 'clip_range': 0.3, 'batch_size': 128}
+  [17:29:35] Trial 41: Starting training (60000 steps)...
+  [2025-04-27 17:31:54] Trial 40: Starting Eval #1/4 at step 15000
+    Trial 40 Eval 1/4 Complete. Mean Reward: 31.020 (Duration: 5.29s)
+  [2025-04-27 17:34:15] Trial 40: Starting Eval #2/4 at step 30000
+    Trial 40 Eval 2/4 Complete. Mean Reward: -91.493 (Duration: 137.89s)
+  [2025-04-27 17:36:32] Trial 40: Starting Eval #3/4 at step 45000
+    Trial 40 Eval 3/4 Complete. Mean Reward: -98.726 (Duration: 136.76s)
+  [2025-04-27 17:38:48] Trial 40: Starting Eval #4/4 at step 60000
+    Trial 40 Eval 4/4 Complete. Mean Reward: -57.786 (Duration: 137.11s)
+  [17:38:53] Trial 41: Finished training. Final Mean Reward: -57.786
+[2025-04-27 17:38:53] === Finished Trial 41 / 50. Status: COMPLETE. Duration: 557.72s ===
+
+[2025-04-27 17:38:53] === Starting Trial 42 / 50 ===
+  Est. Avg Trial Duration: 508.36s. Est. Remaining Time: 1:16:15 (until ~18:55:08)
+  Params: {'learning_rate': 9.93005992791397e-05, 'n_steps': 2048, 'gamma': 0.99, 'gae_lambda': 0.98, 'ent_coef': 0.008463064382880716, 'vf_coef': 0.8057300365733767, 'clip_range': 0.2, 'batch_size': 128}
+  [17:38:53] Trial 42: Starting training (60000 steps)...
+  [2025-04-27 17:41:11] Trial 41: Starting Eval #1/4 at step 15000
+    Trial 41 Eval 1/4 Complete. Mean Reward: -76.103 (Duration: 3.38s)
+  [2025-04-27 17:43:30] Trial 41: Starting Eval #2/4 at step 30000
+    Trial 41 Eval 2/4 Complete. Mean Reward: -24.084 (Duration: 138.60s)
+  [2025-04-27 17:45:48] Trial 41: Starting Eval #3/4 at step 45000
+    Trial 41 Eval 3/4 Complete. Mean Reward: -20.437 (Duration: 137.32s)
+  [2025-04-27 17:47:59] Trial 41: Starting Eval #4/4 at step 60000
+    Trial 41 Eval 4/4 Complete. Mean Reward: -2.776 (Duration: 132.82s)
+  [17:48:16] Trial 42: Finished training. Final Mean Reward: -2.776
+[2025-04-27 17:48:16] === Finished Trial 42 / 50. Status: COMPLETE. Duration: 562.98s ===
+
+[2025-04-27 17:48:16] === Starting Trial 43 / 50 ===
+  Est. Avg Trial Duration: 509.66s. Est. Remaining Time: 1:07:57 (until ~18:56:13)
+  Params: {'learning_rate': 6.643843724884995e-05, 'n_steps': 2048, 'gamma': 0.99, 'gae_lambda': 0.98, 'ent_coef': 0.007647790651331362, 'vf_coef': 0.8840212982765949, 'clip_range': 0.2, 'batch_size': 128}
+  [17:48:16] Trial 43: Starting training (60000 steps)...
+  [2025-04-27 17:50:25] Trial 42: Starting Eval #1/4 at step 15000
+    Trial 42 Eval 1/4 Complete. Mean Reward: 15.139 (Duration: 4.55s)
+  [2025-04-27 17:52:38] Trial 42: Starting Eval #2/4 at step 30000
+    Trial 42 Eval 2/4 Complete. Mean Reward: -25.456 (Duration: 132.21s)
+  [2025-04-27 17:54:51] Trial 42: Starting Eval #3/4 at step 45000
+    Trial 42 Eval 3/4 Complete. Mean Reward: -32.200 (Duration: 133.51s)
+  [2025-04-27 17:57:04] Trial 42: Starting Eval #4/4 at step 60000
+    Trial 42 Eval 4/4 Complete. Mean Reward: -38.003 (Duration: 132.47s)
+  [17:57:20] Trial 43: Finished training. Final Mean Reward: -38.003
+[2025-04-27 17:57:20] === Finished Trial 43 / 50. Status: COMPLETE. Duration: 543.88s ===
+
+[2025-04-27 17:57:20] === Starting Trial 44 / 50 ===
+  Est. Avg Trial Duration: 510.45s. Est. Remaining Time: 0:59:33 (until ~18:56:53)
+  Params: {'learning_rate': 0.00012929966605670736, 'n_steps': 1024, 'gamma': 0.99, 'gae_lambda': 0.98, 'ent_coef': 0.00407328639567159, 'vf_coef': 0.6747684202842061, 'clip_range': 0.2, 'batch_size': 128}
+  [17:57:20] Trial 44: Starting training (60000 steps)...
+  [2025-04-27 17:59:28] Trial 43: Starting Eval #1/4 at step 15000
+    Trial 43 Eval 1/4 Complete. Mean Reward: -77.968 (Duration: 2.07s)
+  [2025-04-27 18:01:39] Trial 43: Starting Eval #2/4 at step 30000
+    Trial 43 Eval 2/4 Complete. Mean Reward: -73.708 (Duration: 131.96s)
+    Trial 43 pruned by Optuna based on intermediate results.
+[2025-04-27 18:01:42] === Finished Trial 44 / 50. Status: PRUNED. Duration: 262.48s ===
+
+[2025-04-27 18:01:42] === Starting Trial 45 / 50 ===
+  Est. Avg Trial Duration: 504.82s. Est. Remaining Time: 0:50:28 (until ~18:52:11)
+  Params: {'learning_rate': 9.99533774257945e-05, 'n_steps': 2048, 'gamma': 0.99, 'gae_lambda': 0.98, 'ent_coef': 0.021286002852786996, 'vf_coef': 0.7632245161749379, 'clip_range': 0.2, 'batch_size': 128}
+  [18:01:42] Trial 45: Starting training (60000 steps)...
+  [2025-04-27 18:03:51] Trial 44: Starting Eval #1/4 at step 15000
+    Trial 44 Eval 1/4 Complete. Mean Reward: -48.556 (Duration: 3.39s)
+  [2025-04-27 18:06:02] Trial 44: Starting Eval #2/4 at step 30000
+    Trial 44 Eval 2/4 Complete. Mean Reward: -33.588 (Duration: 132.16s)
+  [2025-04-27 18:08:15] Trial 44: Starting Eval #3/4 at step 45000
+    Trial 44 Eval 3/4 Complete. Mean Reward: -50.966 (Duration: 130.58s)
+  [2025-04-27 18:10:25] Trial 44: Starting Eval #4/4 at step 60000
+    Trial 44 Eval 4/4 Complete. Mean Reward: -23.404 (Duration: 132.73s)
+  [18:10:42] Trial 45: Finished training. Final Mean Reward: -23.404
+[2025-04-27 18:10:42] === Finished Trial 45 / 50. Status: COMPLETE. Duration: 539.87s ===
+
+[2025-04-27 18:10:42] === Starting Trial 46 / 50 ===
+  Est. Avg Trial Duration: 505.60s. Est. Remaining Time: 0:42:07 (until ~18:52:50)
+  Params: {'learning_rate': 3.586377039970499e-05, 'n_steps': 4096, 'gamma': 0.995, 'gae_lambda': 0.98, 'ent_coef': 0.013495887522929066, 'vf_coef': 0.6062478433224283, 'clip_range': 0.2, 'batch_size': 32}
+  [18:10:42] Trial 46: Starting training (60000 steps)...
+  [2025-04-27 18:12:59] Trial 45: Starting Eval #1/4 at step 15000
+    Trial 45 Eval 1/4 Complete. Mean Reward: -52.193 (Duration: 2.64s)
+  [2025-04-27 18:15:26] Trial 45: Starting Eval #2/4 at step 30000
+    Trial 45 Eval 2/4 Complete. Mean Reward: -11.922 (Duration: 148.37s)
+  [2025-04-27 18:17:57] Trial 45: Starting Eval #3/4 at step 45000
+    Trial 45 Eval 3/4 Complete. Mean Reward: -5.678 (Duration: 150.88s)
+  [2025-04-27 18:20:20] Trial 45: Starting Eval #4/4 at step 60000
+    Trial 45 Eval 4/4 Complete. Mean Reward: -55.194 (Duration: 140.54s)
+  [18:20:39] Trial 46: Finished training. Final Mean Reward: -55.194
+[2025-04-27 18:20:39] === Finished Trial 46 / 50. Status: COMPLETE. Duration: 596.34s ===
+
+[2025-04-27 18:20:39] === Starting Trial 47 / 50 ===
+  Est. Avg Trial Duration: 507.57s. Est. Remaining Time: 0:33:50 (until ~18:54:29)
+  Params: {'learning_rate': 6.379751913183027e-05, 'n_steps': 1024, 'gamma': 0.995, 'gae_lambda': 0.9, 'ent_coef': 0.02911209799878177, 'vf_coef': 0.8398004638538499, 'clip_range': 0.1, 'batch_size': 128}
+  [18:20:39] Trial 47: Starting training (60000 steps)...
+  [2025-04-27 18:22:48] Trial 46: Starting Eval #1/4 at step 15000
+    Trial 46 Eval 1/4 Complete. Mean Reward: -13.983 (Duration: 1.97s)
+  [2025-04-27 18:25:05] Trial 46: Starting Eval #2/4 at step 30000
+    Trial 46 Eval 2/4 Complete. Mean Reward: -75.228 (Duration: 136.96s)
+  [2025-04-27 18:27:21] Trial 46: Starting Eval #3/4 at step 45000
+    Trial 46 Eval 3/4 Complete. Mean Reward: -35.503 (Duration: 136.76s)
+  [2025-04-27 18:29:38] Trial 46: Starting Eval #4/4 at step 60000
+    Trial 46 Eval 4/4 Complete. Mean Reward: -25.028 (Duration: 137.18s)
+  [18:29:45] Trial 47: Finished training. Final Mean Reward: -25.028
+[2025-04-27 18:29:45] === Finished Trial 47 / 50. Status: COMPLETE. Duration: 546.46s ===
+
+[2025-04-27 18:29:45] === Starting Trial 48 / 50 ===
+  Est. Avg Trial Duration: 508.40s. Est. Remaining Time: 0:25:25 (until ~18:55:10)
+  Params: {'learning_rate': 0.00014430689546618837, 'n_steps': 512, 'gamma': 0.99, 'gae_lambda': 0.95, 'ent_coef': 0.01991849823012272, 'vf_coef': 0.9099187767662315, 'clip_range': 0.2, 'batch_size': 256}
+  [18:29:45] Trial 48: Starting training (60000 steps)...
+  [2025-04-27 18:31:59] Trial 47: Starting Eval #1/4 at step 15000
+    Trial 47 Eval 1/4 Complete. Mean Reward: -6.845 (Duration: 4.76s)
+  [2025-04-27 18:34:14] Trial 47: Starting Eval #2/4 at step 30000
+    Trial 47 Eval 2/4 Complete. Mean Reward: -28.267 (Duration: 135.08s)
+  [2025-04-27 18:36:35] Trial 47: Starting Eval #3/4 at step 45000
+    Trial 47 Eval 3/4 Complete. Mean Reward: -14.478 (Duration: 140.27s)
+  [2025-04-27 18:38:55] Trial 47: Starting Eval #4/4 at step 60000
+    Trial 47 Eval 4/4 Complete. Mean Reward: -52.900 (Duration: 138.80s)
+  [18:39:02] Trial 48: Finished training. Final Mean Reward: -52.900
+[2025-04-27 18:39:02] === Finished Trial 48 / 50. Status: COMPLETE. Duration: 556.80s ===
+
+[2025-04-27 18:39:02] === Starting Trial 49 / 50 ===
+  Est. Avg Trial Duration: 509.41s. Est. Remaining Time: 0:16:58 (until ~18:56:01)
+  Params: {'learning_rate': 0.00021886056472095346, 'n_steps': 1024, 'gamma': 0.999, 'gae_lambda': 0.99, 'ent_coef': 0.008616629966958812, 'vf_coef': 0.7240883989446577, 'clip_range': 0.1, 'batch_size': 64}
+  [18:39:02] Trial 49: Starting training (60000 steps)...
+  [2025-04-27 18:41:17] Trial 48: Starting Eval #1/4 at step 15000
+    Trial 48 Eval 1/4 Complete. Mean Reward: -0.161 (Duration: 4.72s)
+  [2025-04-27 18:43:35] Trial 48: Starting Eval #2/4 at step 30000
+    Trial 48 Eval 2/4 Complete. Mean Reward: -25.033 (Duration: 136.82s)
+  [2025-04-27 18:45:57] Trial 48: Starting Eval #3/4 at step 45000
+    Trial 48 Eval 3/4 Complete. Mean Reward: -29.032 (Duration: 141.52s)
+  [2025-04-27 18:48:18] Trial 48: Starting Eval #4/4 at step 60000
+    Trial 48 Eval 4/4 Complete. Mean Reward: -58.645 (Duration: 140.28s)
+  [18:48:24] Trial 49: Finished training. Final Mean Reward: -58.645
+[2025-04-27 18:48:24] === Finished Trial 49 / 50. Status: COMPLETE. Duration: 562.36s ===
+
+[2025-04-27 18:48:24] === Starting Trial 50 / 50 ===
+  Est. Avg Trial Duration: 510.49s. Est. Remaining Time: 0:08:30 (until ~18:56:55)
+  Params: {'learning_rate': 2.2029009935772794e-05, 'n_steps': 256, 'gamma': 0.995, 'gae_lambda': 1.0, 'ent_coef': 0.014321119387344912, 'vf_coef': 0.5189305848565625, 'clip_range': 0.2, 'batch_size': 32}
+  [18:48:24] Trial 50: Starting training (60000 steps)...
+  [2025-04-27 18:50:47] Trial 49: Starting Eval #1/4 at step 15000
+    Trial 49 Eval 1/4 Complete. Mean Reward: -37.631 (Duration: 2.83s)
+  [2025-04-27 18:53:06] Trial 49: Starting Eval #2/4 at step 30000
+    Trial 49 Eval 2/4 Complete. Mean Reward: -10.383 (Duration: 140.90s)
+  [2025-04-27 18:55:29] Trial 49: Starting Eval #3/4 at step 45000
+    Trial 49 Eval 3/4 Complete. Mean Reward: -29.026 (Duration: 143.33s)
+  [2025-04-27 18:57:55] Trial 49: Starting Eval #4/4 at step 60000
+    Trial 49 Eval 4/4 Complete. Mean Reward: -44.022 (Duration: 143.99s)
+  [18:58:00] Trial 50: Finished training. Final Mean Reward: -44.022
+[2025-04-27 18:58:00] === Finished Trial 50 / 50. Status: COMPLETE. Duration: 575.37s ===
+
+Total optimization loop time: 7:06:29
 
 ======================================================================
 Optimization Finished!
 Study Name: ppo-dogfight-tuning-excel
 
-Number of finished trials: 1
-  Pruned trials: 0
-  Completed trials: 0
-  Failed trials: 1
-Average time per trial (incl. pruned/failed): 86.37 seconds
+Number of finished trials: 50
+  Pruned trials: 8
+  Completed trials: 42
+  Failed trials: 0
+Average time per trial (incl. pruned/failed): 511.78 seconds
 
 Best trial:
-  No best trial found (perhaps all failed or were pruned).
+  Number: 1
+  Value (Mean Reward): 22.1801
+  Params: 
+    learning_rate: 1.9010245319870364e-05
+    exponent_n_steps: 9
+    gamma: 0.995
+    gae_lambda: 0.98
+    ent_coef: 0.04744427686266667
+    vf_coef: 0.9725056264596474
+    clip_range: 0.1
+    batch_size: 32
 
 Saving results for all trials to ppo-dogfight-tuning-excel_results.xlsx...
 Error: Could not save to Excel. Make sure 'pandas' and 'openpyxl' are installed (`pip install pandas openpyxl`).

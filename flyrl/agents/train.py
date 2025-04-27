@@ -151,7 +151,7 @@ config = {
     "policy_type": "MlpPolicy",
     "total_timesteps": 1000000,
     "env_name": "DogfightRascal", # Use the registered Env ID for your dogfight task
-    "learning_rate": 3e-5, # Adjusted LR slightly higher, 3e-6 is very low for PPO
+    "learning_rate": 1.9010245319870364e-05, # Adjusted LR slightly higher, 3e-6 is very low for PPO
     "eval_freq": 5000,     # How often to run evaluation (in training steps)
     "n_eval_episodes": 5   # Number of episodes for each evaluation run
 }
@@ -191,9 +191,13 @@ model = PPO(
     learning_rate=config["learning_rate"],
     # Add other hyperparameters like n_steps, batch_size, gamma, gae_lambda etc.
     # n_steps=2048,
-    # batch_size=64,
-    # gamma=0.99,
-    # gae_lambda=0.95,
+    batch_size= 32,
+    gamma=0.995,
+    gae_lambda=0.98,
+    ent_coef=0.04744427686266667,
+    vf_coef=0.9725056264596474,
+    clip_range=0.1,
+    n_steps=2**9
 )
 
 # --- Set up Callbacks ---
