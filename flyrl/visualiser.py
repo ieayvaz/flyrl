@@ -3,6 +3,7 @@ import subprocess
 import time
 import matplotlib.pyplot as plt
 import flyrl.properties as prp
+from flyrl.properties import lat_geod_deg, lng_geoc_deg # Import specific properties
 from flyrl.aircraft import Aircraft
 from flyrl.simulation import Simulation
 from typing import NamedTuple, Tuple
@@ -14,6 +15,7 @@ class AxesTuple(NamedTuple):
     axes_stick: plt.Axes
     axes_throttle: plt.Axes
     axes_rudder: plt.Axes
+    axes_map: plt.Axes
 
 
 class FigureVisualiser(object):
@@ -47,6 +49,9 @@ class FigureVisualiser(object):
         self.figure: plt.Figure = None
         self.axes: AxesTuple = None
         self.value_texts: Tuple[plt.Text] = None
+        self.map_line = None  # For storing the trajectory line artist
+        self.trajectory_data_lon = []  # Store longitude history
+        self.trajectory_data_lat = []  # Store latitude history
 
     def plot(self, sim: Simulation) -> None:
         """
@@ -67,6 +72,27 @@ class FigureVisualiser(object):
         self._print_state(sim)
         #self._plot_control_states(sim, self.axes)
         self._plot_control_commands(sim, self.axes)
+
+        # Update map subplot with trajectory
+        current_lon = sim[lng_geoc_deg]
+        current_lat = sim[lat_geod_deg]
+
+        if self.map_line is None:
+            # First plot call, create the line artist
+            self.map_line, = self.axes.axes_map.plot([], [], 'b-') # Note the comma for unpacking
+            self.trajectory_data_lon = [current_lon]
+            self.trajectory_data_lat = [current_lat]
+        else:
+            # Subsequent plot calls, append data
+            self.trajectory_data_lon.append(current_lon)
+            self.trajectory_data_lat.append(current_lat)
+        
+        self.map_line.set_data(self.trajectory_data_lon, self.trajectory_data_lat)
+        
+        # Optional: Adjust map limits dynamically, or keep them fixed as set in _plot_configure
+        # self.axes.axes_map.relim() # Recalculate limits
+        # self.axes.axes_map.autoscale_view() # Autoscale
+
         plt.pause(self.PLOT_PAUSE_SECONDS)  # voodoo pause needed for figure to update
 
     def close(self):
@@ -86,17 +112,19 @@ class FigureVisualiser(object):
         plt.ion()  # interactive mode allows dynamic updating of plot
         figure = plt.figure(figsize=(6, 11))
 
-        spec = plt.GridSpec(nrows=3,
+        spec = plt.GridSpec(nrows=4,  # Add a new row for the map
                             ncols=2,
                             width_ratios=[5, 1],  # second column very thin
-                            height_ratios=[6, 5, 1],  # bottom row very short
-                            wspace=0.3)
+                            height_ratios=[6, 5, 1, 6],  # Adjust height ratios, give map good space
+                            wspace=0.3,
+                            hspace=0.5) # Add some height space between plots
 
         # create subplots
         axes_state = figure.add_subplot(spec[0, 0:])
         axes_stick = figure.add_subplot(spec[1, 0])
         axes_throttle = figure.add_subplot(spec[1, 1])
         axes_rudder = figure.add_subplot(spec[2, 0])
+        axes_map = figure.add_subplot(spec[3, 0:]) # Map subplot spans both columns in the new row
 
         # hide state subplot axes - text will be printed to it
         axes_state.axis('off')
@@ -153,10 +181,19 @@ class FigureVisualiser(object):
         for spine in ['left', 'right', 'top']:
             axes_rudder.spines[spine].set_visible(False)
 
+        # Configure map subplot
+        axes_map.set_xlabel('Longitude (deg)')
+        axes_map.set_ylabel('Latitude (deg)')
+        axes_map.set_xlim(-180, 180)
+        axes_map.set_ylim(-90, 90)
+        axes_map.set_title('Aircraft Trajectory')
+        axes_map.grid(True) # Add a grid for better readability
+
         all_axes = AxesTuple(axes_state=axes_state,
                              axes_stick=axes_stick,
                              axes_throttle=axes_throttle,
-                             axes_rudder=axes_rudder)
+                             axes_rudder=axes_rudder,
+                             axes_map=axes_map)
 
         # create figure-wide legend
         cmd_entry = (
