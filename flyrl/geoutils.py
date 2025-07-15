@@ -1,12 +1,6 @@
 import numpy as np
 from math import sqrt
 
-def calculate_speed(body_vel, attitude):
-    V_body = np.array([self.enemy_sim[prp.u_fps], self.enemy_sim[prp.v_fps], self.enemy_sim[prp.w_fps]])
-    R_b2n = geoutils.body_to_ned_rotation(self.enemy_sim[prp.roll_rad], self.enemy_sim[prp.pitch_rad], self.enemy_sim[prp.heading_deg]* math.pi / 180)
-    V_ned = R_b2n @ V_body
-    enemy_speed = np.linalg.norm(V_ned)
-
 def lla_2_enu(geodetic, origin):
     ecef = lla_2_ecef(geodetic)
     ecef_origin = lla_2_ecef(origin)
