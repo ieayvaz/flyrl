@@ -11,13 +11,15 @@ from flyrl.aircraft import Aircraft
 import math
 import gymnasium as gym
 
-
 class BaseFlightTask(Task, ABC):
-    MAXIMUM_ROLL = 55.0
-    MAXIMUM_PITCH = 5.0
+    MAXIMUM_ROLL = 65.0
+    MAXIMUM_PITCH = 25.0
     INITIAL_ALTITUDE_FT = 2250  #For rascal dogfight. TODO: Make this more flexible
     AUTOPILOT_FREQ = 60.0 # Should not be bigger than sim frequency!
     CRUISE_PITCH = 2.0
+    ROLL_INCREMENT = 15.0
+    PITCH_INCREMENT = 5.0
+    THROTTLE_INCREMENT = 0.1
     base_state_variables = ()
     base_initial_conditions = {prp.initial_altitude_ft: INITIAL_ALTITUDE_FT,
          prp.initial_terrain_altitude_ft: 0.00000001,
@@ -36,31 +38,50 @@ class BaseFlightTask(Task, ABC):
         self.use_autopilot = use_autopilot
         self.current_step = 0
         self.target_roll = 0.0
+        self.target_pitch = 2.0
+        self.target_throttle = 0.8
 
     def task_step(self, action, sim_steps: int) \
             -> Tuple[np.ndarray, float, bool, Dict]:
+        
+        roll_action, pitch_action, throttle_action = action
 
-        if action == 0 and self.target_roll <= 30:
-            self.target_roll += 15.0
-        elif action == 1:
-            pass
-        elif action == 2 and self.target_roll >= -30:
-            self.target_roll += -15.0
-        _action = None
+        if roll_action == 0:  # Decrease Roll (Bank Left)
+            self.target_roll -= self.ROLL_INCREMENT
+        elif roll_action == 2:  # Increase Roll (Bank Right)
+            self.target_roll += self.ROLL_INCREMENT
+        
+        # Update Target Pitch
+        if pitch_action == 0:  # Decrease Pitch (Nose Down)
+            self.target_pitch -= self.PITCH_INCREMENT
+        elif pitch_action == 2:  # Increase Pitch (Nose Up)
+            self.target_pitch += self.PITCH_INCREMENT
+
+        # Update Target Throttle
+        if throttle_action == 0:  # Decrease Throttle
+            self.target_throttle -= self.THROTTLE_INCREMENT
+        elif throttle_action == 2:  # Increase Throttle
+            self.target_throttle += self.THROTTLE_INCREMENT
+
+        # Clip the target values to stay within safe/realistic limits
+        self.target_roll = np.clip(self.target_roll, -self.MAXIMUM_ROLL, self.MAXIMUM_ROLL)
+        self.target_pitch = np.clip(self.target_pitch, -self.MAXIMUM_PITCH ,self.MAXIMUM_PITCH)
+        self.target_throttle = np.clip(self.target_throttle, 0.5, 1.0)
 
         if self.use_autopilot:
-            _action = self.autopilot.generate_controls(self.target_roll, self.CRUISE_PITCH)
+            _action = self.autopilot.generate_controls(self.target_roll, self.target_pitch)
         else:
-            _action = action
+            _action = (0,0)
 
         for prop, command in zip((prp.aileron_cmd,prp.elevator_cmd), _action):
             self.sim[prop] = command
+            self.sim[prp.throttle_cmd] = self.target_throttle
 
         # run simulation
 
         if self.use_autopilot:
             for i in range(sim_steps):
-                if i % self.sim.sim_frequency_hz / self.AUTOPILOT_FREQ == 0:
+                if i % self.autopilot_update_interval:
                     _action = self.autopilot.generate_controls(self.target_roll, self.CRUISE_PITCH)
                     for prop, command in zip((prp.aileron_cmd,prp.elevator_cmd), _action):
                         self.sim[prop] = command
@@ -69,21 +90,14 @@ class BaseFlightTask(Task, ABC):
             for _ in range(sim_steps):
                 self.sim.run()
             
-        self._update_kinematics_cache()
         state = self.get_state()
         done = self._is_terminal(state, self.sim)
 
-        is_locked = self._check_lock_condition(self._kinematics_cache)
-        crashed = self._check_crash_condition()
-        out_of_bounds = self._check_oob_condition(self._kinematics_cache)
-        timeout = self.max_steps - self.current_step <= 0
-        sim_error = any(np.isnan(s) for s in state)
-
-        reward = self.calculate_reward(dict(zip([prop.name for prop in self.state_variables],state)), done, is_locked, crashed, out_of_bounds, timeout, sim_error)
-
+        reward = self.calculate_reward(dict(zip([prop.name for prop in self.state_variables],state)), done)
+        state_norm = self.get_state_norm()
         self.current_step += 1
 
-        return state, reward, done, {}
+        return state_norm, reward, done, {}
     
     def observe_first_state(self) -> np.ndarray:
         self._new_episode_init()
@@ -92,6 +106,10 @@ class BaseFlightTask(Task, ABC):
     
     def get_state(self):
         state = [self.get_prop(prop) for prop in self.state_variables]
+        return state
+    
+    def get_state_norm(self):
+        state = [(np.clip(self.get_prop(prop),prop.min,prop.max)-prop.min)/(prop.max - prop.min) for prop in self.state_variables]
         return state
     
     def set_sim(self, sim):
@@ -107,6 +125,7 @@ class BaseFlightTask(Task, ABC):
         if self.use_autopilot:
             self.autopilot = AutoPilot(self.sim)
             assert self.sim.sim_frequency_hz >= self.AUTOPILOT_FREQ
+            self.autopilot_update_interval = self.sim.sim_frequency_hz // self.AUTOPILOT_FREQ
         self.current_step = 0
 
     def get_state_space(self) -> gym.Space:
@@ -121,7 +140,7 @@ class BaseFlightTask(Task, ABC):
         return gym.spaces.Box(low=action_lows, high=action_highs, dtype='float')'
         '''
         #discrete actions
-        return gym.spaces.Discrete(3)
+        return gym.spaces.MultiDiscrete([3, 3, 3])
 
     @abstractmethod
     def get_initial_conditions(self) -> Dict[Property, float]:
@@ -142,7 +161,8 @@ class BaseFlightTask(Task, ABC):
     def _is_terminal(self, state, sim: Simulation) -> bool:
         for _state in state:
             if math.isnan(_state):
-                return True
+                print("NaN Error")
+                exit()
         if self.max_steps - self.current_step <= 0:
             return True
         return False
@@ -150,54 +170,6 @@ class BaseFlightTask(Task, ABC):
     @abstractmethod
     def calculate_reward(self,state) -> float:
         ...
-
-class TaskHeading(BaseFlightTask):
-    INITIAL_HEADING_DEG = 120.0
-    THROTTLE_CMD = 0.8
-    MIXTURE_CMD = 0.8
-    
-    def __init__(self, step_frequency_hz: float, sim: Simulation, aircraft: Aircraft, max_time_s: float = 60.0):
-        delta_heading = DerivedProperty("delta_heading","Diffrence between current and target heading angles",0,360)
-        super().__init__((delta_heading,),max_time_s, step_frequency_hz, sim)
-        self.target_heading = 90
-        self.aircraft = aircraft
-
-    def get_initial_conditions(self):
-        extra_conditions = {prp.initial_u_fps: self.aircraft.get_cruise_speed_fps(),
-                            prp.initial_v_fps: 0,
-                            prp.initial_w_fps: 0,
-                            prp.initial_p_radps: 0,
-                            prp.initial_q_radps: 0,
-                            prp.initial_r_radps: 0,
-                            prp.initial_roc_fpm: 0,
-                            prp.initial_heading_deg: self.INITIAL_HEADING_DEG,
-                            }
-        return {**self.base_initial_conditions, **extra_conditions}
-        
-    def _new_episode_init(self):
-        super()._new_episode_init()
-        self.sim.set_throttle_mixture_controls(self.THROTTLE_CMD, self.MIXTURE_CMD)
-    
-    def get_heading_error(self):
-        return abs(self.sim[prp.heading_deg] - self.target_heading)
-
-    def get_props_to_output(self):
-        return (prp.u_fps,prp.altitude_sl_ft)
-    
-    def get_prop(self, prop,sim):
-        native = super().get_prop(prop)
-        if native != None:
-            return native
-        if prop.name == "delta_heading":
-            return self.get_heading_error()
-        
-    def _is_terminal(self,state, sim: Simulation) -> bool:
-        if self.max_steps - self.current_step <= 0:
-            return True
-        return False
-    
-    def calculate_reward(self, state):
-        return 1 - state["delta_heading"] / 180.0
         
     
     

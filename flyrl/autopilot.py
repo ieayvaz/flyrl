@@ -4,7 +4,7 @@ import flyrl.properties as prp
 import math
 
 class AutoPilot():
-    def __init__(self, simulation: Simulation, P : float = 0.01, I : float = 0.001, D : float = 0.0):
+    def __init__(self, simulation: Simulation, P : float = 0.1, I : float = 0.01, D : float = 0.0):
         self.sim = simulation
         self.roll_pid = PID(P,I,D)
         self.pitch_pid = PID(P,I,D)

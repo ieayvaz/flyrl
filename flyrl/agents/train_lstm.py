@@ -13,30 +13,35 @@ import wandb
 from wandb.integration.sb3 import WandbCallback
 
 config = {
-    "policy_type": "MlpPolicy",
-    "total_timesteps": 1000000,  # Increased for complex task
-    "env_name": "MultiDogfightRascal",
+    "policy_type": "MlpLstmPolicy",  # Changed to LSTM policy
+    "total_timesteps": 1000000,
+    "env_name": "DogfightRascal",
     "learning_rate": 3e-4,
-    "n_steps": 2048,  # Increased for better sample efficiency
+    "n_steps": 2048,
     "batch_size": 64,
     "n_epochs": 10,
     "gamma": 0.99,
     "gae_lambda": 0.95,
     "clip_range": 0.2,
-    "ent_coef": 0.01,  # Encourage exploration
+    "ent_coef": 0.01,
     "vf_coef": 0.5,
     "max_grad_norm": 0.5,
     "policy_kwargs": {
-        "net_arch": [256, 256, 128],  # Larger network for complex task
+        "net_arch": [256, 256, 128],  # Network architecture for LSTM
+        "lstm_hidden_size": 256,      # LSTM hidden state size
+        "n_lstm_layers": 2,           # Number of LSTM layers
+        "shared_lstm": False,         # Whether to share LSTM between actor and critic
+        "enable_critic_lstm": True,   # Enable LSTM for critic network
     }
 }
+
 run = wandb.init(
-    project="dogfight-task-v1",
+    project="dogfight-task-v1-lstm",  # Updated project name
     config=config,
-    sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
-    monitor_gym=True,  # auto-upload the videos of agents playing the game
-    save_code=True,  # optional
-    id="13-07-2025-Multi-2"
+    sync_tensorboard=True,
+    monitor_gym=True,
+    save_code=True,
+    id="12-07-2025-15-lstm"  # Updated run ID
 )
 
 def make_env():
@@ -46,14 +51,13 @@ def make_env():
 
 # Use multiple environments for better sampling
 n_envs = 4
-# env = SubprocVecEnv([make_env for _ in range(n_envs)], start_method="spawn")
-env = DummyVecEnv([make_env for _ in range(n_envs)])
+env = DummyVecEnv([make_env for _ in range(n_envs)])  # Fixed syntax error
 
 # Evaluation environment
 eval_env = DummyVecEnv([make_env])
 
-# Instantiate the PPO agent
-model = PPO(
+# Instantiate the RecurrentPPO agent with LSTM
+model = RecurrentPPO(
     config["policy_type"],
     env,
     verbose=1,
@@ -82,7 +86,7 @@ eval_callback = EvalCallback(
 )
 
 checkpoint_callback = CheckpointCallback(
-    save_freq=10000,
+    save_freq=50000,
     save_path=f"./models/checkpoints_{run.id}",
     name_prefix="checkpoint"
 )

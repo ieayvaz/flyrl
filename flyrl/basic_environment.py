@@ -1,16 +1,15 @@
 from typing import Any, Dict, Tuple, Type
 import gymnasium as gym
 import numpy as np
-from flyrl.basic_tasks import TaskHeading
 from flyrl.aircraft import Aircraft
 from flyrl.simulation import Simulation
 from flyrl.visualiser import FigureVisualiser, FlightGearRemoteVisualiser
 
 class BasicJsbSimEnv(gym.Env):
-    JSBSIM_DT_HZ: int = 1200  # JSBSim integration frequency
+    JSBSIM_DT_HZ: int = 120  # JSBSim integration frequency
     metadata = {'render.modes': ['human', 'flightgear']}
 
-    def __init__(self, task_type: Type[TaskHeading], aircraft: Aircraft, agent_interaction_freq: int = 10, debug : bool = False):
+    def __init__(self, task_type, aircraft: Aircraft, agent_interaction_freq: int = 60, debug : bool = False):
         if agent_interaction_freq > self.JSBSIM_DT_HZ:
             raise ValueError('agent interaction frequency must be less than '
                              'or equal to JSBSim integration frequency of '
