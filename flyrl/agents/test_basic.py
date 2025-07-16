@@ -14,6 +14,7 @@ total_eps = 0
 obs = env.reset()[0]
 for _ in range(3600):
     action,_ = model.predict(obs, deterministic=True)
+    print(f"Action: {action}")
     #action = env.action_space.sample()
     obs, reward, done,_, info = env.step(action)
     total_rew += reward

@@ -50,7 +50,7 @@ if __name__ == "__main__":
     mp.set_start_method('spawn', force=True)
     
     # Use multiple environments for better sampling
-    n_envs = min(mp.cpu_count(), 8)  # Use available CPUs, max 8 for memory efficiency
+    n_envs = min(mp.cpu_count(), 4)  # Use available CPUs, max 8 for memory efficiency
     print(f"Using {n_envs} parallel environments")
     
     # Create parallel training environment using SubprocVecEnv for true parallelization

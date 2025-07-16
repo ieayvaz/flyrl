@@ -25,7 +25,7 @@ class MultiAircraftFlightTask(Task, ABC):
     HEADING_MIN = 0.0      # degrees
     HEADING_MAX = 360.0    # degrees
     ALTITUDE_MIN = 650.0   # meters
-    ALTITUDE_MAX = 750.0  # meters
+    ALTITUDE_MAX = 750.0   # meters
     THROTTLE_MIN = 0.0
     THROTTLE_MAX = 1.0
     
@@ -68,9 +68,64 @@ class MultiAircraftFlightTask(Task, ABC):
         self.enemy_target_altitude = self.INITIAL_ALTITUDE_FT * 0.3048  # Convert to meters
         self.enemy_target_throttle = 0.8
 
-    def task_step(self, action, sim_steps: int) -> Tuple[np.ndarray, float, bool, Dict]:
+    def normalize_action(self, normalized_action: np.ndarray) -> np.ndarray:
+        """
+        Convert normalized action [-1, 1] to actual action space values.
+        
+        Args:
+            normalized_action: Array of shape (3,) with values in [-1, 1]
+                              [normalized_heading, normalized_altitude, normalized_throttle]
+        
+        Returns:
+            Array with actual action values:
+            [heading (0-360°), altitude (650-750m), throttle (0-1)]
+        """
+        # Clip to ensure inputs are in valid range
+        normalized_action = np.clip(normalized_action, -1.0, 1.0)
+        
+        # Convert from [-1, 1] to [0, 1] for easier scaling
+        action_01 = (normalized_action + 1.0) / 2.0
+        
+        # Scale to actual ranges
+        actual_heading = action_01[0] * (self.HEADING_MAX - self.HEADING_MIN) + self.HEADING_MIN
+        actual_altitude = action_01[1] * (self.ALTITUDE_MAX - self.ALTITUDE_MIN) + self.ALTITUDE_MIN
+        actual_throttle = action_01[2] * (self.THROTTLE_MAX - self.THROTTLE_MIN) + self.THROTTLE_MIN
+        
+        return np.array([actual_heading, actual_altitude, actual_throttle])
+
+    def denormalize_action(self, actual_action: np.ndarray) -> np.ndarray:
+        """
+        Convert actual action values to normalized [-1, 1] range.
+        
+        Args:
+            actual_action: Array with actual values [heading, altitude, throttle]
+        
+        Returns:
+            Array with normalized values in [-1, 1] range
+        """
+        # Normalize each component to [0, 1]
+        norm_heading = (actual_action[0] - self.HEADING_MIN) / (self.HEADING_MAX - self.HEADING_MIN)
+        norm_altitude = (actual_action[1] - self.ALTITUDE_MIN) / (self.ALTITUDE_MAX - self.ALTITUDE_MIN)
+        norm_throttle = (actual_action[2] - self.THROTTLE_MIN) / (self.THROTTLE_MAX - self.THROTTLE_MIN)
+        
+        # Convert from [0, 1] to [-1, 1]
+        normalized_action = np.array([norm_heading, norm_altitude, norm_throttle]) * 2.0 - 1.0
+        
+        return normalized_action
+
+    def task_step(self, normalized_action, sim_steps: int) -> Tuple[np.ndarray, float, bool, Dict]:
+        """
+        Modified task_step to handle normalized actions.
+        
+        Args:
+            normalized_action: Action in normalized [-1, 1] space
+            sim_steps: Number of simulation steps to run
+        """
+        # Convert normalized action to actual action space
+        actual_action = self.normalize_action(normalized_action)
+        
         # Process player action (heading, altitude, throttle)
-        self._process_player_action(action)
+        self._process_player_action(actual_action)
         
         # Generate enemy action (AI behavior)
         enemy_action = self._generate_enemy_action()
@@ -80,7 +135,7 @@ class MultiAircraftFlightTask(Task, ABC):
         self._apply_enemy_controls()
         
         # Run both simulations
-        self._run_simulations(sim_steps, action, enemy_action)
+        self._run_simulations(sim_steps, actual_action, enemy_action)
         
         # Get combined state
         state = self.get_state()
@@ -100,10 +155,10 @@ class MultiAircraftFlightTask(Task, ABC):
         """
         Process the player's action:
         action[0]: Heading command (0-360 degrees)
-        action[1]: Altitude command (500-1000 meters)
+        action[1]: Altitude command (650-750 meters)
         action[2]: Throttle command (0-1)
         """
-        # Extract and clip actions
+        # Extract and clip actions (already denormalized)
         heading_cmd = np.clip(action[0], self.HEADING_MIN, self.HEADING_MAX)
         altitude_cmd = np.clip(action[1], self.ALTITUDE_MIN, self.ALTITUDE_MAX)
         throttle_cmd = np.clip(action[2], self.THROTTLE_MIN, self.THROTTLE_MAX)
@@ -113,6 +168,50 @@ class MultiAircraftFlightTask(Task, ABC):
         self.player_target_altitude = altitude_cmd
         self.player_target_throttle = throttle_cmd
     
+    def get_normalized_action_space(self) -> gym.Space:
+        """
+        Get normalized action space with values in [-1, 1].
+        This is what the RL agent will work with.
+        """
+        return gym.spaces.Box(
+            low=np.array([-1.0, -1.0, -1.0]),
+            high=np.array([1.0, 1.0, 1.0]),
+            dtype=np.float32
+        )
+
+    def get_action_space(self) -> gym.Space:
+        """
+        Get the original action space (for reference or if normalization is disabled).
+        """
+        action_lows = np.array([
+            self.HEADING_MIN,
+            self.ALTITUDE_MIN,
+            self.THROTTLE_MIN
+        ])
+        action_highs = np.array([
+            self.HEADING_MAX,
+            self.ALTITUDE_MAX,
+            self.THROTTLE_MAX
+        ])
+        return gym.spaces.Box(low=action_lows, high=action_highs, dtype=np.float32)
+
+    def get_action_bounds(self) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Get action bounds for reference.
+        
+        Returns:
+            Tuple of (lower_bounds, upper_bounds) for [heading, altitude, throttle]
+        """
+        lower_bounds = np.array([self.HEADING_MIN, self.ALTITUDE_MIN, self.THROTTLE_MIN])
+        upper_bounds = np.array([self.HEADING_MAX, self.ALTITUDE_MAX, self.THROTTLE_MAX])
+        return lower_bounds, upper_bounds
+
+    def sample_normalized_action(self) -> np.ndarray:
+        """
+        Sample a random normalized action for testing.
+        """
+        return np.random.uniform(-1.0, 1.0, size=3)
+
     def _calculate_control_targets(self) -> Tuple[float, float]:
         """
         Calculate roll and pitch targets based on desired heading and altitude.
@@ -427,20 +526,6 @@ class MultiAircraftFlightTask(Task, ABC):
         state_lows = np.array([state_var.min for state_var in self.state_variables])
         state_highs = np.array([state_var.max for state_var in self.state_variables])
         return gym.spaces.Box(low=state_lows, high=state_highs, dtype='float')
-
-    def get_action_space(self) -> gym.Space:
-        # Changed action space to: [heading, altitude, throttle]
-        action_lows = np.array([
-            self.HEADING_MIN,
-            self.ALTITUDE_MIN,
-            self.THROTTLE_MIN
-        ])
-        action_highs = np.array([
-            self.HEADING_MAX,
-            self.ALTITUDE_MAX,
-            self.THROTTLE_MAX
-        ])
-        return gym.spaces.Box(low=action_lows, high=action_highs, dtype=np.float32)
 
     @abstractmethod
     def get_initial_conditions(self) -> Dict[Property, float]:
