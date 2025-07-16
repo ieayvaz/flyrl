@@ -290,9 +290,7 @@ class MultiAircraftFlightTask(Task, ABC):
         if self.use_autopilot:
             for i in range(sim_steps):
                 if i % self.player_autopilot_update_interval == 0:
-                    self._process_player_action(player_action)
-                    target_roll, target_pitch = self._calculate_control_targets()
-                    _action = self.player_autopilot.generate_controls(target_roll, target_pitch)
+                    _action = self.player_autopilot.generate_controls(self.player_target_roll, self.player_target_pitch)
                     for prop, command in zip((prp.aileron_cmd, prp.elevator_cmd), _action):
                         self.player_sim[prop] = command
                     self.player_sim[prp.throttle_cmd] = self.player_target_throttle
