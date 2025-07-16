@@ -99,7 +99,7 @@ class DogfightVisualizer:
         self.own_aircraft_marker, = self.ax.plot([], [], [], 'bo', markersize=8, label='Own Position')
         self.enemy_aircraft_marker, = self.ax.plot([], [], [], 'rs', markersize=8, label='Enemy Position')
         
-        # Initialize waypoint visualization elements
+        # Initialize waypoint visualization elements only if enabled
         if self.show_waypoints:
             self.enemy_waypoint_marker, = self.ax.plot([], [], [], 'g^', markersize=10, 
                                                      label='Enemy Waypoint', alpha=0.8)
@@ -131,7 +131,7 @@ class DogfightVisualizer:
             enemy_pos: (x, y, z) position of enemy aircraft in ENU coordinates
             own_orientation: (roll, pitch, heading) of own aircraft in radians
             enemy_orientation: (roll, pitch, heading) of enemy aircraft in radians
-            enemy_waypoint: (x, y, z) position of enemy waypoint in ENU coordinates
+            enemy_waypoint: (x, y, z) position of enemy waypoint in ENU coordinates or None
         """
         # Add positions to trajectory history
         self.own_trajectory.append(own_pos)
@@ -143,10 +143,13 @@ class DogfightVisualizer:
         if enemy_orientation:
             self.enemy_orientation_history.append(enemy_orientation)
         
-        # Update enemy waypoint
-        if enemy_waypoint:
+        # Update enemy waypoint - handle None case explicitly
+        if enemy_waypoint is not None:
             self.current_enemy_waypoint = enemy_waypoint
             self.enemy_waypoint_history.append(enemy_waypoint)
+        else:
+            # Clear waypoint if None is passed
+            self.current_enemy_waypoint = None
         
         # Limit trajectory length
         if len(self.own_trajectory) > self.max_history_points:
@@ -186,13 +189,18 @@ class DogfightVisualizer:
         own_orientation = (env.get_prop(prp.roll_rad), env.get_prop(prp.pitch_rad), env.get_prop(prp.heading_deg) * math.pi / 180)
         enemy_orientation = (env.enemy_sim[prp.roll_rad], env.enemy_sim[prp.pitch_rad], env.enemy_sim[prp.heading_deg] * math.pi / 180)
         
-        # Get enemy waypoint if available
+        # Get enemy waypoint if available - enhanced checking
         enemy_waypoint_enu = None
-        waypoint = env.enemy_controller.current_waypoint
-        if waypoint is not None:
-            # Convert waypoint from lat/lon/alt to ENU coordinates
-            waypoint_geo = np.array([waypoint[0], waypoint[1], waypoint[2]])
-            enemy_waypoint_enu = tuple(geoutils.lla_2_enu(waypoint_geo, origin))
+        if hasattr(env, 'enemy_controller') and env.enemy_controller is not None:
+            if hasattr(env.enemy_controller, 'current_waypoint'):
+                waypoint = env.enemy_controller.current_waypoint
+                if waypoint is not None and len(waypoint) >= 3:
+                    # Additional validation - check if waypoint values are valid
+                    if all(isinstance(coord, (int, float)) and not math.isnan(coord) for coord in waypoint[:3]):
+                        # Convert waypoint from lat/lon/alt to ENU coordinates
+                        waypoint_geo = np.array([waypoint[0], waypoint[1], waypoint[2]])
+                        enemy_waypoint_enu = tuple(geoutils.lla_2_enu(waypoint_geo, origin))
+        
         # Update positions
         self.update_positions(tuple(own_enu_pos), tuple(enemy_enu_pos), 
                             own_orientation, enemy_orientation, enemy_waypoint_enu)
@@ -247,8 +255,8 @@ class DogfightVisualizer:
             'num_points': len(self.own_trajectory)
         }
         
-        # Add waypoint metrics if available
-        if self.current_enemy_waypoint:
+        # Add waypoint metrics only if waypoint is available
+        if self.current_enemy_waypoint is not None:
             waypoint_pos = np.array(self.current_enemy_waypoint)
             waypoint_distance = np.linalg.norm(waypoint_pos - enemy_pos)
             waypoint_alt = waypoint_pos[2]
@@ -283,9 +291,12 @@ class DogfightVisualizer:
         self.own_aircraft_marker.set_data_3d([own_pos[0]], [own_pos[1]], [own_pos[2]])
         self.enemy_aircraft_marker.set_data_3d([enemy_pos[0]], [enemy_pos[1]], [enemy_pos[2]])
         
-        # Update waypoint visualization
-        if self.show_waypoints and self.current_enemy_waypoint:
+        # Update waypoint visualization only if waypoints are enabled and available
+        if self.show_waypoints and self.current_enemy_waypoint is not None:
             self._update_waypoint_visualization(enemy_pos)
+        else:
+            # Hide waypoint elements if no waypoint is available
+            self._hide_waypoint_visualization()
         
         # Update orientation arrows
         if self.own_orientation_history and self.enemy_orientation_history:
@@ -302,11 +313,13 @@ class DogfightVisualizer:
             info_str += f"Rel Bearing: {metrics['relative_bearing']:.1f}°\n"
             info_str += f"Points: {metrics['num_points']}\n"
             
-            # Add waypoint information
+            # Add waypoint information only if available
             if 'waypoint_distance' in metrics:
                 info_str += f"Waypoint Dist: {metrics['waypoint_distance']:.1f}m\n"
                 info_str += f"Waypoint Alt: {metrics['waypoint_alt']:.1f}m\n"
                 info_str += f"Waypoint Bearing: {metrics['waypoint_bearing']:.1f}°"
+            else:
+                info_str += "No waypoint available"
             
             self.info_text.set_text(info_str)
         
@@ -316,29 +329,44 @@ class DogfightVisualizer:
         
     def _update_waypoint_visualization(self, enemy_pos: Tuple[float, float, float]):
         """Update waypoint marker and line visualization"""
-        if not self.current_enemy_waypoint:
+        if self.current_enemy_waypoint is None:
             return
             
         waypoint_pos = self.current_enemy_waypoint
         
         # Update waypoint marker
-        if self.enemy_waypoint_marker:
+        if self.enemy_waypoint_marker is not None:
             self.enemy_waypoint_marker.set_data_3d([waypoint_pos[0]], [waypoint_pos[1]], [waypoint_pos[2]])
         
         # Update waypoint line
-        if self.show_waypoint_line and self.enemy_waypoint_line:
+        if self.show_waypoint_line and self.enemy_waypoint_line is not None:
             self.enemy_waypoint_line.set_data_3d([enemy_pos[0], waypoint_pos[0]], 
                                                 [enemy_pos[1], waypoint_pos[1]], 
                                                 [enemy_pos[2], waypoint_pos[2]])
         
-        # Update waypoint text annotation (optional)
-        if hasattr(self, 'waypoint_text') and self.waypoint_text:
+        # Update waypoint text annotation
+        if hasattr(self, 'waypoint_text') and self.waypoint_text is not None:
             self.waypoint_text.remove()
         
         # Add waypoint distance annotation
         distance = np.linalg.norm(np.array(waypoint_pos) - np.array(enemy_pos))
         self.waypoint_text = self.ax.text(waypoint_pos[0], waypoint_pos[1], waypoint_pos[2] + 50,
                                          f'WP\n{distance:.0f}m', fontsize=8, color='green')
+    
+    def _hide_waypoint_visualization(self):
+        """Hide waypoint visualization elements when no waypoint is available"""
+        # Hide waypoint marker
+        if self.enemy_waypoint_marker is not None:
+            self.enemy_waypoint_marker.set_data_3d([], [], [])
+        
+        # Hide waypoint line
+        if self.enemy_waypoint_line is not None:
+            self.enemy_waypoint_line.set_data_3d([], [], [])
+        
+        # Remove waypoint text
+        if hasattr(self, 'waypoint_text') and self.waypoint_text is not None:
+            self.waypoint_text.remove()
+            self.waypoint_text = None
         
     def _update_orientation_arrows(self):
         """Update aircraft orientation arrows"""
@@ -379,8 +407,8 @@ class DogfightVisualizer:
             
         all_positions = np.array(self.own_trajectory + self.enemy_trajectory)
         
-        # Include waypoint in limits calculation
-        if self.current_enemy_waypoint:
+        # Include waypoint in limits calculation only if available
+        if self.current_enemy_waypoint is not None:
             all_positions = np.vstack([all_positions, self.current_enemy_waypoint])
         
         # Add some padding
@@ -468,7 +496,7 @@ def example_usage():
 
 
 if __name__ == "__main__":
-    # Simple test with dummy data including waypoints
+    # Test with dummy data including waypoints (some None)
     visualizer = DogfightVisualizer(show_waypoints=True, show_waypoint_line=True)
     
     # Add some test trajectory points with waypoints
@@ -480,8 +508,11 @@ if __name__ == "__main__":
         own_orientation = (0, 0.1 * np.sin(t), t)
         enemy_orientation = (0, -0.1 * np.sin(t), t + np.pi/4)
         
-        # Add a moving waypoint for the enemy
-        waypoint_pos = (200 * np.cos(t * 0.5), 200 * np.sin(t * 0.5), 1200)
+        # Sometimes have waypoints, sometimes don't
+        if i % 10 < 7:  # 70% of the time have waypoints
+            waypoint_pos = (200 * np.cos(t * 0.5), 200 * np.sin(t * 0.5), 1200)
+        else:
+            waypoint_pos = None  # No waypoint
         
         visualizer.update_positions(own_pos, enemy_pos, own_orientation, enemy_orientation, waypoint_pos)
     

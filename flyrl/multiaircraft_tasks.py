@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 import types
 from typing import Dict, Sequence, Tuple, Union, List
 from flyrl.autopilot import AutoPilot
-from flyrl.manuevers import TacticalManeuver
 from flyrl.tasks import Task
 from flyrl.simulation import Simulation
 import numpy as np
@@ -22,6 +21,16 @@ class MultiAircraftFlightTask(Task, ABC):
     PITCH_INCREMENT = 5.0
     THROTTLE_INCREMENT = 0.1
     
+    # Action space limits
+    THROTTLE_MIN = 0.0
+    THROTTLE_MAX = 1.0
+    NORMAL_ACCEL_MIN = -6.0  # G's
+    NORMAL_ACCEL_MAX = 6.0   # G's
+    LATERAL_ACCEL_MIN = -3.0  # G's
+    LATERAL_ACCEL_MAX = 3.0   # G's
+    ROLL_RATE_MIN = -60.0    # deg/s
+    ROLL_RATE_MAX = 60.0     # deg/s
+    
     base_state_variables = ()
     base_initial_conditions = {
         prp.initial_altitude_ft: INITIAL_ALTITUDE_FT,
@@ -33,8 +42,8 @@ class MultiAircraftFlightTask(Task, ABC):
     def __init__(self, state_variables, max_time_s, step_frequency_hz, 
                  player_sim: Simulation, enemy_sim: Simulation, 
                  debug: bool = False,
-                 action_variables: Tuple = (prp.aileron_cmd, prp.elevator_cmd), 
-                 use_autopilot=False,
+                 action_variables: Tuple = (prp.aileron_cmd, prp.elevator_cmd, prp.rudder_cmd, prp.throttle_cmd), 
+                 use_autopilot=True,  # Changed to True by default for continuous control
                  enemy_use_autopilot=True):
         self.debug = debug
         self.state_variables = state_variables
@@ -51,21 +60,25 @@ class MultiAircraftFlightTask(Task, ABC):
         
         self.current_step = 0
         
-        # Player aircraft targets
-        self.player_target_roll = 0.0
-        self.player_target_pitch = 2.0
+        # Player aircraft control targets (now continuous)
         self.player_target_throttle = 0.8
+        self.player_target_normal_accel = 0.0  # G's
+        self.player_target_lateral_accel = 0.0  # G's
+        self.player_target_roll_rate = 0.0     # deg/s
         
         # Enemy aircraft targets (controlled by AI with high-level commands)
         self.enemy_target_heading = 0.0
         self.enemy_target_altitude = self.INITIAL_ALTITUDE_FT
         self.enemy_target_throttle = 0.8
         
-        # Initialize maneuver controller - to be set by subclasses
-        self.maneuver_controller = None
+        # Control conversion parameters
+        self.gravity = 9.81  # m/s^2
+        self.last_roll_deg = 0.0  # For roll rate control
 
     def task_step(self, action, sim_steps: int) -> Tuple[np.ndarray, float, bool, Dict]:
-        # Process player action
+        # Process player action (now continuous)
+        self._process_player_action(action)
+        
         # Generate enemy action (AI behavior)
         enemy_action = self._generate_enemy_action()
         
@@ -92,45 +105,62 @@ class MultiAircraftFlightTask(Task, ABC):
     
     def _process_player_action(self, action):
         """
-        Process the player's action, which is a selected maneuver from the RL agent.
+        Process the player's continuous action:
+        action[0]: Throttle command (0-1)
+        action[1]: Normal acceleration command (G's)
+        action[2]: Lateral acceleration command (G's)
+        action[3]: Roll rate command (deg/s)
         """
-        if self.maneuver_controller is None:
-            raise ValueError("Maneuver controller not initialized. Make sure to set it in the subclass.")
-            
-        # Convert the integer action to a TacticalManeuver enum
-        # Parameterized lead pursuit.
-        selected_maneuver = TacticalManeuver(action)
-        #self.maneuver_controller.set_lead_pursuit_params(action[0],action[1],action[2])
-
-        # Get the current state of the player aircraft
-        current_roll_deg = math.degrees(self.player_sim[prp.roll_rad])
-        current_pitch_deg = math.degrees(self.player_sim[prp.pitch_rad])
-        current_heading_deg = self.player_sim[prp.heading_deg]
-        current_speed_mps = self._get_player_speed_mps()
+        # Extract and clip actions
+        throttle_cmd = np.clip(action[0], self.THROTTLE_MIN, self.THROTTLE_MAX)
+        normal_accel_cmd = np.clip(action[1], self.NORMAL_ACCEL_MIN, self.NORMAL_ACCEL_MAX)
+        lateral_accel_cmd = np.clip(action[2], self.LATERAL_ACCEL_MIN, self.LATERAL_ACCEL_MAX)
+        roll_rate_cmd = np.clip(action[3], self.ROLL_RATE_MIN, self.ROLL_RATE_MAX)
         
-        # Get enemy relative information
-        enemy_bearing_deg, enemy_elevation_deg, enemy_range_m = self._get_enemy_relative_info()
-        relative_velocity_mps = self._get_relative_velocity_mps()
-
-        # Get the target controls for the selected maneuver
-        target_roll, target_pitch, target_throttle = self.maneuver_controller.get_maneuver_controls(
-            selected_maneuver,
-            current_roll_deg,
-            current_pitch_deg,
-            enemy_bearing_deg,
-            enemy_elevation_deg,
-            enemy_range_m,
-            relative_velocity_mps,
-            current_heading_deg,
-            current_speed_mps,
-            current_altitude_m = self.get_prop(prp.altitude_sl_ft)*0.3048,
-            enemy_altitude_m= self.enemy_sim[prp.altitude_sl_ft]*0.3048,
-        )
-
-        # Update the player's target values for the autopilot
-        self.player_target_roll = target_roll
-        self.player_target_pitch = target_pitch
-        self.player_target_throttle = target_throttle
+        # Update target values
+        self.player_target_throttle = throttle_cmd
+        self.player_target_normal_accel = normal_accel_cmd
+        self.player_target_lateral_accel = lateral_accel_cmd
+        self.player_target_roll_rate = roll_rate_cmd
+    
+    def _convert_accel_to_control_targets(self):
+        """
+        Convert acceleration commands to roll and pitch targets for autopilot.
+        This is a simplified conversion - you may need to adjust based on your aircraft dynamics.
+        """
+        # Get current aircraft state
+        current_speed_mps = self._get_player_speed_mps()
+        current_roll_deg = math.degrees(self.player_sim[prp.roll_rad])
+        
+        # Convert normal acceleration to pitch target
+        # Normal acceleration is primarily controlled by elevator (pitch)
+        # Simplified: pitch_target = atan(normal_accel * g / speed^2) * some_gain
+        if current_speed_mps > 10:  # Avoid division by zero
+            pitch_from_accel = math.degrees(math.atan(self.player_target_normal_accel * self.gravity / (current_speed_mps * 10)))
+            target_pitch = np.clip(pitch_from_accel, -self.MAXIMUM_PITCH, self.MAXIMUM_PITCH)
+        else:
+            target_pitch = 0.0
+        
+        # Convert lateral acceleration to roll target
+        # Lateral acceleration is primarily controlled by roll
+        # Simplified: roll_target = atan(lateral_accel * g / speed^2) * some_gain  
+        if current_speed_mps > 10:  # Avoid division by zero
+            roll_from_accel = math.degrees(math.atan(self.player_target_lateral_accel * self.gravity / (current_speed_mps * 5)))
+            target_roll_from_accel = np.clip(roll_from_accel, -self.MAXIMUM_ROLL, self.MAXIMUM_ROLL)
+        else:
+            target_roll_from_accel = 0.0
+        
+        # Combine roll from lateral acceleration with roll rate command
+        # Roll rate command can be integrated to get roll target
+        dt = 1.0 / self.step_frequency_hz
+        target_roll_from_rate = current_roll_deg + self.player_target_roll_rate * dt
+        target_roll_from_rate = np.clip(target_roll_from_rate, -self.MAXIMUM_ROLL, self.MAXIMUM_ROLL)
+        
+        # Combine both roll commands (you may want to weight these differently)
+        target_roll = 0.5 * target_roll_from_accel + 0.5 * target_roll_from_rate
+        target_roll = np.clip(target_roll, -self.MAXIMUM_ROLL, self.MAXIMUM_ROLL)
+        
+        return target_roll, target_pitch
     
     def _get_player_speed_mps(self) -> float:
         """Get player aircraft speed in m/s"""
@@ -228,16 +258,22 @@ class MultiAircraftFlightTask(Task, ABC):
         self.enemy_target_throttle = np.clip(desired_throttle, 0.5, 1.0)
     
     def _apply_player_controls(self):
-        """Apply controls to player aircraft"""
+        """Apply controls to player aircraft using autopilot with continuous commands"""
         if self.use_autopilot:
-            _action = self.player_autopilot.generate_controls(
-                self.player_target_roll, self.player_target_pitch
-            )
+            # Convert acceleration commands to roll/pitch targets
+            target_roll, target_pitch = self._convert_accel_to_control_targets()
+            
+            # Generate control surface commands via autopilot
+            _action = self.player_autopilot.generate_controls(target_roll, target_pitch)
         else:
+            # Direct control (you might want to implement direct acceleration control here)
             _action = (0, 0)
 
+        # Apply control surface commands
         for prop, command in zip((prp.aileron_cmd, prp.elevator_cmd), _action):
             self.player_sim[prop] = command
+        
+        # Apply throttle directly
         self.player_sim[prp.throttle_cmd] = self.player_target_throttle
     
     def _apply_enemy_controls(self):
@@ -276,11 +312,11 @@ class MultiAircraftFlightTask(Task, ABC):
             for i in range(sim_steps):
                 if i % self.player_autopilot_update_interval == 0:
                     self._process_player_action(player_action)
-                    _action = self.player_autopilot.generate_controls(
-                        self.player_target_roll, self.player_target_pitch
-                    )
+                    target_roll, target_pitch = self._convert_accel_to_control_targets()
+                    _action = self.player_autopilot.generate_controls(target_roll, target_pitch)
                     for prop, command in zip((prp.aileron_cmd, prp.elevator_cmd), _action):
                         self.player_sim[prop] = command
+                    self.player_sim[prp.throttle_cmd] = self.player_target_throttle
                 self.player_sim.run()
         else:
             for _ in range(sim_steps):
@@ -397,6 +433,13 @@ class MultiAircraftFlightTask(Task, ABC):
             assert self.enemy_sim.sim_frequency_hz >= self.AUTOPILOT_FREQ
             self.enemy_autopilot_update_interval = self.enemy_sim.sim_frequency_hz // self.AUTOPILOT_FREQ
         
+        # Reset control targets
+        self.player_target_throttle = 0.8
+        self.player_target_normal_accel = 0.0
+        self.player_target_lateral_accel = 0.0
+        self.player_target_roll_rate = 0.0
+        self.last_roll_deg = 0.0
+        
         self.current_step = 0
 
     def get_state_space(self) -> gym.Space:
@@ -405,9 +448,20 @@ class MultiAircraftFlightTask(Task, ABC):
         return gym.spaces.Box(low=state_lows, high=state_highs, dtype='float')
 
     def get_action_space(self) -> gym.Space:
-        # Discrete actions for player aircraft - now using TacticalManeuver enum
-        #return gym.spaces.Box(np.array([0.0,-1.0,0.5]), np.array([1.0,1.0,2.0]))
-        return gym.spaces.Discrete(len(TacticalManeuver))
+        # Continuous action space: [throttle, normal_accel, lateral_accel, roll_rate]
+        action_lows = np.array([
+            self.THROTTLE_MIN,
+            self.NORMAL_ACCEL_MIN,
+            self.LATERAL_ACCEL_MIN,
+            self.ROLL_RATE_MIN
+        ])
+        action_highs = np.array([
+            self.THROTTLE_MAX,
+            self.NORMAL_ACCEL_MAX,
+            self.LATERAL_ACCEL_MAX,
+            self.ROLL_RATE_MAX
+        ])
+        return gym.spaces.Box(low=action_lows, high=action_highs, dtype=np.float32)
 
     @abstractmethod
     def get_initial_conditions(self) -> Dict[Property, float]:

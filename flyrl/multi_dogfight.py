@@ -10,6 +10,7 @@ from flyrl.aircraft import Aircraft
 from flyrl.multiaircraft_tasks import MultiAircraftFlightTask
 from flyrl.utils import mt2ft, ft2mt
 from flyrl import geoutils
+from flyrl.enemy_controller import EnemyControllerFactory
 
 class MultiAircraftDogfightTask(MultiAircraftFlightTask):
     """Multi-aircraft dogfight task with AI enemy using waypoint navigation"""
@@ -22,6 +23,7 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
     def __init__(self, step_frequency_hz: float, 
                  player_sim: Simulation, enemy_sim: Simulation,
                  player_aircraft: Aircraft, enemy_aircraft: Aircraft,
+                 enemy_difficulty: str = 'easy',
                  max_time_s: float = 60.0, debug: bool = False):
         
         # Define state variables for dogfight - adjusted for smaller area
@@ -96,6 +98,7 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         self.los_elevation_error_cos_prp = los_elevation_error_cos
         
         # Enemy AI controller
+        self.enemy_difficulty = enemy_difficulty
         self.enemy_controller = None
         self.successful_locks = 0
         
@@ -129,16 +132,39 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         return self.get_relative_velocity()
     
     def _generate_enemy_action(self) -> Tuple[float, float, float]:
-        """Generate enemy AI action using waypoint controller"""
+        """Generate enemy AI action using difficulty-appropriate controller"""
         if self.enemy_controller is None:
             # Initialize controller with current position
             enemy_pos = self.get_enemy_position()
-            self.enemy_controller = EnemyWaypointController(
-                initial_position=enemy_pos,
-                waypoint_radius=250.0, 
-                altitude_range=(675, 725),  
-                waypoint_threshold=50.0    
-            )
+            
+            # Create controller based on difficulty
+            if self.enemy_difficulty.lower() == 'easy':
+                self.enemy_controller = EnemyControllerFactory.create_controller(
+                    'easy', 
+                    enemy_pos,
+                    altitude_range=(675, 725),
+                    line_length=800.0,  # Length of line to follow
+                    speed=0.65  # Slower speed for easy opponent
+                )
+            elif self.enemy_difficulty.lower() == 'medium':
+                self.enemy_controller = EnemyControllerFactory.create_controller(
+                    'medium',
+                    enemy_pos,
+                    altitude_range=(675, 725),
+                    turn_probability=0.003,  # Adjust turn frequency
+                    turn_angle_range=(20, 60),  # Moderate turn angles
+                    straight_time_range=(6.0, 12.0),  # Time between turns
+                    speed=0.75
+                )
+            else:  # hard
+                self.enemy_controller = EnemyControllerFactory.create_controller(
+                    'hard',
+                    enemy_pos,
+                    waypoint_radius=250.0,
+                    altitude_range=(675, 725),
+                    waypoint_threshold=50.0,
+                    waypoint_timeout=12.0
+                )
         
         # Update enemy controller
         current_pos = self.get_enemy_position()
@@ -444,7 +470,6 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         # Check step limit
         if self.max_steps - self.current_step <= 0:
             return True
-        self.update_lock_tracking()
         # if self.current_lock_duration >= self.min_lock_duration:
         #     return True
         # Check custom termination conditions
@@ -479,16 +504,168 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
                 # Lock was broken
                 self.lock_start_time = None
                 self.current_lock_duration = 0.0
-    
+        
     def calculate_reward(self, state, done) -> float:
-        reward = 0.0
-        self.update_lock_tracking()
+        """
+        Dense reward function to guide UAV towards lock conditions.
+        
+        Lock conditions:
+        - Distance < 50m
+        - Azimuth error < 50°  
+        - Elevation error < 30°
+        - Lock duration >= 2.0s for success
+        """
+        
+        # Get current state values
+        distance = self.get_distance()
+        azimuth_error = abs(self.get_3d_los_azimuth_error())
+        elevation_error = abs(self.get_3d_los_elevation_error())
+        
+        # Terminal rewards
         if done:
-            if self.successful_locks < 1.0:
-                return -1.0
+            if self.successful_locks >= 1:
+                return 10.0  # Major success reward
+            elif self.distance_limit():
+                return -5.0  # Major penalty for going out of bounds
+            elif self.altitude_limit():
+                return -5.0  # Major penalty for altitude violation
             else:
-                return 1.0
-        return reward
+                return -1.0  # Episode timeout penalty
+        
+        # === DISTANCE REWARD ===
+        # Encourage getting closer, with exponential increase as we approach lock range
+        distance_reward = 0.0
+        if distance <= 50:
+            # Inside lock range - high reward
+            distance_reward = 0.5 * (1.0 - distance / 50.0)
+        elif distance <= 200:
+            # Close approach zone - moderate reward
+            distance_reward = 0.3 * (1.0 - (distance - 50) / 150.0)
+        elif distance <= 500:
+            # Medium range - small reward
+            distance_reward = 0.1 * (1.0 - (distance - 200) / 300.0)
+        else:
+            # Far range - very small reward to encourage approach
+            max_distance = 2500  # Your distance limit
+            distance_reward = 0.05 * (1.0 - min(distance, max_distance) / max_distance)
+        
+        # === ANGULAR ALIGNMENT REWARDS ===
+        # Azimuth alignment (horizontal pointing)
+        azimuth_reward = 0.0
+        if azimuth_error <= 50:
+            # Inside lock tolerance
+            azimuth_reward = 0.4 * (1.0 - azimuth_error / 50.0)
+        elif azimuth_error <= 90:
+            # Close to alignment
+            azimuth_reward = 0.2 * (1.0 - (azimuth_error - 50) / 40.0)
+        else:
+            # Far from alignment - small reward for improvement
+            azimuth_reward = 0.05 * (1.0 - min(azimuth_error, 180) / 180.0)
+        
+        # Elevation alignment (vertical pointing)
+        elevation_reward = 0.0
+        if elevation_error <= 30:
+            # Inside lock tolerance
+            elevation_reward = 0.4 * (1.0 - elevation_error / 30.0)
+        elif elevation_error <= 60:
+            # Close to alignment
+            elevation_reward = 0.2 * (1.0 - (elevation_error - 30) / 30.0)
+        else:
+            # Far from alignment - small reward for improvement
+            elevation_reward = 0.05 * (1.0 - min(elevation_error, 90) / 90.0)
+        
+        # === LOCK CONDITION BONUS ===
+        # Extra reward when multiple conditions are met simultaneously
+        lock_bonus = 0.0
+        conditions_met = 0
+        
+        if distance <= 50:
+            conditions_met += 1
+        if azimuth_error <= 50:
+            conditions_met += 1
+        if elevation_error <= 30:
+            conditions_met += 1
+        
+        if conditions_met == 2:
+            lock_bonus = 0.3
+        elif conditions_met == 3:
+            lock_bonus = 0.8  # All conditions met
+        
+        # === LOCK DURATION REWARD ===
+        # Reward for maintaining lock over time
+        lock_duration_reward = 0.0
+        if self.is_locked():
+            # Exponential reward for maintaining lock
+            lock_duration_reward = 0.5 * min(self.current_lock_duration / self.min_lock_duration, 1.0)
+            
+            # Bonus for successful lock achievement
+            if self.current_lock_duration >= self.min_lock_duration:
+                lock_duration_reward += 2.0
+        
+        # === RELATIVE VELOCITY REWARD ===
+        # Encourage appropriate approach velocity
+        relative_vel = self.get_relative_velocity()
+        relative_speed = np.linalg.norm(relative_vel)
+        
+        velocity_reward = 0.0
+        if distance > 100:
+            # At long range, encourage higher approach speed
+            optimal_speed = 20.0  # m/s
+            velocity_reward = 0.1 * (1.0 - abs(relative_speed - optimal_speed) / optimal_speed)
+        else:
+            # At close range, encourage slower, more precise approach
+            optimal_speed = 10.0  # m/s
+            velocity_reward = 0.15 * (1.0 - abs(relative_speed - optimal_speed) / optimal_speed)
+        
+        # === STABILITY REWARD ===
+        # Small reward for stable flight (not excessive maneuvering)
+        roll = abs(self.get_player_prop(prp.roll_rad))
+        pitch = abs(self.get_player_prop(prp.pitch_rad))
+        
+        stability_reward = 0.0
+        if roll <= math.radians(30) and pitch <= math.radians(15):
+            stability_reward = 0.05 * (1.0 - roll / math.radians(60) - pitch / math.radians(30))
+        
+        # === PENALTY TERMS ===
+        # Penalty for being too far from engagement area
+        boundary_penalty = 0.0
+        if distance > 2000:  # Approaching distance limit
+            boundary_penalty = -0.2 * ((distance - 2000) / 500.0)
+        
+        # Penalty for dangerous altitude
+        altitude_penalty = 0.0
+        current_alt = self.get_player_prop(prp.altitude_sl_mt)
+        if current_alt < 650:  # Approaching altitude limit
+            altitude_penalty = -0.5 * ((650 - current_alt) / 50.0)
+        
+        # === COMBINE ALL REWARDS ===
+        total_reward = (
+            distance_reward +
+            azimuth_reward +
+            elevation_reward +
+            lock_bonus +
+            lock_duration_reward +
+            velocity_reward +
+            stability_reward +
+            boundary_penalty +
+            altitude_penalty
+        )
+        
+        # Normalize reward to reasonable range
+        total_reward = np.clip(total_reward, -10.0, 15.0)
+        
+        # Store for episode analysis
+        if hasattr(self, 'episode_rewards'):
+            self.episode_rewards.append(total_reward)
+        
+        # Debug output
+        if self.debug and self.current_step % 20 == 0:
+            print(f"Step {self.current_step}: Reward={total_reward:.2f} "
+                f"(dist={distance:.1f}m, az_err={azimuth_error:.1f}°, "
+                f"el_err={elevation_error:.1f}°, lock={self.is_locked()})")
+        
+        return total_reward
+
     
     def get_episode_stats(self) -> dict:
         """Get comprehensive episode statistics for analysis"""
@@ -515,6 +692,7 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
                 pass
             print("\n")
         # Call parent task_step
+        self.update_lock_tracking()
         result = super().task_step(action, sim_steps)
         
         # Update visualization
