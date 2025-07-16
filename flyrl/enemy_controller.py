@@ -131,7 +131,7 @@ class EnemyOccasionalTurnController:
     
     def __init__(self, initial_position: Tuple[float, float, float], 
                  altitude_range: Tuple[float, float] = (625, 725),
-                 turn_probability: float = 0.002,  # Probability per update step
+                 turn_probability: float = 0.1,  # Probability per update step
                  turn_angle_range: Tuple[float, float] = (30, 90),
                  straight_time_range: Tuple[float, float] = (8.0, 15.0),
                  speed: float = 0.75):

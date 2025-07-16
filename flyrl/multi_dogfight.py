@@ -23,7 +23,7 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
     def __init__(self, step_frequency_hz: float, 
                  player_sim: Simulation, enemy_sim: Simulation,
                  player_aircraft: Aircraft, enemy_aircraft: Aircraft,
-                 enemy_difficulty: str = 'easy',
+                 enemy_difficulty: str = 'hard',
                  max_time_s: float = 60.0, debug: bool = False):
         
         # Define state variables for dogfight - adjusted for smaller area
@@ -80,7 +80,7 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         self.player_aircraft = player_aircraft
         self.enemy_aircraft = enemy_aircraft
         
-        self.min_lock_duration = 2.0
+        self.min_lock_duration = 4.0
         self.maneuver_controller = TacticalFlightManeuvers(
             max_roll_deg=60.0,
             max_pitch_deg=25.0,
@@ -191,8 +191,8 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         # Altitude: 675-725m above sea level (100-150m above ground)
         conditions[prp.initial_altitude_ft] = mt2ft(675 + np.random.random() * 50)
         # Smaller position randomization for 1000x1000m area
-        conditions[prp.initial_latitude_geod_deg] = 51.3781 + (np.random.random() - 0.5) * 0.009  # ~500m variation
-        conditions[prp.initial_longitude_geoc_deg] = -2.3273 + (np.random.random() - 0.5) * 0.009  # ~500m variation
+        conditions[prp.initial_latitude_geod_deg] = 51.3781 + (np.random.random() - 0.5) * 0.009 * 0.6  # ~500m variation
+        conditions[prp.initial_longitude_geoc_deg] = -2.3273 + (np.random.random() - 0.5) * 0.009 * 0.6 # ~500m variation
         
         return conditions
     
@@ -213,8 +213,8 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         # Altitude: 675-725m above sea level (100-150m above ground)
         conditions[prp.initial_altitude_ft] = mt2ft(675 + np.random.random() * 50)
         # Smaller position randomization for 1000x1000m area
-        conditions[prp.initial_latitude_geod_deg] = 51.3781 + (np.random.random() - 0.5) * 0.009  # ~500m variation
-        conditions[prp.initial_longitude_geoc_deg] = -2.3273 + (np.random.random() - 0.5) * 0.009  # ~500m variation
+        conditions[prp.initial_latitude_geod_deg] = 51.3781 + (np.random.random() - 0.5) * 0.009 * 0.6  # ~500m variation
+        conditions[prp.initial_longitude_geoc_deg] = -2.3273 + (np.random.random() - 0.5) * 0.009 * 0.6 # ~500m variation
         
         return conditions
     
@@ -241,6 +241,7 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         self.max_lock_duration = 0.0
         self.lock_count = 0
         self.successful_locks = 0
+        self.good_locks = 0
 
             # Add tracking for reward analysis
         self.episode_rewards = []
@@ -498,6 +499,9 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
             if (self.current_lock_duration >= self.min_lock_duration and 
                 self.current_lock_duration - dt < self.min_lock_duration):
                 self.successful_locks += 1
+            elif(self.current_lock_duration >= 2.0 and 
+                self.current_lock_duration - dt < 2.0):
+                self.good_locks += 1
                 
         else:
             # Not locked - reset current lock tracking
@@ -522,7 +526,7 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         elevation_reward = -elevation_error / 90.0  # Normalized to [-1, 0]
         
         # Lock bonus
-        lock_bonus = 1.0 if self.is_locked() else 0.0
+        lock_bonus = 5.0 if self.is_locked() else 0.0
         
         # Step penalty to encourage faster completion
         step_penalty = -0.01
@@ -534,6 +538,10 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         terminal_reward = 0.0
         if done:
             if self.successful_locks > 0:
+                terminal_reward = 500.0
+            elif self.good_locks > 0:
+                terminal_reward = 200.0
+            elif self.lock_count > 0:
                 terminal_reward = 50.0
             elif self.distance_limit():
                 terminal_reward = -20.0
@@ -557,6 +565,9 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
             'episode_length': self.current_step,
             'total_reward': sum(self.episode_rewards) if hasattr(self, 'episode_rewards') else 0
         }
+    
+    def get_episode_success(self):
+        return self.successful_locks > 0
     
     def task_step(self, action, sim_steps: int):
         """Override task_step to add debug output and visualization"""

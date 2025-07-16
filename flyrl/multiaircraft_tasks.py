@@ -93,8 +93,9 @@ class MultiAircraftFlightTask(Task, ABC):
         
         state_norm = self.get_state_norm()
         self.current_step += 1
+        info_dict = {"success" : self.get_episode_success()}
         
-        return state_norm, reward, done, {}
+        return state_norm, reward, done, info_dict
     
     def _process_player_action(self, action):
         """
