@@ -97,16 +97,26 @@ class MultiAircraftFlightTask(Task, ABC):
         return state_norm, reward, done, {}
     
     def _process_player_action(self, action):
-        """
-        Process the player's action:
-        action[0]: Heading command (0-360 degrees)
-        action[1]: Altitude command (500-1000 meters)
-        action[2]: Throttle command (0-1)
-        """
-        # Extract and clip actions
-        self.player_target_roll = action[0]
-        self.player_target_pitch = action[1]
-        self.player_target_throttle = action[2]
+            # Process roll (action[0])
+        if action[0] == 0:
+            self.player_target_roll += self.ROLL_INCREMENT
+        elif action[0] == 2:
+            self.player_target_roll -= self.ROLL_INCREMENT
+        # If action[0] == 1, do nothing (keep roll same)
+
+        # Process pitch (action[1])
+        if action[1] == 0:
+            self.player_target_pitch += self.PITCH_INCREMENT
+        elif action[1] == 2:
+            self.player_target_pitch -= self.PITCH_INCREMENT
+        # If action[1] == 1, do nothing (keep pitch same)
+
+        # Process throttle (action[2])
+        if action[2] == 0:
+            self.player_target_throttle += self.THROTTLE_INCREMENT
+        elif action[2] == 2:
+            self.player_target_throttle -= self.THROTTLE_INCREMENT
+        # If action[2] == 1, do nothing (keep throttle same)
     
     def _calculate_control_targets(self) -> Tuple[float, float]:
         """
@@ -290,9 +300,7 @@ class MultiAircraftFlightTask(Task, ABC):
         if self.use_autopilot:
             for i in range(sim_steps):
                 if i % self.player_autopilot_update_interval == 0:
-                    self._process_player_action(player_action)
-                    target_roll, target_pitch = self._calculate_control_targets()
-                    _action = self.player_autopilot.generate_controls(target_roll, target_pitch)
+                    _action = self.player_autopilot.generate_controls(self.player_target_roll, self.player_target_pitch)
                     for prop, command in zip((prp.aileron_cmd, prp.elevator_cmd), _action):
                         self.player_sim[prop] = command
                     self.player_sim[prp.throttle_cmd] = self.player_target_throttle
@@ -425,18 +433,7 @@ class MultiAircraftFlightTask(Task, ABC):
         return gym.spaces.Box(low=state_lows, high=state_highs, dtype='float')
 
     def get_action_space(self) -> gym.Space:
-        # Changed action space to: [heading, altitude, throttle]
-        action_lows = np.array([
-            -self.MAXIMUM_ROLL,
-            -self.MAXIMUM_PITCH,
-            self.THROTTLE_MIN
-        ])
-        action_highs = np.array([
-            self.MAXIMUM_ROLL,
-            self.MAXIMUM_PITCH,
-            self.THROTTLE_MAX
-        ])
-        return gym.spaces.Box(low=action_lows, high=action_highs, dtype=np.float32)
+        gym.spaces.MultiDiscrete([3,3,3])
 
     @abstractmethod
     def get_initial_conditions(self) -> Dict[Property, float]:
