@@ -474,7 +474,7 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         # if self.current_lock_duration >= self.min_lock_duration:
         #     return True
         # Check custom termination conditions
-        if self.distance_limit() or self.successful_locks > 0:
+        if self.successful_locks > 0:
             return True
         
         return False
