@@ -21,11 +21,11 @@ class MultiAircraftFlightTask(Task, ABC):
     PITCH_INCREMENT = 5.0
     THROTTLE_INCREMENT = 0.1
     
-    # Action space limits - changed to heading/altitude/throttle
-    HEADING_MIN = 0.0      # degrees
-    HEADING_MAX = 360.0    # degrees
-    ALTITUDE_MIN = 650.0   # meters
-    ALTITUDE_MAX = 750.0  # meters
+    # Action space limits - normalized to [-1, 1]
+    ROLL_MIN = -MAXIMUM_ROLL      # -60 degrees
+    ROLL_MAX = MAXIMUM_ROLL       # +60 degrees
+    PITCH_MIN = -MAXIMUM_PITCH    # -25 degrees
+    PITCH_MAX = MAXIMUM_PITCH     # +25 degrees
     THROTTLE_MIN = 0.0
     THROTTLE_MAX = 1.0
     
@@ -58,7 +58,7 @@ class MultiAircraftFlightTask(Task, ABC):
         
         self.current_step = 0
         
-        # Player aircraft control targets - changed to heading/altitude/throttle
+        # Player aircraft control targets
         self.player_target_roll = 0
         self.player_target_pitch = 2.0
         self.player_target_throttle = 1.0
@@ -69,7 +69,7 @@ class MultiAircraftFlightTask(Task, ABC):
         self.enemy_target_throttle = 0.8
 
     def task_step(self, action, sim_steps: int) -> Tuple[np.ndarray, float, bool, Dict]:
-        # Process player action (heading, altitude, throttle)
+        # Process player action (normalized inputs)
         self._process_player_action(action)
         
         # Generate enemy action (AI behavior)
@@ -98,48 +98,158 @@ class MultiAircraftFlightTask(Task, ABC):
     
     def _process_player_action(self, action):
         """
-        Process the player's action:
-        action[0]: Heading command (0-360 degrees)
-        action[1]: Altitude command (500-1000 meters)
-        action[2]: Throttle command (0-1)
+        Process the player's normalized action:
+        action[0]: Roll command (normalized -1 to 1)
+        action[1]: Pitch command (normalized -1 to 1)
+        action[2]: Throttle command (normalized -1 to 1)
         """
-        # Extract and clip actions
-        self.player_target_roll = action[0]
-        self.player_target_pitch = action[1]
-        self.player_target_throttle = action[2]
+        # Denormalize actions from [-1, 1] to actual command ranges
+        self.player_target_roll = self._denormalize_action(
+            action[0], self.ROLL_MIN, self.ROLL_MAX
+        )
+        self.player_target_pitch = self._denormalize_action(
+            action[1], self.PITCH_MIN, self.PITCH_MAX
+        )
+        self.player_target_throttle = self._denormalize_action(
+            action[2], self.THROTTLE_MIN, self.THROTTLE_MAX
+        )
     
-    def _calculate_control_targets(self) -> Tuple[float, float]:
+    def _denormalize_action(self, normalized_action, min_val, max_val):
         """
-        Calculate roll and pitch targets based on desired heading and altitude.
+        Convert normalized action from [-1, 1] to actual command range [min_val, max_val]
         """
-        # Get current aircraft state
-        current_heading = self.player_sim[prp.heading_deg]
-        current_altitude = self.player_sim[prp.altitude_sl_ft] * 0.3048  # Convert to meters
+        # Clamp normalized action to [-1, 1]
+        normalized_action = np.clip(normalized_action, -1.0, 1.0)
         
-        # Calculate heading error
-        heading_error = self.player_target_heading - current_heading
-        
-        # Normalize heading error to [-180, 180]
-        while heading_error > 180:
-            heading_error -= 360
-        while heading_error < -180:
-            heading_error += 360
-        
-        # Calculate desired roll based on heading error
-        # Use proportional control with some limits
-        roll_gain = 1.0  # Adjust this gain as needed
-        target_roll = np.clip(heading_error * roll_gain, -self.MAXIMUM_ROLL, self.MAXIMUM_ROLL)
-        
-        # Calculate altitude error
-        altitude_error = self.player_target_altitude - current_altitude
-        
-        # Calculate desired pitch based on altitude error
-        # Use proportional control with some limits
-        pitch_gain = 0.5  # Adjust this gain as needed
-        target_pitch = np.clip(altitude_error * pitch_gain, -self.MAXIMUM_PITCH, self.MAXIMUM_PITCH)
-        
-        return target_roll, target_pitch
+        # Convert from [-1, 1] to [min_val, max_val]
+        return min_val + (normalized_action + 1.0) * (max_val - min_val) / 2.0
     
+    def _normalize_action(self, action, min_val, max_val):
+        """
+        Convert action from [min_val, max_val] to normalized range [-1, 1]
+        """
+        # Clamp action to valid range
+        action = np.clip(action, min_val, max_val)
+        
+        # Convert from [min_val, max_val] to [-1, 1]
+        return 2.0 * (action - min_val) / (max_val - min_val) - 1.0
+    
+    def _apply_player_controls(self):
+        """Apply controls to player aircraft using autopilot with roll/pitch commands"""
+        if self.use_autopilot:
+            # Generate control surface commands via autopilot
+            _action = self.player_autopilot.generate_controls(
+                self.player_target_roll, 
+                self.player_target_pitch
+            )
+        else:
+            # Direct control - you would implement direct control mapping here
+            _action = (0, 0)
+
+        # Apply control surface commands
+        for prop, command in zip((prp.aileron_cmd, prp.elevator_cmd), _action):
+            self.player_sim[prop] = command
+        
+        # Apply throttle directly
+        self.player_sim[prp.throttle_cmd] = self.player_target_throttle
+    
+    def _apply_enemy_controls(self):
+        """Apply controls to enemy aircraft using autopilot for heading and altitude"""
+        if self.enemy_use_autopilot:
+            # Calculate roll and pitch commands to achieve desired heading and altitude
+            current_heading = self.enemy_sim[prp.heading_deg]
+            current_altitude = self.enemy_sim[prp.altitude_sl_ft] * 0.3048
+            
+            # Calculate heading error
+            heading_error = self.enemy_target_heading - current_heading
+            if heading_error > 180:
+                heading_error -= 360
+            elif heading_error < -180:
+                heading_error += 360
+            
+            # Calculate desired roll based on heading error
+            desired_roll = np.clip(heading_error * 1.0, -self.MAXIMUM_ROLL, self.MAXIMUM_ROLL)
+            
+            # Calculate altitude error and desired pitch
+            altitude_error = self.enemy_target_altitude - current_altitude
+            desired_pitch = np.clip(altitude_error * 0.5, -self.MAXIMUM_PITCH, self.MAXIMUM_PITCH)
+            
+            # Use autopilot to generate control commands
+            _action = self.enemy_autopilot.generate_controls(desired_roll, desired_pitch)
+        else:
+            _action = (0, 0)
+
+        for prop, command in zip((prp.aileron_cmd, prp.elevator_cmd), _action):
+            self.enemy_sim[prop] = command
+        self.enemy_sim[prp.throttle_cmd] = self.enemy_target_throttle
+    
+    def _run_simulations(self, sim_steps, player_action, enemy_action):
+        """Run both simulations synchronously"""
+        if self.use_autopilot:
+            for i in range(sim_steps):
+                if i % self.player_autopilot_update_interval == 0:
+                    _action = self.player_autopilot.generate_controls(
+                        self.player_target_roll, 
+                        self.player_target_pitch
+                    )
+                    for prop, command in zip((prp.aileron_cmd, prp.elevator_cmd), _action):
+                        self.player_sim[prop] = command
+                    self.player_sim[prp.throttle_cmd] = self.player_target_throttle
+                self.player_sim.run()
+        else:
+            for _ in range(sim_steps):
+                self.player_sim.run()
+        
+        if self.enemy_use_autopilot:
+            for i in range(sim_steps):
+                self._process_enemy_action(enemy_action)
+                if i % self.enemy_autopilot_update_interval == 0:
+                    # Recalculate desired roll and pitch based on current state
+                    current_heading = self.enemy_sim[prp.heading_deg]
+                    current_altitude = self.enemy_sim[prp.altitude_sl_ft] * 0.3048
+                    
+                    heading_error = self.enemy_target_heading - current_heading
+                    if heading_error > 180:
+                        heading_error -= 360
+                    elif heading_error < -180:
+                        heading_error += 360
+                    
+                    desired_roll = np.clip(heading_error * 1.0, -self.MAXIMUM_ROLL, self.MAXIMUM_ROLL)
+                    altitude_error = self.enemy_target_altitude - current_altitude
+                    desired_pitch = np.clip(altitude_error * 0.5, -self.MAXIMUM_PITCH, self.MAXIMUM_PITCH)
+                    _action = self.enemy_autopilot.generate_controls(desired_roll, desired_pitch)
+                    for prop, command in zip((prp.aileron_cmd, prp.elevator_cmd), _action):
+                        self.enemy_sim[prop] = command
+                self.enemy_sim.run()
+        else:
+            for _ in range(sim_steps):
+                self.enemy_sim.run()
+
+    def get_action_space(self) -> gym.Space:
+        """
+        Return normalized action space [-1, 1] for all actions:
+        - action[0]: Roll command (maps to -60 to +60 degrees)
+        - action[1]: Pitch command (maps to -25 to +25 degrees)  
+        - action[2]: Throttle command (maps to 0 to 1)
+        """
+        return gym.spaces.Box(
+            low=np.array([-1.0, -1.0, -1.0]),
+            high=np.array([1.0, 1.0, 1.0]),
+            dtype=np.float32
+        )
+    
+    def get_denormalized_action_info(self):
+        """
+        Return information about how normalized actions map to actual commands
+        """
+        return {
+            'roll': {'min': self.ROLL_MIN, 'max': self.ROLL_MAX, 'units': 'degrees'},
+            'pitch': {'min': self.PITCH_MIN, 'max': self.PITCH_MAX, 'units': 'degrees'},
+            'throttle': {'min': self.THROTTLE_MIN, 'max': self.THROTTLE_MAX, 'units': 'fraction'}
+        }
+
+    # ... rest of the methods remain the same ...
+
     def _get_player_speed_mps(self) -> float:
         """Get player aircraft speed in m/s"""
         # Get velocity components in body frame (fps)
@@ -235,95 +345,6 @@ class MultiAircraftFlightTask(Task, ABC):
         self.enemy_target_altitude = desired_altitude
         self.enemy_target_throttle = np.clip(desired_throttle, 0.5, 1.0)
     
-    def _apply_player_controls(self):
-        """Apply controls to player aircraft using autopilot with heading/altitude commands"""
-        if self.use_autopilot:
-            # Calculate roll and pitch targets based on desired heading and altitude
-            target_roll = self.player_target_roll
-            target_pitch = self.player_target_pitch
-            
-            # Generate control surface commands via autopilot
-            _action = self.player_autopilot.generate_controls(target_roll, target_pitch)
-        else:
-            # Direct control - you would implement direct heading/altitude control here
-            _action = (0, 0)
-
-        # Apply control surface commands
-        for prop, command in zip((prp.aileron_cmd, prp.elevator_cmd), _action):
-            self.player_sim[prop] = command
-        
-        # Apply throttle directly
-        self.player_sim[prp.throttle_cmd] = self.player_target_throttle
-    
-    def _apply_enemy_controls(self):
-        """Apply controls to enemy aircraft using autopilot for heading and altitude"""
-        if self.enemy_use_autopilot:
-            # Calculate roll and pitch commands to achieve desired heading and altitude
-            current_heading = self.enemy_sim[prp.heading_deg]
-            current_altitude = self.enemy_sim[prp.altitude_sl_ft] * 0.3048
-            
-            # Calculate heading error
-            heading_error = self.enemy_target_heading - current_heading
-            if heading_error > 180:
-                heading_error -= 360
-            elif heading_error < -180:
-                heading_error += 360
-            
-            # Calculate desired roll based on heading error
-            desired_roll = np.clip(heading_error * 1.0, -self.MAXIMUM_ROLL, self.MAXIMUM_ROLL)
-            
-            # Calculate altitude error and desired pitch
-            altitude_error = self.enemy_target_altitude - current_altitude
-            desired_pitch = np.clip(altitude_error * 0.5, -self.MAXIMUM_PITCH, self.MAXIMUM_PITCH)
-            
-            # Use autopilot to generate control commands
-            _action = self.enemy_autopilot.generate_controls(desired_roll, desired_pitch)
-        else:
-            _action = (0, 0)
-
-        for prop, command in zip((prp.aileron_cmd, prp.elevator_cmd), _action):
-            self.enemy_sim[prop] = command
-        self.enemy_sim[prp.throttle_cmd] = self.enemy_target_throttle
-    
-    def _run_simulations(self, sim_steps, player_action, enemy_action):
-        """Run both simulations synchronously"""
-        if self.use_autopilot:
-            for i in range(sim_steps):
-                if i % self.player_autopilot_update_interval == 0:
-                    _action = self.player_autopilot.generate_controls(self.player_target_roll, self.player_target_pitch)
-                    for prop, command in zip((prp.aileron_cmd, prp.elevator_cmd), _action):
-                        self.player_sim[prop] = command
-                    self.player_sim[prp.throttle_cmd] = self.player_target_throttle
-                self.player_sim.run()
-        else:
-            for _ in range(sim_steps):
-                self.player_sim.run()
-        
-        if self.enemy_use_autopilot:
-            for i in range(sim_steps):
-                self._process_enemy_action(enemy_action)
-                if i % self.enemy_autopilot_update_interval == 0:
-                    # Recalculate desired roll and pitch based on current state
-                    current_heading = self.enemy_sim[prp.heading_deg]
-                    current_altitude = self.enemy_sim[prp.altitude_sl_ft] * 0.3048
-                    
-                    heading_error = self.enemy_target_heading - current_heading
-                    if heading_error > 180:
-                        heading_error -= 360
-                    elif heading_error < -180:
-                        heading_error += 360
-                    
-                    desired_roll = np.clip(heading_error * 1.0, -self.MAXIMUM_ROLL, self.MAXIMUM_ROLL)
-                    altitude_error = self.enemy_target_altitude - current_altitude
-                    desired_pitch = np.clip(altitude_error * 0.5, -self.MAXIMUM_PITCH, self.MAXIMUM_PITCH)
-                    _action = self.enemy_autopilot.generate_controls(desired_roll, desired_pitch)
-                    for prop, command in zip((prp.aileron_cmd, prp.elevator_cmd), _action):
-                        self.enemy_sim[prop] = command
-                self.enemy_sim.run()
-        else:
-            for _ in range(sim_steps):
-                self.enemy_sim.run()
-    
     @abstractmethod
     def _generate_enemy_action(self) -> Tuple[float, float, float]:
         """Generate enemy AI action as (desired_heading, desired_altitude, desired_throttle)."""
@@ -411,8 +432,8 @@ class MultiAircraftFlightTask(Task, ABC):
             self.enemy_autopilot_update_interval = self.enemy_sim.sim_frequency_hz // self.AUTOPILOT_FREQ
         
         # Reset control targets to initial values
-        self.player_target_heading = self.player_sim[prp.heading_deg]  # Start with current heading
-        self.player_target_altitude = self.player_sim[prp.altitude_sl_ft] * 0.3048  # Convert to meters
+        self.player_target_roll = 0.0
+        self.player_target_pitch = self.CRUISE_PITCH
         self.player_target_throttle = 0.8
         
         self.current_step = 0
@@ -421,20 +442,6 @@ class MultiAircraftFlightTask(Task, ABC):
         state_lows = np.array([state_var.min for state_var in self.state_variables])
         state_highs = np.array([state_var.max for state_var in self.state_variables])
         return gym.spaces.Box(low=state_lows, high=state_highs, dtype='float')
-
-    def get_action_space(self) -> gym.Space:
-        # Changed action space to: [heading, altitude, throttle]
-        action_lows = np.array([
-            -self.MAXIMUM_ROLL,
-            -self.MAXIMUM_PITCH,
-            self.THROTTLE_MIN
-        ])
-        action_highs = np.array([
-            self.MAXIMUM_ROLL,
-            self.MAXIMUM_PITCH,
-            self.THROTTLE_MAX
-        ])
-        return gym.spaces.Box(low=action_lows, high=action_highs, dtype=np.float32)
 
     @abstractmethod
     def get_initial_conditions(self) -> Dict[Property, float]:

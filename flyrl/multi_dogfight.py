@@ -507,61 +507,40 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
                 self.current_lock_duration = 0.0
         
     def calculate_reward(self, state, done) -> float:
-        # Extract necessary values
+        """Simplified reward function for better learning"""
         distance = self.get_distance()
         azimuth_error = abs(self.get_3d_los_azimuth_error())
         elevation_error = abs(self.get_3d_los_elevation_error())
-        is_locked = self.is_locked()
-        altitude_mt = self.get_player_prop(prp.altitude_sl_mt)
-
-        # Calculate potential function
-        P = -(
-            max(distance - 50, 0) / 2500 +
-            max(azimuth_error - 50, 0) / 180 +
-            max(elevation_error - 30, 0) / 90
-        )
-
-        # Shaping reward (difference in potential)
-        if self.previous_P is None:
-            shaping_reward = 0  # First step has no previous potential
-        else:
-            shaping_reward = P - self.previous_P
-        self.previous_P = P
-
-        # Lock bonus for maintaining lock conditions
-        lock_bonus = 0.1 if is_locked else 0
-
-        # Altitude penalty to discourage flying too low
-        altitude_penalty = -0.1 if altitude_mt < 650 else 0
-
-        # Combine step rewards
-        step_reward = shaping_reward + lock_bonus + altitude_penalty
-
-        # Termination rewards
+        
+        # Simple distance reward (closer is better)
+        distance_reward = -distance / 2500.0  # Normalized to [-1, 0]
+        
+        # Heading reward (pointing towards enemy is better)
+        heading_reward = -azimuth_error / 180.0  # Normalized to [-1, 0]
+        
+        # Elevation reward (pointing at enemy elevation is better)
+        elevation_reward = -elevation_error / 90.0  # Normalized to [-1, 0]
+        
+        # Lock bonus
+        lock_bonus = 1.0 if self.is_locked() else 0.0
+        
+        # Step penalty to encourage faster completion
+        step_penalty = -0.01
+        
+        # Combine rewards
+        step_reward = distance_reward + 2.0 * heading_reward + elevation_reward + lock_bonus + step_penalty
+        
+        # Terminal rewards
+        terminal_reward = 0.0
         if done:
             if self.successful_locks > 0:
-                termination_reward = 100  # Success
+                terminal_reward = 50.0
             elif self.distance_limit():
-                termination_reward = -50  # Too far apart
-            else:  # Max steps reached
-                termination_reward = -10
-        else:
-            termination_reward = 0
-
-        # Total reward
-        total_reward = step_reward + termination_reward
-
-        # Optional debugging
-        if self.debug:
-            self.episode_rewards.append({
-                'step': self.current_step,
-                'shaping_reward': shaping_reward,
-                'lock_bonus': lock_bonus,
-                'altitude_penalty': altitude_penalty,
-                'termination_reward': termination_reward,
-                'total_reward': total_reward
-            })
-
+                terminal_reward = -20.0
+            elif self.altitude_limit():
+                terminal_reward = -30.0
+        
+        total_reward = step_reward + terminal_reward
         return total_reward
 
     
