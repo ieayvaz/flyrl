@@ -59,9 +59,9 @@ class MultiAircraftFlightTask(Task, ABC):
         self.current_step = 0
         
         # Player aircraft control targets - changed to heading/altitude/throttle
-        self.player_target_heading = 0.0    # degrees
-        self.player_target_altitude = 700.0  # meters
-        self.player_target_throttle = 0.8
+        self.player_target_roll = 0
+        self.player_target_pitch = 2.0
+        self.player_target_throttle = 1.0
         
         # Enemy aircraft targets (controlled by AI with high-level commands)
         self.enemy_target_heading = 0.0
@@ -104,14 +104,9 @@ class MultiAircraftFlightTask(Task, ABC):
         action[2]: Throttle command (0-1)
         """
         # Extract and clip actions
-        heading_cmd = np.clip(action[0], self.HEADING_MIN, self.HEADING_MAX)
-        altitude_cmd = np.clip(action[1], self.ALTITUDE_MIN, self.ALTITUDE_MAX)
-        throttle_cmd = np.clip(action[2], self.THROTTLE_MIN, self.THROTTLE_MAX)
-        
-        # Update target values
-        self.player_target_heading = heading_cmd
-        self.player_target_altitude = altitude_cmd
-        self.player_target_throttle = throttle_cmd
+        self.player_target_roll = action[0]
+        self.player_target_pitch = action[1]
+        self.player_target_throttle = action[2]
     
     def _calculate_control_targets(self) -> Tuple[float, float]:
         """
@@ -244,7 +239,8 @@ class MultiAircraftFlightTask(Task, ABC):
         """Apply controls to player aircraft using autopilot with heading/altitude commands"""
         if self.use_autopilot:
             # Calculate roll and pitch targets based on desired heading and altitude
-            target_roll, target_pitch = self._calculate_control_targets()
+            target_roll = self.player_target_roll
+            target_pitch = self.player_target_pitch
             
             # Generate control surface commands via autopilot
             _action = self.player_autopilot.generate_controls(target_roll, target_pitch)
@@ -431,13 +427,13 @@ class MultiAircraftFlightTask(Task, ABC):
     def get_action_space(self) -> gym.Space:
         # Changed action space to: [heading, altitude, throttle]
         action_lows = np.array([
-            self.HEADING_MIN,
-            self.ALTITUDE_MIN,
+            -self.MAXIMUM_ROLL,
+            -self.MAXIMUM_PITCH,
             self.THROTTLE_MIN
         ])
         action_highs = np.array([
-            self.HEADING_MAX,
-            self.ALTITUDE_MAX,
+            self.MAXIMUM_ROLL,
+            self.MAXIMUM_PITCH,
             self.THROTTLE_MAX
         ])
         return gym.spaces.Box(low=action_lows, high=action_highs, dtype=np.float32)
