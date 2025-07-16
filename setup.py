@@ -13,6 +13,8 @@ setup(name='flyrl',
             'gym',
             'matplotlib',
             'jsbsim',
+            'dronekit',
+            'stable_baselines3'
       ],
       packages=find_packages(),
       classifiers=[

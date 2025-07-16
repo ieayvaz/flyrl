@@ -7,7 +7,7 @@ env = gym.make(env_id)
 
 obs = env.reset()[0]
 for _ in range(100000):
-    action = env.action_space.sample()
+    action = np.array([1.0,0,0,0])
     obs, reward, done,_, info = env.step(action)
     env.render()
     if done:

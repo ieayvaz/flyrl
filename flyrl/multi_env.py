@@ -43,6 +43,7 @@ class MultiAircraftJsbSimEnv(gym.Env):
             enemy_sim=None,
             player_aircraft=player_aircraft,
             enemy_aircraft=enemy_aircraft,
+            
             debug=debug
         )
         

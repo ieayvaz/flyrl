@@ -225,6 +225,7 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
     def _new_episode_init(self):
         """Initialize both aircraft for new episode"""
         super()._new_episode_init()
+        self.previous_P = None
         
         # Set throttle and mixture for both aircraft
         self.player_sim.set_throttle_mixture_controls(self.THROTTLE_CMD, self.MIXTURE_CMD)
@@ -506,164 +507,61 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
                 self.current_lock_duration = 0.0
         
     def calculate_reward(self, state, done) -> float:
-        """
-        Dense reward function to guide UAV towards lock conditions.
-        
-        Lock conditions:
-        - Distance < 50m
-        - Azimuth error < 50°  
-        - Elevation error < 30°
-        - Lock duration >= 2.0s for success
-        """
-        
-        # Get current state values
+        # Extract necessary values
         distance = self.get_distance()
         azimuth_error = abs(self.get_3d_los_azimuth_error())
         elevation_error = abs(self.get_3d_los_elevation_error())
-        
-        # Terminal rewards
-        if done:
-            if self.successful_locks >= 1:
-                return 10.0  # Major success reward
-            elif self.distance_limit():
-                return -5.0  # Major penalty for going out of bounds
-            elif self.altitude_limit():
-                return -5.0  # Major penalty for altitude violation
-            else:
-                return -1.0  # Episode timeout penalty
-        
-        # === DISTANCE REWARD ===
-        # Encourage getting closer, with exponential increase as we approach lock range
-        distance_reward = 0.0
-        if distance <= 50:
-            # Inside lock range - high reward
-            distance_reward = 0.5 * (1.0 - distance / 50.0)
-        elif distance <= 200:
-            # Close approach zone - moderate reward
-            distance_reward = 0.3 * (1.0 - (distance - 50) / 150.0)
-        elif distance <= 500:
-            # Medium range - small reward
-            distance_reward = 0.1 * (1.0 - (distance - 200) / 300.0)
-        else:
-            # Far range - very small reward to encourage approach
-            max_distance = 2500  # Your distance limit
-            distance_reward = 0.05 * (1.0 - min(distance, max_distance) / max_distance)
-        
-        # === ANGULAR ALIGNMENT REWARDS ===
-        # Azimuth alignment (horizontal pointing)
-        azimuth_reward = 0.0
-        if azimuth_error <= 50:
-            # Inside lock tolerance
-            azimuth_reward = 0.4 * (1.0 - azimuth_error / 50.0)
-        elif azimuth_error <= 90:
-            # Close to alignment
-            azimuth_reward = 0.2 * (1.0 - (azimuth_error - 50) / 40.0)
-        else:
-            # Far from alignment - small reward for improvement
-            azimuth_reward = 0.05 * (1.0 - min(azimuth_error, 180) / 180.0)
-        
-        # Elevation alignment (vertical pointing)
-        elevation_reward = 0.0
-        if elevation_error <= 30:
-            # Inside lock tolerance
-            elevation_reward = 0.4 * (1.0 - elevation_error / 30.0)
-        elif elevation_error <= 60:
-            # Close to alignment
-            elevation_reward = 0.2 * (1.0 - (elevation_error - 30) / 30.0)
-        else:
-            # Far from alignment - small reward for improvement
-            elevation_reward = 0.05 * (1.0 - min(elevation_error, 90) / 90.0)
-        
-        # === LOCK CONDITION BONUS ===
-        # Extra reward when multiple conditions are met simultaneously
-        lock_bonus = 0.0
-        conditions_met = 0
-        
-        if distance <= 50:
-            conditions_met += 1
-        if azimuth_error <= 50:
-            conditions_met += 1
-        if elevation_error <= 30:
-            conditions_met += 1
-        
-        if conditions_met == 2:
-            lock_bonus = 0.3
-        elif conditions_met == 3:
-            lock_bonus = 0.8  # All conditions met
-        
-        # === LOCK DURATION REWARD ===
-        # Reward for maintaining lock over time
-        lock_duration_reward = 0.0
-        if self.is_locked():
-            # Exponential reward for maintaining lock
-            lock_duration_reward = 0.5 * min(self.current_lock_duration / self.min_lock_duration, 1.0)
-            
-            # Bonus for successful lock achievement
-            if self.current_lock_duration >= self.min_lock_duration:
-                lock_duration_reward += 2.0
-        
-        # === RELATIVE VELOCITY REWARD ===
-        # Encourage appropriate approach velocity
-        relative_vel = self.get_relative_velocity()
-        relative_speed = np.linalg.norm(relative_vel)
-        
-        velocity_reward = 0.0
-        if distance > 100:
-            # At long range, encourage higher approach speed
-            optimal_speed = 20.0  # m/s
-            velocity_reward = 0.1 * (1.0 - abs(relative_speed - optimal_speed) / optimal_speed)
-        else:
-            # At close range, encourage slower, more precise approach
-            optimal_speed = 10.0  # m/s
-            velocity_reward = 0.15 * (1.0 - abs(relative_speed - optimal_speed) / optimal_speed)
-        
-        # === STABILITY REWARD ===
-        # Small reward for stable flight (not excessive maneuvering)
-        roll = abs(self.get_player_prop(prp.roll_rad))
-        pitch = abs(self.get_player_prop(prp.pitch_rad))
-        
-        stability_reward = 0.0
-        if roll <= math.radians(30) and pitch <= math.radians(15):
-            stability_reward = 0.05 * (1.0 - roll / math.radians(60) - pitch / math.radians(30))
-        
-        # === PENALTY TERMS ===
-        # Penalty for being too far from engagement area
-        boundary_penalty = 0.0
-        if distance > 2000:  # Approaching distance limit
-            boundary_penalty = -0.2 * ((distance - 2000) / 500.0)
-        
-        # Penalty for dangerous altitude
-        altitude_penalty = 0.0
-        current_alt = self.get_player_prop(prp.altitude_sl_mt)
-        if current_alt < 650:  # Approaching altitude limit
-            altitude_penalty = -0.5 * ((650 - current_alt) / 50.0)
-        
-        # === COMBINE ALL REWARDS ===
-        total_reward = (
-            distance_reward +
-            azimuth_reward +
-            elevation_reward +
-            lock_bonus +
-            lock_duration_reward +
-            velocity_reward +
-            stability_reward +
-            boundary_penalty +
-            altitude_penalty
+        is_locked = self.is_locked()
+        altitude_mt = self.get_player_prop(prp.altitude_sl_mt)
+
+        # Calculate potential function
+        P = -(
+            max(distance - 50, 0) / 2500 +
+            max(azimuth_error - 50, 0) / 180 +
+            max(elevation_error - 30, 0) / 90
         )
-        
-        # Normalize reward to reasonable range
-        total_reward = np.clip(total_reward, -10.0, 15.0)
-        
-        # Store for episode analysis
-        if hasattr(self, 'episode_rewards'):
-            self.episode_rewards.append(total_reward)
-        
-        # Debug output
-        if self.debug and self.current_step % 20 == 0:
-            print(f"Step {self.current_step}: Reward={total_reward:.2f} "
-                f"(dist={distance:.1f}m, az_err={azimuth_error:.1f}°, "
-                f"el_err={elevation_error:.1f}°, lock={self.is_locked()})")
-        
+
+        # Shaping reward (difference in potential)
+        if self.previous_P is None:
+            shaping_reward = 0  # First step has no previous potential
+        else:
+            shaping_reward = P - self.previous_P
+        self.previous_P = P
+
+        # Lock bonus for maintaining lock conditions
+        lock_bonus = 0.1 if is_locked else 0
+
+        # Altitude penalty to discourage flying too low
+        altitude_penalty = -0.1 if altitude_mt < 650 else 0
+
+        # Combine step rewards
+        step_reward = shaping_reward + lock_bonus + altitude_penalty
+
+        # Termination rewards
+        if done:
+            if self.successful_locks > 0:
+                termination_reward = 100  # Success
+            elif self.distance_limit():
+                termination_reward = -50  # Too far apart
+            else:  # Max steps reached
+                termination_reward = -10
+        else:
+            termination_reward = 0
+
+        # Total reward
+        total_reward = step_reward + termination_reward
+
+        # Optional debugging
+        if self.debug:
+            self.episode_rewards.append({
+                'step': self.current_step,
+                'shaping_reward': shaping_reward,
+                'lock_bonus': lock_bonus,
+                'altitude_penalty': altitude_penalty,
+                'termination_reward': termination_reward,
+                'total_reward': total_reward
+            })
+
         return total_reward
 
     
