@@ -23,8 +23,8 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
     def __init__(self, step_frequency_hz: float, 
                  player_sim: Simulation, enemy_sim: Simulation,
                  player_aircraft: Aircraft, enemy_aircraft: Aircraft,
-                 enemy_difficulty: str = 'hard',
-                 max_time_s: float = 30.0, debug: bool = False):
+                 enemy_difficulty: str = 'easy',
+                 max_time_s: float = 60.0, debug: bool = False):
         
         # Define state variables for dogfight - adjusted for smaller area
         distance = DerivedProperty("distance", "Distance between aircraft", 0, 2500) 
