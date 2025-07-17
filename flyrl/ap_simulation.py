@@ -15,8 +15,8 @@ class AP_Simulation(object):
     ROLL_CHANNEL_MIN=1100
     PITCH_CHANNEL_MAX=1900
     PITCH_CHANNEL_MIN=1100
-    THROTTLE_CHANNEL_MAX=2000
-    THROTTLE_CHANNEL_MIN=1000
+    THROTTLE_CHANNEL_MAX=1600
+    THROTTLE_CHANNEL_MIN=1300
 
     def __init__(self, address : str = '127.0.0.1:14550', controlled=True):
         self.address = address

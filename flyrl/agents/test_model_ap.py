@@ -3,7 +3,7 @@ import flyrl
 from stable_baselines3 import PPO
 import sys
 
-env_id = "DogfightAP2P"
+env_id = "DogfightAP2P-debug"
 env = gym.make(env_id)
 
 model = PPO.load(sys.argv[1])
@@ -14,9 +14,9 @@ for _ in range(100000):
     action, _states = model.predict(obs, deterministic=True)
     obs, reward, done,_, info = env.step(action)
     env.render()
+    if info["success"] == True:
+        print("PLAYER LOCKED SUCCESFULLY")
     if done:
-        if info["success"] == True:
-            print("PLAYER LOCKED SUCCESFULLY")
         obs = env.reset()[0]
 
 # Close environment

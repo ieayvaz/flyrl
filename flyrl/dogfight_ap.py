@@ -25,7 +25,7 @@ class APDogfightTask(BaseAPTask):
                  player_sim: Simulation,
                  enemy_sim: Simulation,
                  aircraft: Aircraft,
-                 max_time_s: float = 60.0, debug: bool = False):
+                 max_time_s: float = 10000.0, debug: bool = False):
         
         # Define state variables for dogfight - adjusted for smaller area
         distance = DerivedProperty("distance", "Distance between aircraft", 0, 2500) 
@@ -67,6 +67,9 @@ class APDogfightTask(BaseAPTask):
             relative_velocity_x, relative_velocity_y, relative_velocity_z
         )
         self.enemy_sim = enemy_sim
+
+        self.prev_action = None
+        self.smoothing_alpha = 0.8
         
         super().__init__(
             state_variables=state_variables,
@@ -386,8 +389,6 @@ class APDogfightTask(BaseAPTask):
         # if self.current_lock_duration >= self.min_lock_duration:
         #     return True
         # Check custom termination conditions
-        if self.successful_locks > 0:
-            return True
         
         return False
     

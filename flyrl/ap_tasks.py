@@ -65,6 +65,7 @@ class BaseAPTask(Task, ABC):
     def task_step(self, action, sim_steps: int) -> Tuple[np.ndarray, float, bool, Dict]:
         # Process player action (normalized inputs)
         self._process_player_action(action)
+        print(f"Action: {action}")
         
         # Apply controls to both aircraft
         self._apply_player_controls()
