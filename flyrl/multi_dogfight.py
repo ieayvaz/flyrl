@@ -24,7 +24,7 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
                  player_sim: Simulation, enemy_sim: Simulation,
                  player_aircraft: Aircraft, enemy_aircraft: Aircraft,
                  enemy_difficulty: str = 'hard',
-                 max_time_s: float = 60.0, debug: bool = False):
+                 max_time_s: float = 30.0, debug: bool = False):
         
         # Define state variables for dogfight - adjusted for smaller area
         distance = DerivedProperty("distance", "Distance between aircraft", 0, 2500) 
@@ -81,6 +81,8 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         self.enemy_aircraft = enemy_aircraft
         
         self.min_lock_duration = 4.0
+        #self.second_lock_duration = 4.0
+        self.good_lock_duration = 2.0
         self.maneuver_controller = TacticalFlightManeuvers(
             max_roll_deg=60.0,
             max_pitch_deg=25.0,
@@ -242,6 +244,7 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         self.lock_count = 0
         self.successful_locks = 0
         self.good_locks = 0
+        self.second_locks = 0
 
             # Add tracking for reward analysis
         self.episode_rewards = []
@@ -446,9 +449,9 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         
         if self.get_distance() > 50:
             return False
-        if abs(self.get_3d_los_azimuth_error()) > 50:
+        if abs(self.get_3d_los_azimuth_error()) > 25:
             return False
-        if abs(self.get_3d_los_elevation_error()) > 30:
+        if abs(self.get_3d_los_elevation_error()) > 18:
             return False
         return True
     
@@ -499,8 +502,8 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
             if (self.current_lock_duration >= self.min_lock_duration and 
                 self.current_lock_duration - dt < self.min_lock_duration):
                 self.successful_locks += 1
-            elif(self.current_lock_duration >= 2.0 and 
-                self.current_lock_duration - dt < 2.0):
+            elif(self.current_lock_duration >= self.good_lock_duration and 
+                self.current_lock_duration - dt < self.good_lock_duration):
                 self.good_locks += 1
                 
         else:
