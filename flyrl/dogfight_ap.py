@@ -1,152 +1,508 @@
-from math import cos, exp, isnan, pi, sin
-import math
-import random
-from typing import Dict, Sequence, Tuple
 import numpy as np
-from flyrl.aircraft import Aircraft
-from flyrl.ap_simulation import AP_Simulation
+import math
+from typing import Dict, Sequence, Tuple, List
 from flyrl.ap_tasks import BaseAPTask
-from flyrl.basic_tasks import BaseFlightTask
+from flyrl.manuevers import TacticalFlightManeuvers
+from flyrl.enemy_controller import EnemyWaypointController
 from flyrl.properties import BoundedProperty, DerivedProperty, Property
-from flyrl.simulation import Simulation
 import flyrl.properties as prp
+from flyrl.simulation import Simulation
+from flyrl.aircraft import Aircraft
+from flyrl.multiaircraft_tasks import MultiAircraftFlightTask
+from flyrl.utils import mt2ft, ft2mt
 from flyrl import geoutils
-from flyrl.target import Target
-from flyrl.utils import angle_between, mt2ft, ft2mt
-from flyrl.autopilot import AutoPilot
+from flyrl.enemy_controller import EnemyControllerFactory
 
-class DogfightAP2PlayerTask(BaseAPTask):
+class APDogfightTask(BaseAPTask):
+    """Multi-aircraft dogfight task with AI enemy using waypoint navigation"""
+    
     INITIAL_HEADING_DEG = 120.0
-    THROTTLE_CMD = 0.5 # Default throttle level.
-    MIXTURE_CMD = 0.5
+    GROUND_ALTITUDE_MT = 575
+    THROTTLE_CMD = 0.8
+    MIXTURE_CMD = 0.8
+    
+    def __init__(self, step_frequency_hz: float, 
+                 player_sim: Simulation,
+                 enemy_sim: Simulation,
+                 aircraft: Aircraft,
+                 max_time_s: float = 60.0, debug: bool = False):
+        
+        # Define state variables for dogfight - adjusted for smaller area
+        distance = DerivedProperty("distance", "Distance between aircraft", 0, 2500) 
+        distance_x = DerivedProperty("distance_x", "Distance in x axis", -1000, 1000)  
+        distance_y = DerivedProperty("distance_y", "Distance in y axis", -1000, 1000) 
+        distance_z = DerivedProperty("distance_z", "Distance in z axis", -250, 250)   
+        
+        # Angular states as sin/cos components
+        enemy_roll_sin = DerivedProperty("enemy_roll_sin", "Enemy roll sine", -1, 1)
+        enemy_roll_cos = DerivedProperty("enemy_roll_cos", "Enemy roll cosine", -1, 1)
+        enemy_pitch_sin = DerivedProperty("enemy_pitch_sin", "Enemy pitch sine", -1, 1)
+        enemy_pitch_cos = DerivedProperty("enemy_pitch_cos", "Enemy pitch cosine", -1, 1)
+        enemy_heading_sin = DerivedProperty("enemy_heading_sin", "Enemy heading sine", -1, 1)
+        enemy_heading_cos = DerivedProperty("enemy_heading_cos", "Enemy heading cosine", -1, 1)
+        
+        # Own aircraft angular states
+        own_roll_sin = DerivedProperty("own_roll_sin", "Own roll sine", -1, 1)
+        own_roll_cos = DerivedProperty("own_roll_cos", "Own roll cosine", -1, 1)
+        own_pitch_sin = DerivedProperty("own_pitch_sin", "Own pitch sine", -1, 1)
+        own_pitch_cos = DerivedProperty("own_pitch_cos", "Own pitch cosine", -1, 1)
+        own_heading_sin = DerivedProperty("own_heading_sin", "Own heading sine", -1, 1)
+        own_heading_cos = DerivedProperty("own_heading_cos", "Own heading cosine", -1, 1)
+        
+        # 3D LOS error as sin/cos components
+        los_azimuth_error_sin = DerivedProperty("los_azimuth_error_sin", "LOS azimuth error sine", -1, 1)
+        los_azimuth_error_cos = DerivedProperty("los_azimuth_error_cos", "LOS azimuth error cosine", -1, 1)
+        los_elevation_error_sin = DerivedProperty("los_elevation_error_sin", "LOS elevation error sine", -1, 1)
+        los_elevation_error_cos = DerivedProperty("los_elevation_error_cos", "LOS elevation error cosine", -1, 1)
 
-    TARGET_ADDRESS = "127.0.0.1:14560"
+        relative_velocity_x = DerivedProperty("relative_velocity_x", "Relative velocity X", -50, 50)
+        relative_velocity_y = DerivedProperty("relative_velocity_y", "Relative velocity Y", -50, 50)
+        relative_velocity_z = DerivedProperty("relative_velocity_z", "Relative velocity Z", -25, 25)
+        
+        state_variables = (
+            distance_x, distance_y, distance_z,
+            own_roll_sin, own_roll_cos, own_pitch_sin, own_pitch_cos, own_heading_sin, own_heading_cos,
+            enemy_roll_sin, enemy_roll_cos, enemy_pitch_sin, enemy_pitch_cos, enemy_heading_sin, enemy_heading_cos,
+            los_azimuth_error_sin, los_azimuth_error_cos, los_elevation_error_sin, los_elevation_error_cos,
+            relative_velocity_x, relative_velocity_y, relative_velocity_z
+        )
+        self.enemy_sim = enemy_sim
+        
+        super().__init__(
+            state_variables=state_variables,
+            max_time_s=max_time_s,
+            step_frequency_hz=step_frequency_hz,
+            player_sim=player_sim,
+            enemy_sim=enemy_sim,
+            debug=debug,
+            use_autopilot=True,
+        )
+        
+        self.player_aircraft = aircraft
+        
+        self.min_lock_duration = 4.0
 
-    def __init__(self, step_frequency_hz: float, sim: Simulation, aircraft: Aircraft, max_time_s: float = 300.0, debug: bool = False):
-        distance = DerivedProperty("distance", "Distance between target and airplane",0,2500)
-        distance_x = DerivedProperty("distance_x","Distance between target and airplane in x axis",-1000,1000)
-        distance_y = DerivedProperty("distance_y","Distance between target and airplane in y axis",-1000,1000)
-        distance_z = DerivedProperty("distance_z","Distance between target and airplane in z axis",-250,250)
-        enemy_roll = DerivedProperty("enemy_roll_rad","Enemy roll angle in radians",-pi,pi)
-        enemy_pitch = DerivedProperty("enemy_pitch_rad","Enemy pitch angle in radians",-pi/2,pi/2)
-        enemy_heading = DerivedProperty("enemy_heading_deg","enemy heading angle in degrees", 0, 360)
-        los_error = DerivedProperty("los_error", "Angle between LOS and airplane heading in degrees",0,360)
-        target_roll = DerivedProperty("target_roll_deg_norm", "Target roll for aiplane in degrees", -1,1)
-        target_pitch = DerivedProperty("target_pitch_deg_norm", "Target pitch for aiplane in degrees", -1,1)
-        self.target = AP_Simulation(self.TARGET_ADDRESS,controlled=False)
-        super().__init__((distance, los_error),
-                         max_time_s, step_frequency_hz, sim,debug=debug, action_variables=(target_roll,), autopilot=True)
-        self.aircraft = aircraft
-        self.los_error_prp = los_error
-        self.los_prp = DerivedProperty("los","Los angle",0,360)
-        self.enemy_heading_prp = DerivedProperty("enemy_heading_deg","Enemy heading",0,360)
+        # Store property references for easier access
         self.distance_prp = distance
-
-    def task_step(self, action: Sequence[float], sim_steps: int) \
-        -> Tuple[np.ndarray, float, bool, Dict]:
+        self.los_azimuth_error_sin_prp = los_azimuth_error_sin
+        self.los_azimuth_error_cos_prp = los_azimuth_error_cos
+        self.los_elevation_error_sin_prp = los_elevation_error_sin
+        self.los_elevation_error_cos_prp = los_elevation_error_cos
+        
+        self.successful_locks = 0
+        
+        # Visualization
+        self.visualization_freq = self.step_frequency_hz / 10 if self.step_frequency_hz > 10 else 1
+        
         if self.debug:
-            out_props = [self.distance_prp,self.los_error_prp, self.los_prp, prp.heading_deg, self.enemy_heading_prp]
-            for _prop in out_props:
-                print(f"{_prop.name} : {self.get_prop(_prop)}")
+            try:
+                from flyrl.visualizer_multi import DogfightVisualizer
+                self.visualizer = DogfightVisualizer()
+            except ImportError:
+                print("Warning: DogfightVisualizer not available")
+                self.visualizer = None
 
-            print("\n")
+    def _get_enemy_relative_info(self) -> Tuple[float, float, float]:
+        """
+        Override base class method with proper geometric calculations for dogfight task.
+        """
+        # Use the existing methods from this class for accurate calculations
+        bearing_deg = self.get_3d_los_azimuth_error()  # This is already relative to aircraft heading
+        elevation_deg = self.get_3d_los_elevation_error()  # This is already relative to aircraft pitch
+        range_m = self.get_distance()
         
-        return super().task_step(action, sim_steps)
+        return bearing_deg, elevation_deg, range_m
+    
+    def _get_relative_velocity_mps(self) -> np.ndarray:
+        """
+        Override base class method with proper velocity calculations.
+        """
+        # Use the existing method from this class
+        return self.get_relative_velocity()
+    
+    def get_player_initial_conditions(self) -> Dict[Property, float]:
+        """Get initial conditions for player aircraft"""
+        extra_conditions = {
+            prp.initial_u_fps: self.player_aircraft.get_cruise_speed_fps(),
+            prp.initial_v_fps: 0,
+            prp.initial_w_fps: 0,
+            prp.initial_p_radps: 0,
+            prp.initial_q_radps: 0,
+            prp.initial_r_radps: 0,
+            prp.initial_roc_fpm: 0,
+            prp.initial_heading_deg: self.INITIAL_HEADING_DEG,
+        }
         
+        conditions = {**self.base_initial_conditions, **extra_conditions}
+        # Altitude: 675-725m above sea level (100-150m above ground)
+        conditions[prp.initial_altitude_ft] = mt2ft(675 + np.random.random() * 50)
+        # Smaller position randomization for 1000x1000m area
+        conditions[prp.initial_latitude_geod_deg] = 51.3781 + (np.random.random() - 0.5) * 0.009 * 0.6  # ~500m variation
+        conditions[prp.initial_longitude_geoc_deg] = -2.3273 + (np.random.random() - 0.5) * 0.009 * 0.6 # ~500m variation
+        
+        return conditions
+    
+    def get_initial_conditions(self) -> Dict[Property, float]:
+        """This method is not used in multi-aircraft setup"""
+        return self.get_player_initial_conditions()
+    
     def _new_episode_init(self):
+        """Initialize both aircraft for new episode"""
         super()._new_episode_init()
-        self.sim.set_throttle(self.THROTTLE_CMD)
-        # Set origin of coordinate system to inital position of airplane
-        self.origin = np.array([self.get_prop(_prop) for _prop in [prp.lat_geod_deg,
-                                                                   prp.lng_geoc_deg,
-                                                                   prp.altitude_sl_mt]])
-        #TODO: set target plane?
+    
+        
+                # Reset lock tracking
+        self.lock_start_time = None
+        self.current_lock_duration = 0.0
+        self.total_lock_time = 0.0
+        self.max_lock_duration = 0.0
+        self.lock_count = 0
+        self.successful_locks = 0
+        self.good_locks = 0
 
-    def get_initial_conditions(self):
-        return super().get_initial_conditions()
-
-    def is_locked(self):
-        if self.get_distance() > 50.0:
+            # Add tracking for reward analysis
+        self.episode_rewards = []
+        self.episode_locks = []
+        
+        # Set origin for coordinate system
+        self.origin = np.array([
+            self.player_sim[prp.lat_geod_deg],
+            self.player_sim[prp.lng_geoc_deg],
+            self.player_sim[prp.altitude_sl_ft] * 0.3048
+        ])
+    
+    def get_props_to_output(self) -> Tuple:
+        """Properties to output for logging/debugging"""
+        return (prp.roll_rad, prp.pitch_rad, prp.heading_deg, prp.altitude_sl_ft)
+    
+    def get_prop(self, prop) -> float:
+        """Get property value from combined state"""
+        # Try to get from player aircraft first
+        value = self.get_player_prop(prop)
+        if value is not None:
+            return value
+        
+        # Handle derived properties
+        if prop.name == "distance":
+            return float(self.get_distance())
+        elif prop.name == "distance_x":
+            return float(self.get_distance_v()[0])
+        elif prop.name == "distance_y":
+            return float(self.get_distance_v()[1])
+        elif prop.name == "distance_z":
+            return float(self.get_distance_v()[2])
+        
+        # Own aircraft angular states as sin/cos
+        elif prop.name == "own_roll_sin":
+            return float(math.sin(self.get_player_prop(prp.roll_rad)))
+        elif prop.name == "own_roll_cos":
+            return float(math.cos(self.get_player_prop(prp.roll_rad)))
+        elif prop.name == "own_pitch_sin":
+            return float(math.sin(self.get_player_prop(prp.pitch_rad)))
+        elif prop.name == "own_pitch_cos":
+            return float(math.cos(self.get_player_prop(prp.pitch_rad)))
+        elif prop.name == "own_heading_sin":
+            return float(math.sin(math.radians(self.get_player_heading())))
+        elif prop.name == "own_heading_cos":
+            return float(math.cos(math.radians(self.get_player_heading())))
+        
+        # Enemy aircraft angular states as sin/cos
+        elif prop.name == "enemy_roll_sin":
+            return float(math.sin(self.get_enemy_prop(prp.roll_rad)))
+        elif prop.name == "enemy_roll_cos":
+            return float(math.cos(self.get_enemy_prop(prp.roll_rad)))
+        elif prop.name == "enemy_pitch_sin":
+            return float(math.sin(self.get_enemy_prop(prp.pitch_rad)))
+        elif prop.name == "enemy_pitch_cos":
+            return float(math.cos(self.get_enemy_prop(prp.pitch_rad)))
+        elif prop.name == "enemy_heading_sin":
+            return float(math.sin(math.radians(self.get_enemy_heading())))
+        elif prop.name == "enemy_heading_cos":
+            return float(math.cos(math.radians(self.get_enemy_heading())))
+        
+        # 3D LOS error as sin/cos
+        elif prop.name == "los_azimuth_error_sin":
+            return float(math.sin(math.radians(self.get_3d_los_azimuth_error())))
+        elif prop.name == "los_azimuth_error_cos":
+            return float(math.cos(math.radians(self.get_3d_los_azimuth_error())))
+        elif prop.name == "los_elevation_error_sin":
+            return float(math.sin(math.radians(self.get_3d_los_elevation_error())))
+        elif prop.name == "los_elevation_error_cos":
+            return float(math.cos(math.radians(self.get_3d_los_elevation_error())))
+        
+                # New relative velocity properties
+        if prop.name == "relative_velocity_x":
+            return float(self.get_relative_velocity()[0])
+        elif prop.name == "relative_velocity_y":
+            return float(self.get_relative_velocity()[1])
+        elif prop.name == "relative_velocity_z":
+            return float(self.get_relative_velocity()[2])
+        
+        return None
+    
+    def get_relative_velocity(self) -> np.ndarray:
+        """Get relative velocity vector (enemy - player)"""
+        # Get player velocity in NED frame
+        player_vel_ned = np.array([
+            self.player_sim[prp.u_fps], 
+            self.player_sim[prp.v_fps], 
+            self.player_sim[prp.w_fps]
+        ])
+        
+        # Get enemy velocity in NED frame
+        enemy_vel_body = np.array([
+            self.enemy_sim[prp.u_fps], 
+            self.enemy_sim[prp.v_fps], 
+            self.enemy_sim[prp.w_fps]
+        ])
+        R_b2n_enemy = geoutils.body_to_ned_rotation(
+            self.enemy_sim[prp.roll_rad], 
+            self.enemy_sim[prp.pitch_rad], 
+            self.enemy_sim[prp.heading_deg] * math.pi / 180
+        )
+        enemy_vel_ned = R_b2n_enemy @ enemy_vel_body
+        
+        # Convert to ENU and return relative velocity
+        player_vel_enu = np.array([player_vel_ned[1], player_vel_ned[0], -player_vel_ned[2]])
+        enemy_vel_enu = np.array([enemy_vel_ned[1], enemy_vel_ned[0], -enemy_vel_ned[2]])
+        
+        return enemy_vel_enu - player_vel_enu
+    
+    def get_player_heading(self) -> float:
+        """Get player aircraft heading"""
+        return self.player_sim[prp.heading_deg]
+    
+    def get_enemy_heading(self) -> float:
+        """Get enemy aircraft heading"""
+        return self.enemy_sim[prp.heading_deg]
+    
+    def get_geo_pos(self) -> np.ndarray:
+        """Get player aircraft geographical position"""
+        return np.array([
+            self.player_sim[prp.lat_geod_deg],
+            self.player_sim[prp.lng_geoc_deg],
+            self.player_sim[prp.altitude_sl_ft] * 0.3048
+        ])
+    
+    def get_enemy_geo_pos(self) -> np.ndarray:
+        """Get enemy aircraft geographical position"""
+        return np.array([
+            self.enemy_sim[prp.lat_geod_deg],
+            self.enemy_sim[prp.lng_geoc_deg],
+            self.enemy_sim[prp.altitude_sl_ft] * 0.3048
+        ])
+    
+    def get_pos(self) -> np.ndarray:
+        """Get player aircraft position in local coordinates"""
+        return geoutils.lla_2_enu(self.get_geo_pos(), self.origin)
+    
+    def get_enemy_pos(self) -> np.ndarray:
+        """Get enemy aircraft position in local coordinates"""
+        return geoutils.lla_2_enu(self.get_enemy_geo_pos(), self.origin)
+    
+    def get_distance(self) -> float:
+        """Get distance between aircraft"""
+        return np.linalg.norm(self.get_enemy_pos() - self.get_pos())
+    
+    def get_distance_v(self) -> np.ndarray:
+        """Get distance vector from player to enemy"""
+        return self.get_enemy_pos() - self.get_pos()
+    
+    def get_3d_los_azimuth(self) -> float:
+        """Get azimuth angle of LOS vector in degrees (0-360)"""
+        dist = self.get_distance_v()
+        angle_rad = math.atan2(dist[1], dist[0])
+        angle_deg = math.degrees(angle_rad)
+        return (90 - angle_deg + 360) % 360
+    
+    def get_3d_los_elevation(self) -> float:
+        """Get elevation angle of LOS vector in degrees (-90 to +90)"""
+        dist = self.get_distance_v()
+        horizontal_dist = math.sqrt(dist[0]**2 + dist[1]**2)
+        elevation_rad = math.atan2(dist[2], horizontal_dist)
+        return math.degrees(elevation_rad)
+    
+    def get_3d_los_azimuth_error(self) -> float:
+        """Get azimuth error between LOS and aircraft heading"""
+        los_azimuth = self.get_3d_los_azimuth()
+        heading = self.get_player_heading()
+        
+        error = los_azimuth - heading
+        
+        # Normalize to [-180, 180]
+        if error > 180:
+            error -= 360
+        elif error < -180:
+            error += 360
+        
+        return error
+    
+    def get_3d_los_elevation_error(self) -> float:
+        """Get elevation error between LOS and aircraft pitch"""
+        los_elevation = self.get_3d_los_elevation()
+        pitch = math.degrees(self.get_player_prop(prp.pitch_rad))
+        
+        error = los_elevation - pitch
+        
+        # Normalize to [-180, 180]
+        if error > 180:
+            error -= 360
+        elif error < -180:
+            error += 360
+        
+        return error
+    
+    def is_locked(self) -> bool:
+        """Check if player has locked onto enemy using curriculum parameters"""
+        
+        if self.get_distance() > 50:
             return False
-        dist_azimuth = math.atan2(self.get_distance_v()[0],self.get_distance_v()[1]) % 360
-        if abs(self.sim[prp.heading_deg] - dist_azimuth) > 20.0:
+        if abs(self.get_3d_los_azimuth_error()) > 50:
+            return False
+        if abs(self.get_3d_los_elevation_error()) > 30:
             return False
         return True
     
-    def distance_limit(self):
-        return self.get_distance() > 10000
+    def distance_limit(self) -> bool:
+        """Check if aircraft are too far apart - adjusted for smaller area"""
+        return self.get_distance() > 2500  # Reduced from 2500m
     
-    def get_los(self):
-        dist = self.get_distance_v()
-        return math.degrees(math.atan2(dist[0],dist[1])) % 360
+    def altitude_limit(self) -> bool:
+        """Check if player aircraft is too low"""
+        return self.get_player_prop(prp.altitude_sl_mt) < 600
     
-    def get_los_error(self):
-        return ((self.get_los() - self.get_heading()) + 180) % 360 - 180
-
-    def get_heading(self):
-        return self.sim[prp.heading_deg]
-    
-    def altitude_limit(self):
-        return self.get_prop(prp.altitude_sl_mt) < 600
-
-    def get_geo_pos(self):
-        return np.array([self.get_prop(_prop) for _prop in [prp.lat_geod_deg,
-                                                            prp.lng_geoc_deg,
-                                                            prp.altitude_sl_mt]])
-    def get_target_geo(self):
-        return np.array([self.target[prp.lat_geod_deg],self.target[prp.lng_geoc_deg],self.target[prp.altitude_sl_mt]])
-
-    def get_pos(self):
-        return geoutils.lla_2_enu(self.get_geo_pos(),self.origin)
-    
-    def get_target_pos(self):
-        return geoutils.lla_2_enu(self.get_target_geo(),self.origin)
-
-    def get_props_to_output(self):
-        return (prp.roll_rad, prp.pitch_rad)
-
-    def get_distance(self):
-        return np.linalg.norm(self.get_target_pos() - self.get_pos())
-
-    def get_distance_v(self):
-        return self.get_target_pos() - self.get_pos() 
-
-    def get_prop(self, prop) -> float:
-        value = super().get_prop(prop)
-        if value != None:
-            return value
-        # Process derived properties  
-        if prop.name == "distance":
-            value = float(self.get_distance())
-        if prop.name == "distance_x":
-            value = float(self.get_distance_v()[0])
-        if prop.name == "distance_y":
-            value = float(self.get_distance_v()[1])
-        if prop.name == "distance_z":
-            value = float(self.get_distance_v()[2])
-        '''if prop.name == "target_heading":
-            return self.target["Heading"]'''
-        if prop.name == "enemy_roll_rad":
-            value = float(self.target[prp.roll_rad])
-        if prop.name == "enemy_pitch_rad":
-            value = float(self.target[prp.pitch_rad])
-        if prop.name == "enemy_heading_deg":
-            value = float(self.target[prp.heading_deg])
-        if prop.name == "los_error":
-            value = self.get_los_error()
-        if prop.name == "los":
-            value = self.get_los()
-        return value
+    def _is_terminal(self, state) -> bool:
+        """Check if episode should terminate"""
+        # Check for NaN values
+        for _state in state:
+            if math.isnan(_state):
+                if self.debug:
+                    print("NaN Error")
+                return True
         
-    def _is_terminal(self,state, sim: Simulation) -> bool:
-        term_cond = self.is_locked() or self.distance_limit() or self.altitude_limit()
-        return super()._is_terminal(state,sim) or term_cond
+        # Check step limit
+        if self.max_steps - self.current_step <= 0:
+            return True
+        # if self.current_lock_duration >= self.min_lock_duration:
+        #     return True
+        # Check custom termination conditions
+        if self.successful_locks > 0:
+            return True
+        
+        return False
     
-    def calculate_reward(self, state):
-        rew = 0.0
+    def update_lock_tracking(self):
+        """Improved lock duration tracking with better state management"""
+        dt = 1.0 / self.step_frequency_hz
+        
         if self.is_locked():
-            return 100
-        #rew += 0.01 * (500/(self.get_distance()) - 1)
-        rew += (90 - abs(self.get_los_error())) / (90.0*2.5)
+            if self.lock_start_time is None:
+                # Lock just started
+                self.lock_start_time = self.current_step * dt
+                self.lock_count += 1
+            
+            # Update current lock duration
+            self.current_lock_duration = (self.current_step * dt) - self.lock_start_time
+            self.total_lock_time += dt
+            self.max_lock_duration = max(self.max_lock_duration, self.current_lock_duration)
+            
+            # Check if this becomes a successful lock (only mark once per lock)
+            if (self.current_lock_duration >= self.min_lock_duration and 
+                self.current_lock_duration - dt < self.min_lock_duration):
+                self.successful_locks += 1
+            elif(self.current_lock_duration >= 2.0 and 
+                self.current_lock_duration - dt < 2.0):
+                self.good_locks += 1
+                
+        else:
+            # Not locked - reset current lock tracking
+            if self.lock_start_time is not None:
+                # Lock was broken
+                self.lock_start_time = None
+                self.current_lock_duration = 0.0
         
-        return rew
+    def calculate_reward(self, state, done) -> float:
+        """Simplified reward function for better learning"""
+        distance = self.get_distance()
+        azimuth_error = abs(self.get_3d_los_azimuth_error())
+        elevation_error = abs(self.get_3d_los_elevation_error())
+        
+        # Simple distance reward (closer is better)
+        distance_reward = -distance / 2500.0  # Normalized to [-1, 0]
+        
+        # Heading reward (pointing towards enemy is better)
+        heading_reward = -azimuth_error / 180.0  # Normalized to [-1, 0]
+        
+        # Elevation reward (pointing at enemy elevation is better)
+        elevation_reward = -elevation_error / 90.0  # Normalized to [-1, 0]
+        
+        # Lock bonus
+        lock_bonus = 5.0 if self.is_locked() else 0.0
+        
+        # Step penalty to encourage faster completion
+        step_penalty = -0.01
+        
+        # Combine rewards
+        step_reward = distance_reward + 2.0 * heading_reward + elevation_reward + lock_bonus + step_penalty
+        
+        # Terminal rewards
+        terminal_reward = 0.0
+        if done:
+            if self.successful_locks > 0:
+                terminal_reward = 500.0
+            elif self.good_locks > 0:
+                terminal_reward = 200.0
+            elif self.lock_count > 0:
+                terminal_reward = 50.0
+            elif self.distance_limit():
+                terminal_reward = -20.0
+            elif self.altitude_limit():
+                terminal_reward = -30.0
+        
+        total_reward = step_reward + terminal_reward
+        return total_reward
+
+    
+    def get_episode_stats(self) -> dict:
+        """Get comprehensive episode statistics for analysis"""
+        return {
+            'successful_locks': self.successful_locks,
+            'total_lock_time': self.total_lock_time,
+            'max_lock_duration': self.max_lock_duration,
+            'lock_count': self.lock_count,
+            'final_distance': self.get_distance(),
+            'final_azimuth_error': abs(self.get_3d_los_azimuth_error()),
+            'final_elevation_error': abs(self.get_3d_los_elevation_error()),
+            'episode_length': self.current_step,
+            'total_reward': sum(self.episode_rewards) if hasattr(self, 'episode_rewards') else 0
+        }
+    
+    def get_episode_success(self):
+        return self.successful_locks > 0
+    
+    def task_step(self, action, sim_steps: int):
+        """Override task_step to add debug output and visualization"""
+        if self.debug:
+            out_props = [
+                self.distance_prp
+            ]
+            for _prop in out_props:
+                ##print(f"{_prop.name}: {self.get_prop(_prop)}")
+                pass
+            print("\n")
+        # Call parent task_step
+        self.update_lock_tracking()
+        result = super().task_step(action, sim_steps)
+        
+        # Update visualization
+        if self.debug and hasattr(self, 'visualizer') and self.visualizer:
+            if self.current_step % self.visualization_freq == 0:
+                self.visualizer.update_from_simulation(self)
+                self.visualizer.update_plot()
+
+            # V_body = np.array([self.enemy_sim[prp.u_fps], self.enemy_sim[prp.v_fps], self.enemy_sim[prp.w_fps]])
+            # R_b2n = geoutils.body_to_ned_rotation(self.enemy_sim[prp.roll_rad], self.enemy_sim[prp.pitch_rad], self.enemy_sim[prp.heading_deg]* math.pi / 180)
+            # V_ned = R_b2n @ V_body
+            # enemy_speed = np.linalg.norm(V_ned)
+        
+        return result

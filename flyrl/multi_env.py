@@ -12,7 +12,7 @@ class MultiAircraftJsbSimEnv(gym.Env):
 
     def __init__(self, task_type: Type[MultiAircraftFlightTask], 
                  player_aircraft: Aircraft, enemy_aircraft: Aircraft,
-                 agent_interaction_freq: int = 4, debug: bool = False):
+                 agent_interaction_freq: int = 20, debug: bool = False):
         """
         Initialize multi-aircraft environment
         
