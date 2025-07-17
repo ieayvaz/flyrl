@@ -63,7 +63,8 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
             own_roll_sin, own_roll_cos, own_pitch_sin, own_pitch_cos, own_heading_sin, own_heading_cos,
             enemy_roll_sin, enemy_roll_cos, enemy_pitch_sin, enemy_pitch_cos, enemy_heading_sin, enemy_heading_cos,
             los_azimuth_error_sin, los_azimuth_error_cos, los_elevation_error_sin, los_elevation_error_cos,
-            relative_velocity_x, relative_velocity_y, relative_velocity_z
+            relative_velocity_x, relative_velocity_y, relative_velocity_z,
+            prp.p_radps, prp.q_radps, prp.r_radps
         )
         
         super().__init__(
@@ -519,23 +520,24 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         azimuth_error = abs(self.get_3d_los_azimuth_error())
         elevation_error = abs(self.get_3d_los_elevation_error())
         
-        # Simple distance reward (closer is better)
-        distance_reward = -distance / 2500.0  # Normalized to [-1, 0]
-        
-        # Heading reward (pointing towards enemy is better)
-        heading_reward = -azimuth_error / 180.0  # Normalized to [-1, 0]
-        
-        # Elevation reward (pointing at enemy elevation is better)
-        elevation_reward = -elevation_error / 90.0  # Normalized to [-1, 0]
-        
-        # Lock bonus
+        # Your existing rewards
+        distance_reward = -distance / 2500.0
+        heading_reward = -azimuth_error / 180.0
+        elevation_reward = -elevation_error / 90.0
         lock_bonus = 5.0 if self.is_locked() else 0.0
-        
-        # Step penalty to encourage faster completion
         step_penalty = -0.01
         
-        # Combine rewards
-        step_reward = distance_reward + 2.0 * heading_reward + elevation_reward + lock_bonus + step_penalty
+        # SIMPLE STABILITY: penalize extreme attitudes AND rates
+        roll_penalty = -max(0, abs(self.get_player_prop(prp.roll_rad)) - 0.8) * 5  # 45 degrees
+        pitch_penalty = -max(0, abs(self.get_player_prop(prp.pitch_rad)) - 0.35) * 5  # 20 degrees
+        
+        # Rate penalties (p=roll rate, q=pitch rate)
+        roll_rate_penalty = -max(0, abs(self.get_player_prop(prp.p_radps)) - 1.0) * 3  # 1 rad/s
+        pitch_rate_penalty = -max(0, abs(self.get_player_prop(prp.q_radps)) - 0.8) * 3  # 0.8 rad/s
+        
+        step_reward = (distance_reward + 2.0 * heading_reward + elevation_reward + 
+                    lock_bonus + step_penalty + roll_penalty + pitch_penalty + 
+                    roll_rate_penalty + pitch_rate_penalty)
         
         # Terminal rewards
         terminal_reward = 0.0
