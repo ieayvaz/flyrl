@@ -23,7 +23,7 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
     def __init__(self, step_frequency_hz: float, 
                  player_sim: Simulation, enemy_sim: Simulation,
                  player_aircraft: Aircraft, enemy_aircraft: Aircraft,
-                 enemy_difficulty: str = 'hard',
+                 enemy_difficulty: str = 'easy',
                  max_time_s: float = 60.0, debug: bool = False):
         
         # Define state variables for dogfight - adjusted for smaller area
@@ -53,6 +53,7 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         los_azimuth_error_cos = DerivedProperty("los_azimuth_error_cos", "LOS azimuth error cosine", -1, 1)
         los_elevation_error_sin = DerivedProperty("los_elevation_error_sin", "LOS elevation error sine", -1, 1)
         los_elevation_error_cos = DerivedProperty("los_elevation_error_cos", "LOS elevation error cosine", -1, 1)
+        lock_time = DerivedProperty("lock_time", "Current lock time",0,100)
 
         relative_velocity_x = DerivedProperty("relative_velocity_x", "Relative velocity X", -50, 50)
         relative_velocity_y = DerivedProperty("relative_velocity_y", "Relative velocity Y", -50, 50)
@@ -63,7 +64,7 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
             own_roll_sin, own_roll_cos, own_pitch_sin, own_pitch_cos, own_heading_sin, own_heading_cos,
             enemy_roll_sin, enemy_roll_cos, enemy_pitch_sin, enemy_pitch_cos, enemy_heading_sin, enemy_heading_cos,
             los_azimuth_error_sin, los_azimuth_error_cos, los_elevation_error_sin, los_elevation_error_cos,
-            relative_velocity_x, relative_velocity_y, relative_velocity_z
+            relative_velocity_x, relative_velocity_y, relative_velocity_z, lock_time
         )
         
         super().__init__(
@@ -321,6 +322,9 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         elif prop.name == "relative_velocity_z":
             return float(self.get_relative_velocity()[2])
         
+        elif prop.name == "lock_time":
+            return self.current_lock_duration
+        
         return None
     
     def get_relative_velocity(self) -> np.ndarray:
@@ -475,8 +479,6 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         # if self.current_lock_duration >= self.min_lock_duration:
         #     return True
         # Check custom termination conditions
-        if self.successful_locks > 0:
-            return True
         
         return False
     
@@ -526,7 +528,7 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         elevation_reward = -elevation_error / 90.0  # Normalized to [-1, 0]
         
         # Lock bonus
-        lock_bonus = 5.0 if self.is_locked() else 0.0
+        lock_bonus = 20.0 * (np.clip(self.current_lock_duration,1,10.0)) if self.is_locked() else 0.0
         
         # Step penalty to encourage faster completion
         step_penalty = -0.01
@@ -536,17 +538,17 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         
         # Terminal rewards
         terminal_reward = 0.0
-        if done:
-            if self.successful_locks > 0:
-                terminal_reward = 500.0
-            elif self.good_locks > 0:
-                terminal_reward = 200.0
-            elif self.lock_count > 0:
-                terminal_reward = 50.0
-            elif self.distance_limit():
-                terminal_reward = -20.0
-            elif self.altitude_limit():
-                terminal_reward = -30.0
+        # if done:
+        #     # if self.successful_locks > 0:
+        #     #     terminal_reward = 500.0
+        #     # elif self.good_locks > 0:
+        #     #     terminal_reward = 200.0
+        #     # elif self.lock_count > 0:
+        #     #     terminal_reward = 50.0
+        #     if self.distance_limit():
+        #         terminal_reward = -20.0
+        #     elif self.altitude_limit():
+        #         terminal_reward = -30.0
         
         total_reward = step_reward + terminal_reward
         return total_reward

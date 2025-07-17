@@ -15,7 +15,7 @@ win_count = 0
 eps_rew = 0
 model = PPO.load(sys.argv[1])
 for _ in range(10000):
-    action,_ = model.predict(obs)
+    action,_ = model.predict(obs,deterministic=True)
     #action = np.array(0)
     obs, reward, done,_, info = env.step(action)
     total_rew += reward

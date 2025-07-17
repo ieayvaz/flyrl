@@ -34,8 +34,8 @@ config = {
 run_id = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 print(f"Starting training run: {run_id}")
 
-continue_training = True
-model_path = "./models/checkpoints_20250716_125713/checkpoint_800000_steps.zip"
+continue_training = False
+model_path = "./models/checkpoints_20250716_143005/checkpoint_880000_steps.zip"
 
 def make_env():
     """Factory function to create environment instances"""
