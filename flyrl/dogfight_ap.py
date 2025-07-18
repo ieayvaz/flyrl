@@ -64,7 +64,8 @@ class APDogfightTask(BaseAPTask):
             own_roll_sin, own_roll_cos, own_pitch_sin, own_pitch_cos, own_heading_sin, own_heading_cos,
             enemy_roll_sin, enemy_roll_cos, enemy_pitch_sin, enemy_pitch_cos, enemy_heading_sin, enemy_heading_cos,
             los_azimuth_error_sin, los_azimuth_error_cos, los_elevation_error_sin, los_elevation_error_cos,
-            relative_velocity_x, relative_velocity_y, relative_velocity_z
+            relative_velocity_x, relative_velocity_y, relative_velocity_z,
+            prp.p_radps, prp.q_radps, prp.r_radps
         )
         self.enemy_sim = enemy_sim
 

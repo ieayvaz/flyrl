@@ -1,5 +1,6 @@
 import time
-from typing import Dict, Union
+import math
+from typing import Dict, Union, Optional
 import flyrl.properties as prp
 from dronekit import connect, VehicleMode
 
@@ -9,7 +10,7 @@ prp.velocity_ned_mps = prp.Property('velocities/ned-velocity-mps', 'Velocity vec
 class AP_Simulation(object):
     """
     A class which wraps an instance of ArduPilot and manages communication with it.
-    MODIFIED to correctly fetch the velocity vector.
+    MODIFIED to correctly fetch the velocity vector and angular rates.
     """
     ROLL_CHANNEL_MAX=1900
     ROLL_CHANNEL_MIN=1100
@@ -29,6 +30,12 @@ class AP_Simulation(object):
             self.roll_value = 0.0
             self.pitch_value = 0.2
             self.throttle_value = 0.8
+        
+        # Initialize angular rate calculation variables
+        self.prev_attitude: Optional[Dict[str, float]] = None
+        self.prev_time: Optional[float] = None
+        self.angular_rates: Dict[str, float] = {'roll': 0.0, 'pitch': 0.0, 'yaw': 0.0}
+        self.rate_filter_alpha = 0.3  # Low-pass filter coefficient for smoothing rates
 
     def __getitem__(self, prop: Union[prp.BoundedProperty, prp.Property]) -> float:
         '''
@@ -52,6 +59,10 @@ class AP_Simulation(object):
             'velocities/u-fps' : lambda vehicle: self.vehicle.velocity[0],
             'velocities/v-fps' : lambda vehicle: self.vehicle.velocity[1],
             'velocities/w-fps' : lambda vehicle: self.vehicle.velocity[2],
+            # NEW: Angular rates in rad/s (computed from attitude derivatives)
+            'velocities/p-rad_sec': lambda vehicle: self.get_roll_rate(),
+            'velocities/q-rad_sec': lambda vehicle: self.get_pitch_rate(),
+            'velocities/r-rad_sec': lambda vehicle: self.get_yaw_rate(),
         }
         
         prop_name = prop.name
@@ -98,3 +109,73 @@ class AP_Simulation(object):
 
     def set_throttle(self, throttle_cmd: float):
         self.throttle_value = throttle_cmd
+
+    def _update_angular_rates(self):
+        """
+        Update angular rates by differentiating attitude angles.
+        Uses a low-pass filter to smooth the computed rates.
+        """
+        current_time = time.time()
+        current_attitude = {
+            'roll': self.vehicle.attitude.roll,
+            'pitch': self.vehicle.attitude.pitch,
+            'yaw': self.vehicle.heading * math.pi / 180.0  # Convert to radians
+        }
+        
+        if self.prev_attitude is not None and self.prev_time is not None:
+            dt = current_time - self.prev_time
+            
+            if dt > 0:  # Avoid division by zero
+                # Calculate raw rates
+                roll_rate = self._angle_diff(current_attitude['roll'], self.prev_attitude['roll']) / dt
+                pitch_rate = self._angle_diff(current_attitude['pitch'], self.prev_attitude['pitch']) / dt
+                yaw_rate = self._angle_diff(current_attitude['yaw'], self.prev_attitude['yaw']) / dt
+                
+                # Apply low-pass filter for smoothing
+                alpha = self.rate_filter_alpha
+                self.angular_rates['roll'] = alpha * roll_rate + (1 - alpha) * self.angular_rates['roll']
+                self.angular_rates['pitch'] = alpha * pitch_rate + (1 - alpha) * self.angular_rates['pitch']
+                self.angular_rates['yaw'] = alpha * yaw_rate + (1 - alpha) * self.angular_rates['yaw']
+        
+        self.prev_attitude = current_attitude
+        self.prev_time = current_time
+
+    def _angle_diff(self, angle1: float, angle2: float) -> float:
+        """
+        Calculate the difference between two angles, handling wrap-around.
+        Returns the shortest angular distance between the angles.
+        """
+        diff = angle1 - angle2
+        # Normalize to [-pi, pi]
+        while diff > math.pi:
+            diff -= 2 * math.pi
+        while diff < -math.pi:
+            diff += 2 * math.pi
+        return diff
+
+    def get_angular_rates(self) -> Dict[str, float]:
+        """
+        Convenience method to get all angular rates at once.
+        Returns a dictionary with roll, pitch, and yaw rates in rad/s.
+        """
+        self._update_angular_rates()
+        return {
+            'roll_rate': self.angular_rates['roll'],
+            'pitch_rate': self.angular_rates['pitch'],
+            'yaw_rate': self.angular_rates['yaw']
+        }
+
+    def get_roll_rate(self) -> float:
+        """Get roll rate in rad/s"""
+        self._update_angular_rates()
+        return self.angular_rates['roll']
+
+    def get_pitch_rate(self) -> float:
+        """Get pitch rate in rad/s"""
+        self._update_angular_rates()
+        return self.angular_rates['pitch']
+
+    def get_yaw_rate(self) -> float:
+        """Get yaw rate in rad/s"""
+        self._update_angular_rates()
+        return self.angular_rates['yaw']

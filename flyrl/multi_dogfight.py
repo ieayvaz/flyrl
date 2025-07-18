@@ -527,19 +527,15 @@ class MultiAircraftDogfightTask(MultiAircraftFlightTask):
         lock_bonus = 5.0 if self.is_locked() else 0.0
         step_penalty = -0.01
         
-        # # SIMPLE STABILITY: penalize extreme attitudes AND rates
-        # roll_penalty = -max(0, abs(self.get_player_prop(prp.roll_rad)) - 0.8) * 1  # 45 degrees
-        # pitch_penalty = -max(0, abs(self.get_player_prop(prp.pitch_rad)) - 0.35) * 1  # 20 degrees
+        # Rate penalties (p=roll rate, q=pitch rate)
+        roll_rate_penalty = -max(0, abs(self.get_player_prop(prp.p_radps)) - 1.0) * 0.5 # 1 rad/s
+        pitch_rate_penalty = -max(0, abs(self.get_player_prop(prp.q_radps)) - 0.8) * 0.5  # 0.8 rad/s
         
-        # # Rate penalties (p=roll rate, q=pitch rate)
-        # roll_rate_penalty = -max(0, abs(self.get_player_prop(prp.p_radps)) - 1.0) * 1  # 1 rad/s
-        # pitch_rate_penalty = -max(0, abs(self.get_player_prop(prp.q_radps)) - 0.8) * 1  # 0.8 rad/s
-        
-        # step_reward = (distance_reward + 2.0 * heading_reward + elevation_reward + 
-        #             lock_bonus + step_penalty + roll_penalty + pitch_penalty + 
-        #             roll_rate_penalty + pitch_rate_penalty)
+        step_reward = (distance_reward + 2.0 * heading_reward + elevation_reward + 
+                    lock_bonus + step_penalty + 
+                    roll_rate_penalty + pitch_rate_penalty)
 
-        step_reward = distance_reward + 2.0 * heading_reward + elevation_reward + lock_bonus + step_penalty 
+        # step_reward = distance_reward + 2.0 * heading_reward + elevation_reward + lock_bonus + step_penalty 
         
         # Terminal rewards
         terminal_reward = 0.0
