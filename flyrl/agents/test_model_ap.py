@@ -12,6 +12,7 @@ model = PPO.load(sys.argv[1])
 obs = env.reset()[0]
 for _ in range(100000):
     action, _states = model.predict(obs, deterministic=True)
+    print(f"Action: {action}, State: {obs}")
     obs, reward, done,_, info = env.step(action)
     env.render()
     if info["success"] == True:

@@ -11,7 +11,8 @@ class APEnv(gym.Env):
     JSBSIM_DT_HZ = 120
     metadata = {'render.modes': ['human']}
 
-    def __init__(self, task_type: Type[BaseAPTask], aircraft: Aircraft, ap_address : str = '127.0.0.1:14551', enemy_address: str = '127.0.0.1:14555', agent_interaction_freq: int = 10, debug : bool = False):
+    def __init__(self, task_type: Type[BaseAPTask], aircraft: Aircraft, ap_address : str = '172.31.6.43:14550', enemy_address: str = '172.31.6.43:14560',
+                  agent_interaction_freq: int = 10, debug : bool = False):
         if agent_interaction_freq > self.JSBSIM_DT_HZ:
             raise ValueError('agent interaction frequency must be less than '
                              'or equal to JSBSim integration frequency of '

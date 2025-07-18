@@ -11,18 +11,19 @@ class AP_Simulation(object):
     A class which wraps an instance of ArduPilot and manages communication with it.
     MODIFIED to correctly fetch the velocity vector.
     """
-    ROLL_CHANNEL_MAX=1900
-    ROLL_CHANNEL_MIN=1100
+    ROLL_CHANNEL_MAX=2000
+    ROLL_CHANNEL_MIN=1000
     PITCH_CHANNEL_MAX=1900
-    PITCH_CHANNEL_MIN=1100
-    THROTTLE_CHANNEL_MAX=1600
-    THROTTLE_CHANNEL_MIN=1300
+    PITCH_CHANNEL_MIN=1000
+    THROTTLE_CHANNEL_MAX=1500
+    THROTTLE_CHANNEL_MIN=1000
 
     def __init__(self, address : str = '127.0.0.1:14550', controlled=True):
         self.address = address
         self.vehicle = connect(address, wait_ready=True)
         # Need vehicle to be set up, armed, and in air.
         print(f"CONNECTED TO DEVICE AT {address}")
+        self.vis_freq = 0
         self.sim_frequency_hz = 120 # This is a placeholder, real timing is handled by the task loop sleep
         if controlled:
             self.vehicle.mode = VehicleMode("FBWA")
@@ -77,17 +78,21 @@ class AP_Simulation(object):
 
         # Assuming aileron/elevator values are between -1,1 and throttle is 0,1
         roll_val = int((roll_val + 1)*(self.ROLL_CHANNEL_MAX - self.ROLL_CHANNEL_MIN)/2.0 + self.ROLL_CHANNEL_MIN)
-        pitch_val = int((-pitch_val + 1)*(self.PITCH_CHANNEL_MAX - self.PITCH_CHANNEL_MIN)/2.0 + self.PITCH_CHANNEL_MIN) # Pitch is inverted
+        pitch_val = int((pitch_val + 1)*(self.PITCH_CHANNEL_MAX - self.PITCH_CHANNEL_MIN)/2.0 + self.PITCH_CHANNEL_MIN) # Pitch is inverted
         throttle_val = int(throttle_val * (self.THROTTLE_CHANNEL_MAX - self.THROTTLE_CHANNEL_MIN) + self.THROTTLE_CHANNEL_MIN)
-
         self.vehicle.channels.overrides = {
             '1': roll_val,
             '2': pitch_val, 
             '3': throttle_val, 
         }
 
-    def run(self) -> bool:
+    def run(self, visualizer, env) -> bool:
         self.control_plane()
+        time.sleep(1 / self.sim_frequency_hz)
+        if self.vis_freq % 5 == 0:
+            visualizer.update_from_simulation(env)
+            visualizer.update_plot()
+        self.vis_freq += 1
 
     def close(self):
         # Clear overrides before closing

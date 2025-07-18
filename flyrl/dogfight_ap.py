@@ -78,7 +78,7 @@ class APDogfightTask(BaseAPTask):
             player_sim=player_sim,
             enemy_sim=enemy_sim,
             debug=debug,
-            use_autopilot=True,
+            use_autopilot=False,
         )
         
         self.player_aircraft = aircraft
@@ -482,28 +482,17 @@ class APDogfightTask(BaseAPTask):
         return self.successful_locks > 0
     
     def task_step(self, action, sim_steps: int):
-        """Override task_step to add debug output and visualization"""
-        if self.debug:
-            out_props = [
-                self.distance_prp
-            ]
-            for _prop in out_props:
-                ##print(f"{_prop.name}: {self.get_prop(_prop)}")
-                pass
-            print("\n")
-        # Call parent task_step
+        """Override task_step to add action filtering"""
+        print(f"Roll: {self.get_prop(prp.roll_rad)*180/math.pi}, Pitch: {self.get_prop(prp.pitch_rad)*180/math.pi}")
+        
+        # Call parent task_step with filtered action
         self.update_lock_tracking()
-        result = super().task_step(action, sim_steps)
+        result = super().task_step(action, sim_steps, self.visualizer, self)
         
         # Update visualization
-        if self.debug and hasattr(self, 'visualizer') and self.visualizer:
-            if self.current_step % self.visualization_freq == 0:
-                self.visualizer.update_from_simulation(self)
-                self.visualizer.update_plot()
-
-            # V_body = np.array([self.enemy_sim[prp.u_fps], self.enemy_sim[prp.v_fps], self.enemy_sim[prp.w_fps]])
-            # R_b2n = geoutils.body_to_ned_rotation(self.enemy_sim[prp.roll_rad], self.enemy_sim[prp.pitch_rad], self.enemy_sim[prp.heading_deg]* math.pi / 180)
-            # V_ned = R_b2n @ V_body
-            # enemy_speed = np.linalg.norm(V_ned)
+        # if self.debug and hasattr(self, 'visualizer') and self.visualizer:
+        #     if self.current_step % self.visualization_freq == 0:
+        #         self.visualizer.update_from_simulation(self)
+        #         self.visualizer.update_plot()
         
         return result

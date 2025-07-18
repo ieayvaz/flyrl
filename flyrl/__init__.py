@@ -40,7 +40,7 @@ gym.envs.registration.register(id="DogfightRascal",entry_point='flyrl.basic_envi
 #gym.envs.registration.register(id="DogfightAP",entry_point='flyrl.ap_environment:APEnv',kwargs=dict(task_type=DogfightAPTask,aircraft=None,agent_interaction_freq=1,debug=False))
 #gym.envs.registration.register(id="DogfightAP-debug",entry_point='flyrl.ap_environment:APEnv',kwargs=dict(task_type=DogfightAPTask,aircraft=None,agent_interaction_freq=1,debug=True))
 gym.envs.registration.register(id="DogfightAP2P",entry_point='flyrl.ap_environment:APEnv',kwargs=dict(task_type=APDogfightTask,aircraft=None,agent_interaction_freq=4,debug=False))
-gym.envs.registration.register(id="DogfightAP2P-debug",entry_point='flyrl.ap_environment:APEnv',kwargs=dict(task_type=APDogfightTask,aircraft=None,agent_interaction_freq=4,debug=True))
+gym.envs.registration.register(id="DogfightAP2P-debug",entry_point='flyrl.ap_environment:APEnv',kwargs=dict(task_type=APDogfightTask,aircraft=None,agent_interaction_freq=20,debug=True))
 # make an Enum storing every Gym-JSBSim environment ID for convenience and value safety
 gym.envs.registration.register(id="MultiDogfightRascal-debug",entry_point='flyrl.multi_env:MultiAircraftJsbSimEnv',kwargs=dict(task_type=MultiAircraftDogfightTask,player_aircraft=rascal,enemy_aircraft=rascal,debug=True))
 gym.envs.registration.register(id="MultiDogfightRascal",entry_point='flyrl.multi_env:MultiAircraftJsbSimEnv',kwargs=dict(task_type=MultiAircraftDogfightTask,player_aircraft=rascal,enemy_aircraft=rascal,debug=False))

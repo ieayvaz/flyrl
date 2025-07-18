@@ -42,7 +42,7 @@ class BaseAPTask(Task, ABC):
                  enemy_sim: Simulation,
                  debug: bool = False,
                  action_variables: Tuple = (prp.aileron_cmd, prp.elevator_cmd, prp.rudder_cmd, prp.throttle_cmd), 
-                 use_autopilot=True,):
+                 use_autopilot=False,):
         self.debug = debug
         self.state_variables = state_variables
         self.action_variables = action_variables
@@ -62,16 +62,16 @@ class BaseAPTask(Task, ABC):
         self.player_target_pitch = 2.0
         self.player_target_throttle = 1.0
 
-    def task_step(self, action, sim_steps: int) -> Tuple[np.ndarray, float, bool, Dict]:
+    def task_step(self, action, sim_steps: int, visualizer, env) -> Tuple[np.ndarray, float, bool, Dict]:
         # Process player action (normalized inputs)
         self._process_player_action(action)
         print(f"Action: {action}")
         
         # Apply controls to both aircraft
-        self._apply_player_controls()
+        self._apply_player_controls(action)
         
         # Run both simulations
-        self._run_simulations(sim_steps, action)
+        self._run_simulations(sim_steps, action, visualizer, env)
         
         # Get combined state
         state = self.get_state()
@@ -126,7 +126,7 @@ class BaseAPTask(Task, ABC):
         # Convert from [min_val, max_val] to [-1, 1]
         return 2.0 * (action - min_val) / (max_val - min_val) - 1.0
     
-    def _apply_player_controls(self):
+    def _apply_player_controls(self, action = (0,0)):
         """Apply controls to player aircraft using autopilot with roll/pitch commands"""
         if self.use_autopilot:
             # Generate control surface commands via autopilot
@@ -136,7 +136,7 @@ class BaseAPTask(Task, ABC):
             )
         else:
             # Direct control - you would implement direct control mapping here
-            _action = (0, 0)
+            _action = (action[0], action[1])
 
         # Apply control surface commands
         for prop, command in zip((prp.aileron_cmd, prp.elevator_cmd), _action):
@@ -145,7 +145,7 @@ class BaseAPTask(Task, ABC):
         # Apply throttle directly
         self.player_sim[prp.throttle_cmd] = self.player_target_throttle
     
-    def _run_simulations(self, sim_steps, player_action):
+    def _run_simulations(self, sim_steps, player_action, visualizer, env):
         """Run both simulations synchronously"""
         if self.use_autopilot:
             for i in range(sim_steps):
@@ -157,10 +157,10 @@ class BaseAPTask(Task, ABC):
                     for prop, command in zip((prp.aileron_cmd, prp.elevator_cmd), _action):
                         self.player_sim[prop] = command
                     self.player_sim[prp.throttle_cmd] = self.player_target_throttle
-                self.player_sim.run()
+                self.player_sim.run(visualizer)
         else:
             for _ in range(sim_steps):
-                self.player_sim.run()
+                self.player_sim.run(visualizer, env)
 
     def get_action_space(self) -> gym.Space:
         """
